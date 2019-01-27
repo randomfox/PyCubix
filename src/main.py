@@ -527,7 +527,5 @@ class PyCube:
                 glVertex3fv(axis_verts[point])
         glEnd()
 
-
-if __name__ == "__main__":
-    cube = PyCube()
-    cube.run()
+cube = PyCube()
+cube.run()
