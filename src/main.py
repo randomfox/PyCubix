@@ -1,5 +1,6 @@
-""" PyCube
+""" Pybix (Originally: PyCube)
 Author: Michael King
+Modified by: Sascha Stojanov
 
 Based and modified from original version found at:
 http://stackoverflow.com/questions/30745703/rotating-a-cube-using-quaternions-in-pyopengl
@@ -22,14 +23,40 @@ from OpenGL.GLUT import *
 
 moves = ''
 
-class PyCube:
+class Pybix:
+
+
+            # pygame.display.toggle_fullscreen()
+        # screen = pygame.display.get_surface()
+        # tmp = screen.convert()
+        # caption = pygame.display.get_caption()
+        # cursor = pygame.mouse.get_cursor()  # Duoas 16-04-2007
+
+        # w,h = screen.get_width(),screen.get_height()
+        # flags = screen.get_flags()
+        # bits = screen.get_bitsize()
+
+        # pygame.display.quit()
+        # pygame.display.init()
+
+        # screen = pygame.display.set_mode((w,h),flags^FULLSCREEN,bits)
+        # screen.blit(tmp,(0,0))
+        # pygame.display.set_caption(*caption)
+
+        # pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
+
+        # pygame.mouse.set_cursor( *cursor )  # Duoas 16-04-2007
+
+        # return
+
+
     def __init__(self):
         pygame.init()
-        self.width = 800
-        self.height = 600
+        self.width = 1024
+        self.height = 768
 
         pygame.display.set_mode((self.width, self.height), DOUBLEBUF | OPENGL)
-        pygame.display.set_caption('PyCube')
+        pygame.display.set_caption('Pybix')
 
         # glClearColor(0.35, 0.35, 0.35, 1.0)
         glClearColor(1, 1, 1, 0)
@@ -52,14 +79,11 @@ class PyCube:
         gluPerspective(45, (width / height), 0.5, 40)
 
     def run(self):
-
         # set initial rotation
         # glRotate(90, 1, 0, 0)
         # glRotate(-15, 0, 0, 1)
         # glRotate(15, 1, 0, 0)
-
         global moves
-
 
         pad_toggle = False
 
@@ -69,7 +93,6 @@ class PyCube:
         zoom = 1
 
         def update():
-
             pygame.mouse.get_rel()  # prevents the cube from instantly rotating to a newly clicked mouse coordinate
 
             rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), inc_x))
@@ -352,7 +375,6 @@ class PyCube:
                         moves = ''
                         print(moves)
 
-
                     if event.key == pygame.K_MINUS:
                         mvs = 'fFbBlLrRuUdD'
                         scrambled = ''.join(random.choice(mvs) for _ in range(20))
@@ -527,5 +549,5 @@ class PyCube:
                 glVertex3fv(axis_verts[point])
         glEnd()
 
-cube = PyCube()
+cube = Pybix()
 cube.run()
