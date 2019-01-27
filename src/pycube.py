@@ -40,7 +40,7 @@ class PyCube:
 
     def init_pygame(self):
         pygame.init()
-        pygame.display.set_mode((self.width, self.height), DOUBLEBUF | OPENGL, RESIZABLE)
+        pygame.display.set_mode((self.width, self.height), DOUBLEBUF | OPENGL | RESIZABLE)
         pygame.display.set_caption(self.caption)
 
     def init_opengl(self):
