@@ -21,44 +21,29 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-moves = ''
-
 class Pybix:
-
-
-            # pygame.display.toggle_fullscreen()
-        # screen = pygame.display.get_surface()
-        # tmp = screen.convert()
-        # caption = pygame.display.get_caption()
-        # cursor = pygame.mouse.get_cursor()  # Duoas 16-04-2007
-
-        # w,h = screen.get_width(),screen.get_height()
-        # flags = screen.get_flags()
-        # bits = screen.get_bitsize()
-
-        # pygame.display.quit()
-        # pygame.display.init()
-
-        # screen = pygame.display.set_mode((w,h),flags^FULLSCREEN,bits)
-        # screen.blit(tmp,(0,0))
-        # pygame.display.set_caption(*caption)
-
-        # pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
-
-        # pygame.mouse.set_cursor( *cursor )  # Duoas 16-04-2007
-
-        # return
-
-
     def __init__(self):
-        pygame.init()
+        self.moves = ''
+        self.pad_toggle = False
+
+        self.inc_x = 0
+        self.inc_y = 0
+        self.accum = (1, 0, 0, 0)
+        self.zoom = 1
+
+        self.caption = "Pybix"
         self.width = 1024
         self.height = 768
 
-        pygame.display.set_mode((self.width, self.height), DOUBLEBUF | OPENGL)
-        pygame.display.set_caption('Pybix')
+        self.init_pygame()
+        self.init_opengl()
 
-        # glClearColor(0.35, 0.35, 0.35, 1.0)
+    def init_pygame(self):
+        pygame.init()
+        pygame.display.set_mode((self.width, self.height), DOUBLEBUF | OPENGL, RESIZABLE)
+        pygame.display.set_caption(self.caption)
+
+    def init_opengl(self):
         glClearColor(1, 1, 1, 0)
         # Using depth test to make sure closer colors are shown over further ones
         glEnable(GL_DEPTH_TEST)
@@ -78,46 +63,35 @@ class Pybix:
         pygame.display.set_mode((width, height), DOUBLEBUF | OPENGL | RESIZABLE)
         gluPerspective(45, (width / height), 0.5, 40)
 
+    def update(self):
+        pygame.mouse.get_rel()  # prevents the cube from instantly rotating to a newly clicked mouse coordinate
+
+        self.rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.inc_x))
+        self.rot_y = normalize(axisangle_to_q((0.0, 1.0, 0.0), self.inc_y))
+
+        # nonlocal accum
+        self.accum = q_mult(self.accum, self.rot_x)
+        self.accum = q_mult(self.accum, self.rot_y)
+        # print(accum)
+
+        glMatrixMode(GL_MODELVIEW)
+        glLoadMatrixf(q_to_mat4(self.accum))
+        glScalef(self.zoom, self.zoom, self.zoom)
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        self.draw_cube()
+        glutSolidSphere(3.0, 50, 50);
+        # draw_face()
+        # self.draw_axis()
+        pygame.display.flip()
+        # pygame.time.wait(1)
+
     def run(self):
         # set initial rotation
         # glRotate(90, 1, 0, 0)
         # glRotate(-15, 0, 0, 1)
         # glRotate(15, 1, 0, 0)
-        global moves
-
-        pad_toggle = False
-
-        inc_x = 0
-        inc_y = 0
-        accum = (1, 0, 0, 0)
-        zoom = 1
-
-        def update():
-            pygame.mouse.get_rel()  # prevents the cube from instantly rotating to a newly clicked mouse coordinate
-
-            rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), inc_x))
-            rot_y = normalize(axisangle_to_q((0.0, 1.0, 0.0), inc_y))
-
-            nonlocal accum
-            accum = q_mult(accum, rot_x)
-            accum = q_mult(accum, rot_y)
-            # print(accum)
-
-            glMatrixMode(GL_MODELVIEW)
-            glLoadMatrixf(q_to_mat4(accum))
-            glScalef(zoom, zoom, zoom)
-
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
-            self.draw_cube()
-            glutSolidSphere(3.0, 50, 50);
-            # draw_face()
-            # self.draw_axis()
-            pygame.display.flip()
-            # pygame.time.wait(1)
-
-        # for v in left_face:
-        #     print(v)
 
         while True:
             theta_inc = 7
@@ -135,23 +109,23 @@ class Pybix:
                 if event.type == pygame.KEYDOWN:
                     # Rotating about the x axis
                     if event.key == pygame.K_UP:  # or event.key == pygame.K_w:
-                        inc_x = pi / 100
+                        self.inc_x = pi / 100
                     if event.key == pygame.K_DOWN:  # or event.key == pygame.K_s:
-                        inc_x = -pi / 100
+                        self.inc_x = -pi / 100
 
                     # Rotating about the y axis
                     if event.key == pygame.K_LEFT:  # or event.key == pygame.K_a:
-                        inc_y = pi / 100
+                        self.inc_y = pi / 100
                     if event.key == pygame.K_RIGHT:  # or event.key == pygame.K_d:
-                        inc_y = -pi / 100
+                        self.inc_y = -pi / 100
 
                     if event.key == pygame.K_f:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves += 'F'
+                            self.moves += 'F'
                             sys.stdout.write("F\'")
                             theta *= 1
                         else:
-                            moves += 'f'
+                            self.moves += 'f'
                             sys.stdout.write("F")
                             theta *= -1
                         for x in range(theta_inc):
@@ -178,15 +152,15 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = z_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_l:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves += 'L'
+                            self.moves += 'L'
                             sys.stdout.write("L\'")
                             theta *= -1
                         else:
-                            moves += 'l'
+                            self.moves += 'l'
                             sys.stdout.write("L")
                             theta *= 1
                         for x in range(theta_inc):
@@ -213,15 +187,15 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = x_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_b:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves += 'B'
+                            self.moves += 'B'
                             sys.stdout.write("B\'")
                             theta *= -1
                         else:
-                            moves += 'b'
+                            self.moves += 'b'
                             sys.stdout.write("B")
                             theta *= 1
                         for x in range(theta_inc):
@@ -248,15 +222,15 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = z_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_r:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves += 'R'
+                            self.moves += 'R'
                             sys.stdout.write("R\'")
                             theta *= 1
                         else:
-                            moves += 'r'
+                            self.moves += 'r'
                             sys.stdout.write("R")
                             theta *= -1
                         for x in range(theta_inc):
@@ -283,15 +257,15 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = x_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_u:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves += 'U'
+                            self.moves += 'U'
                             sys.stdout.write("U\'")
                             theta *= 1
                         else:
-                            moves += 'u'
+                            self.moves += 'u'
                             sys.stdout.write("U")
                             theta *= -1
                         for x in range(theta_inc):
@@ -318,15 +292,15 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = y_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_d:
                         if pygame.key.get_mods() & KMOD_SHIFT:
-                            moves +='D'
+                            self.moves +='D'
                             sys.stdout.write("D\'")
                             theta *= -1
                         else:
-                            moves += 'd'
+                            self.moves += 'd'
                             sys.stdout.write("D")
                             theta *= 1
                         for x in range(theta_inc):
@@ -353,27 +327,27 @@ class Pybix:
                                     for i in range(8):
                                         piece[i] = y_rot(piece[i], theta)
 
-                            update()
+                            self.update()
 
                     if event.key == pygame.K_e:
-                        pad_toggle = not pad_toggle
+                        self.pad_toggle = not self.pad_toggle
 
                     # Reset to default view
                     if event.key == pygame.K_SPACE:
-                        inc_x = 0
-                        inc_y = 0
-                        accum = (1, 0, 0, 0)
-                        zoom = 1
+                        self.inc_x = 0
+                        self.inc_y = 0
+                        self.accum = (1, 0, 0, 0)
+                        self.zoom = 1
 
                     if event.key == pygame.K_EQUALS:
-                        p = multiprocessing.Process(target=keypress.wail, args=(moves,))
+                        p = multiprocessing.Process(target=keypress.wail, args=(self.moves,))
                         # thread.daemon = True
                         p.start()
                         p.join()
                         print()
-                        print(moves)
-                        moves = ''
-                        print(moves)
+                        print(self.moves)
+                        self.moves = ''
+                        print(self.moves)
 
                     if event.key == pygame.K_MINUS:
                         mvs = 'fFbBlLrRuUdD'
@@ -388,19 +362,19 @@ class Pybix:
                     # Stoping rotation
                     if event.key == pygame.K_UP or event.key == pygame.K_DOWN or \
                                     event.key == pygame.K_w or event.key == pygame.K_s:
-                        inc_x = 0.0
+                        self.inc_x = 0.0
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or \
                                     event.key == pygame.K_a or event.key == pygame.K_d or \
                                     event.key == pygame.K_l or event.key == pygame.K_f:
-                        inc_y = 0.0
+                        self.inc_y = 0.0
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Increase scale (zoom) value
-                    if event.button == 4 and zoom < 1.6 and not (pygame.key.get_mods() & KMOD_SHIFT):
-                        zoom += 0.05
+                    if event.button == 4 and self.zoom < 1.6 and not (pygame.key.get_mods() & KMOD_SHIFT):
+                        self.zoom += 0.05
                         # print('scroll up', zoom)
-                    if event.button == 5 and zoom > 0.3 and not (pygame.key.get_mods() & KMOD_SHIFT):
-                        zoom -= 0.05
+                    if event.button == 5 and self.zoom > 0.3 and not (pygame.key.get_mods() & KMOD_SHIFT):
+                        self.zoom -= 0.05
                         # print('scroll down', zoom)
 
                         # change padding with [shift] mousewheel
@@ -413,15 +387,15 @@ class Pybix:
             if pygame.mouse.get_pressed()[0] == 1:
                 (tmp_x, tmp_y) = pygame.mouse.get_rel()
                 # print(tmp_x, tmp_y)
-                inc_x = -tmp_y * pi / 450
-                inc_y = -tmp_x * pi / 450
+                self.inc_x = -tmp_y * pi / 450
+                self.inc_y = -tmp_x * pi / 450
 
-            if pad_toggle and abs(center_pieces[0][0][2]) <= 6:
+            if self.pad_toggle and abs(center_pieces[0][0][2]) <= 6:
                 padding(0.3)
-            elif abs(center_pieces[0][0][2]) > 3.3 and not pad_toggle:
+            elif abs(center_pieces[0][0][2]) > 3.3 and not self.pad_toggle:
                 padding(-0.3)
 
-            update()
+            self.update()
             sys.stdout.flush()
             # time.sleep(5000)
 
