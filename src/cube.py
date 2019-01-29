@@ -17,7 +17,7 @@ from tween import Tween
 from enums import *
 
 class Cube:
-    def __init__(self, initial_padding, face_turn_tween_time, draw_lines):
+    def __init__(self, initial_padding, face_turn_tween_time, draw_sphere, draw_lines):
         self.moves = deque()
         # self.pad_toggle = False
 
@@ -29,6 +29,11 @@ class Cube:
         self.padding = initial_padding
         self.face_turn_tween_time = face_turn_tween_time
         self.draw_lines = draw_lines
+        self.draw_sphere = draw_sphere
+
+        self.sphere_radius = 3
+        self.sphere_slices = 16
+        self.sphere_stacks = 16
 
         self.state = State.IDLE
 
@@ -50,10 +55,12 @@ class Cube:
 
     def render(self):
         glPushMatrix()
-        # glTranslatef(0.0, 0.0, -17.5)
         glLoadMatrixf(q_to_mat4(self.accum))
         glScalef(self.scale, self.scale, self.scale)
-        glutSolidSphere(3.0, 50, 50)
+
+        if self.draw_sphere:
+            glutSolidSphere(self.sphere_radius, self.sphere_slices, self.sphere_stacks)
+
         self.render_stickers()
 
         if self.draw_lines:

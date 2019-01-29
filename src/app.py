@@ -18,8 +18,9 @@ class App:
 
         cube_padding = 0.5
         face_turn_tween_time = 0.5
+        draw_sphere = True
         draw_lines = False
-        self.init_cube(cube_padding, face_turn_tween_time, draw_lines)
+        self.init_cube(cube_padding, face_turn_tween_time, draw_sphere, draw_lines)
 
     def init_opengl(self, caption, width, height, background_color):
         glutInit()
@@ -43,8 +44,8 @@ class App:
         glShadeModel(GL_SMOOTH)
         glDepthFunc(GL_LESS)
 
-    def init_cube(self, cube_padding, face_turn_tween_time, draw_lines):
-        self.cube = Cube(cube_padding, face_turn_tween_time, draw_lines)
+    def init_cube(self, cube_padding, face_turn_tween_time, draw_sphere, draw_lines):
+        self.cube = Cube(cube_padding, face_turn_tween_time, draw_sphere, draw_lines)
 
     def run(self):
         glutMainLoop()
