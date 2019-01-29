@@ -10,35 +10,41 @@ class App:
     def __init__(self):
         self.delta_time = DeltaTime()
 
+        width = 600
+        height = 600
         caption = "PyCubix"
-        width = 1024
-        height = 768
-        self.init_opengl(caption, width, height)
+        background_color = (60/255, 67/255, 78/255)
+        self.init_opengl(caption, width, height, background_color)
 
-        initial_cube_padding = 0.5
-        self.init_cube(initial_cube_padding)
+        cube_padding = 0.5
+        face_turn_tween_time = 0.5
+        draw_lines = False
+        self.init_cube(cube_padding, face_turn_tween_time, draw_lines)
 
-    def init_opengl(self, caption, width, height):
+    def init_opengl(self, caption, width, height, background_color):
         glutInit()
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH)
+        glutInitWindowPosition(0, 0)
+        glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
         glutInitWindowSize(width, height)
         glutCreateWindow(caption)
-
-        glClearColor(1, 1, 1, 1)
-        # glShadeModel(GL_FLAT)
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LESS)
 
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
         glutSpecialFunc(self.on_special_input)
-        glutIdleFunc(self.update);
+        glutIdleFunc(self.update)
         glutDisplayFunc(self.display)
 
-        self.on_reshape_window(width, height)
+        if len(background_color) < 3:
+            background_color = (1, 1, 1)
+        glClearColor(background_color[0], background_color[1], background_color[2], 1)
+        glClearDepth(1.0)
+        glDepthFunc(GL_LESS)
+        glEnable(GL_DEPTH_TEST)
+        glShadeModel(GL_SMOOTH)
+        glDepthFunc(GL_LESS)
 
-    def init_cube(self, padding):
-        self.cube = Cube(padding)
+    def init_cube(self, cube_padding, face_turn_tween_time, draw_lines):
+        self.cube = Cube(cube_padding, face_turn_tween_time, draw_lines)
 
     def run(self):
         glutMainLoop()
@@ -48,15 +54,12 @@ class App:
             h = 1
         ratio = 1.0 * w / h
 
-        self.width = w
-        self.height = h
-
+        glViewport(0, 0, w, h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glViewport(0, 0, w, h)
         gluPerspective(45, ratio, 0.1, 100)
         glTranslatef(0.0, 0.0, -17.5)
-        glMatrixMode(GL_MODELVIEW);
+        glMatrixMode(GL_MODELVIEW)
 
     def turn_cube_face(self, move):
         move_map = {
@@ -129,6 +132,7 @@ class App:
         glutPostRedisplay()
 
     def display(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.cube.render()
         glutSwapBuffers()
 
