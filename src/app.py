@@ -8,7 +8,7 @@ from enums import Face
 
 class App:
     def __init__(self):
-        self.caption = "Pybix"
+        self.caption = "PyCubix"
         self.width = 1024
         self.height = 768
 
