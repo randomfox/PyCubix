@@ -5,6 +5,7 @@ from cube import Cube
 from math import *
 from deltatime import DeltaTime
 from enums import Face
+import time
 
 class App:
     def __init__(self):
@@ -24,6 +25,10 @@ class App:
         draw_sphere = True
         draw_lines = False
         self.init_cube(cube_padding, face_turn_tween_time, draw_sphere, draw_lines)
+
+        self.last_time = time.time()
+        self.frame_count = 0
+        self.framerate_update_interval = 10.0
 
     def init_opengl(self, caption, width, height, background_color):
         glutInit()
@@ -152,6 +157,17 @@ class App:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.cube.render()
         glutSwapBuffers()
+        self.update_frame_counter()
+
+    def update_frame_counter(self):
+        self.frame_count += 1
+        now = time.time()
+        delta = now - self.last_time
+        if delta >= self.framerate_update_interval:
+            fps = self.frame_count / delta
+            print("%.0f frames in %3.1f seconds = %6.3f FPS" % (self.frame_count, delta, fps))
+            self.last_time = now
+            self.frame_count = 0
 
     # def _glut_mouse(self, button, state, x, y):
     #     self._glut_update_modifiers()
