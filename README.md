@@ -7,6 +7,9 @@ PyCubix is a fork of [PyCube](https://github.com/mtking2/PyCube) originally writ
 
 ## Dependencies
 
+Glut:
+- `sudo apt install freeglut3 freeglut3-dev`
+
 The following Python modules are needed to run this program:
 [NumPy](http://www.numpy.org/)
 [PyOpenGL](pyopengl.sourceforge.net/) see also [OpenGL](https://www.opengl.org/)
@@ -16,8 +19,8 @@ Python 3.x:
 
 ## Install using Virtualenv
 
-`cd PyCubix`
-`virtualenv -p python3 venv`
-`source venv/bin/activate`
-`make install`
-`make`
+- `cd PyCubix`
+- `virtualenv -p python3 venv`
+- `source venv/bin/activate`
+- `make install`
+- `make`
