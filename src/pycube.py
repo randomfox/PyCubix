@@ -1,6 +1,5 @@
-""" Pybix (Originally: PyCube)
+""" PyCube
 Author: Michael King
-Modified by: Sascha Stojanov
 
 Based and modified from original version found at:
 http://stackoverflow.com/questions/30745703/rotating-a-cube-using-quaternions-in-pyopengl
@@ -55,7 +54,7 @@ class PyCube:
         glMatrixMode(GL_PROJECTION)
         gluPerspective(45, (self.width / self.height), 0.5, 40)
         glTranslatef(0.0, 0.0, -17.5)
-        padding(0.3)
+        # padding(0.3)
 
     def create_window(self, width, height):
         '''Updates the window width and height '''

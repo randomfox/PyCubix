@@ -500,13 +500,22 @@ cube_surfaces = (
 )
 
 cube_colors = [
-    (0.0, 0.318, 0.729),  # Front: Blue
-    (1.0, 0.345, 0.0),  # Left: Orange
-    (0.0, 0.7, 0.2),  # Back: Green
-    (0.8, 0.118, 0.118),  # Right: Red
-    (1.0, 0.85, 0.1),  # Top: Yellow
-    (1.0, 1.0, 1.0)  # Bottom: White
+    (0.066, 0.490, 0.988),  # Front: Blue
+    (0.996, 0.549, 0.184),  # Left: Orange
+    (0.102, 0.878, 0.133),  # Back: Green
+    (0.855, 0.082, 0.102),  # Right: Red
+    (0.961, 1.000, 0.204),  # Top: Yellow
+    (1.000, 1.000, 1.000)  # Bottom: White
 ]
+
+# cube_colors = [
+#     (0.0, 0.318, 0.729),  # Front: Blue
+#     (1.0, 0.345, 0.0),  # Left: Orange
+#     (0.0, 0.7, 0.2),  # Back: Green
+#     (0.8, 0.118, 0.118),  # Right: Red
+#     (1.0, 0.85, 0.1),  # Top: Yellow
+#     (1.0, 1.0, 1.0)  # Bottom: White
+# ]
 
 pulse_color = [0.0, 0.0, 0.0]
 pulse_val = 0.04
