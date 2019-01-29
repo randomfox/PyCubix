@@ -32,7 +32,7 @@ axis_colors = (
  0___________3/
 '''
 
-def padding(pad_val):
+def add_padding(pad_val):
     for vertex in center_pieces[0]:
         vertex[2]+=pad_val
     for vertex in center_pieces[1]:

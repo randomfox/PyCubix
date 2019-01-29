@@ -8,13 +8,15 @@ from enums import Face
 
 class App:
     def __init__(self):
-        self.caption = "PyCubix"
-        self.width = 1024
-        self.height = 768
-
         self.delta_time = DeltaTime()
-        self.cube = Cube()
-        self.init_opengl(self.caption, self.width, self.height)
+
+        caption = "PyCubix"
+        width = 1024
+        height = 768
+        self.init_opengl(caption, width, height)
+
+        initial_cube_padding = 0.5
+        self.init_cube(initial_cube_padding)
 
     def init_opengl(self, caption, width, height):
         glutInit()
@@ -35,6 +37,9 @@ class App:
         glutDisplayFunc(self.display)
 
         self.on_reshape_window(width, height)
+
+    def init_cube(self, padding):
+        self.cube = Cube(padding)
 
     def run(self):
         glutMainLoop()
@@ -69,7 +74,6 @@ class App:
             "R": Face.RIGHT_CW,
             "R'": Face.RIGHT_CCW
         }
-
         face = move_map.get(move)
         self.cube.add_move(face)
 
@@ -79,11 +83,18 @@ class App:
         # Exit app on q or ESC
         if ch == 'q' or ch == chr(27):
             sys.exit()
-
-        if ch == chr(13):
-            self.cube.reset_rotation()
-        if ch == ' ':
+        elif ch == chr(13):
+            self.cube.reset()
+        elif ch == ' ':
             self.cube.stop_rotation()
+
+        scale = None
+        if ch == '+':
+            scale = 1
+        elif ch == '-':
+            scale = -1
+        if scale != None:
+            self.cube.add_scale(scale * self.delta_time.elapsed())
 
         move = None
         if ch == 'f':   move = "F"
@@ -98,22 +109,20 @@ class App:
         elif ch == 'L': move = "L'"
         elif ch == 'r': move = "R"
         elif ch == 'R': move = "R'"
-
         if move != None:
             self.turn_cube_face(move)
 
     def on_special_input(self, key, x, y):
-        # print("special", key, x, y)
-        speed = pi / 8
+        value = pi / 32 * self.delta_time.elapsed()
 
         if key == GLUT_KEY_UP:
-            self.cube.rotate_x(speed)
+            self.cube.add_rotate_x(value)
         if key == GLUT_KEY_DOWN:
-            self.cube.rotate_x(-speed)
+            self.cube.add_rotate_x(-value)
         if key == GLUT_KEY_LEFT:
-            self.cube.rotate_y(speed)
+            self.cube.add_rotate_y(value)
         if key == GLUT_KEY_RIGHT:
-            self.cube.rotate_y(-speed)
+            self.cube.add_rotate_y(-value)
 
     def update(self):
         self.delta_time.update()
@@ -138,9 +147,6 @@ class App:
 
     # def _glut_mouse_motion(self, x, y):
     #     self.dispatch_event('on_mouse_move', x, y, self.modifiers)
-
-    # def _glut_keyboard(self, key, x, y):
-    #     self.dispatch_event('on_keyboard', key, None, None)
 
     # def _glut_update_modifiers(self):
     #     self._modifiers = []
