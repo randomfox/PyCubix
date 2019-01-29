@@ -3,7 +3,8 @@
 PyCubix is a fork of [PyCube](https://github.com/mtking2/PyCube) originally written by [mtking2](https://github.com/mtking2).
 
 ## Purpose
-...
+
+To be determined.
 
 ## Dependencies
 
@@ -14,13 +15,19 @@ The following Python modules are needed to run this program:
 [NumPy](http://www.numpy.org/)
 [PyOpenGL](pyopengl.sourceforge.net/) see also [OpenGL](https://www.opengl.org/)
 
-Python 3.x:
-`pip3 install numpy pyopengl`
+## Install Python modules using pip
 
-## Install using Virtualenv
+Python 3.x: `pip3 install numpy pyopengl`
+
+## Run the program
+
+- `cd PyCubix`
+- `python src/main.py`
+
+## Install modules and run using Virtualenv and make
 
 - `cd PyCubix`
 - `virtualenv -p python3 venv`
 - `source venv/bin/activate`
 - `make install`
-- `make`
+- `make run`
