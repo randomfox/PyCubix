@@ -32,8 +32,9 @@ class App:
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
         glutSpecialFunc(self.on_special_input)
-        glutIdleFunc(self.update)
-        glutDisplayFunc(self.display)
+        glutVisibilityFunc(self.on_visibility_change)
+        glutIdleFunc(self.on_update)
+        glutDisplayFunc(self.on_display)
 
         if len(background_color) < 3:
             background_color = (1, 1, 1)
@@ -61,6 +62,12 @@ class App:
         gluPerspective(45, ratio, 0.1, 100)
         glTranslatef(0.0, 0.0, -17.5)
         glMatrixMode(GL_MODELVIEW)
+
+    def on_visibility_change(self, visible):
+        if visible == GLUT_VISIBLE:
+            glutIdleFunc(self.on_update)
+        else:
+            glutIdleFunc(None)
 
     def turn_cube_face(self, move):
         move_map = {
@@ -127,12 +134,12 @@ class App:
         if key == GLUT_KEY_RIGHT:
             self.cube.add_rotate_y(-value)
 
-    def update(self):
+    def on_update(self):
         self.delta_time.update()
         self.cube.update(self.delta_time.elapsed())
         glutPostRedisplay()
 
-    def display(self):
+    def on_display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.cube.render()
         glutSwapBuffers()
