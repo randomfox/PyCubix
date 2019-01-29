@@ -16,6 +16,9 @@ class App:
         background_color = (60/255, 67/255, 78/255)
         self.init_opengl(caption, width, height, background_color)
 
+        if "--glinfo" in sys.argv:
+            self.show_gl_info()
+
         cube_padding = 0.5
         face_turn_tween_time = 0.5
         draw_sphere = True
@@ -50,6 +53,12 @@ class App:
 
     def run(self):
         glutMainLoop()
+
+    def show_gl_info(self):
+        print("* GL_RENDERER   :", glGetString(GL_RENDERER))
+        print("* GL_VERSION    : ", glGetString(GL_VERSION))
+        print("* GL_VENDOR     : ", glGetString(GL_VENDOR))
+        print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
 
     def on_reshape_window(self, w, h):
         if h == 0:
