@@ -28,7 +28,6 @@ class App:
         # glShadeModel(GL_FLAT)
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LESS)
-        glutInit()
 
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
