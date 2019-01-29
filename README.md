@@ -19,5 +19,5 @@ Python 3.x:
 `cd PyCubix`
 `virtualenv -p python3 venv`
 `source venv/bin/activate`
-`make install`gi
+`make install`
 `make`
