@@ -320,26 +320,103 @@ class Cube:
                     glVertex3fv(piece[vertex])
         glEnd()
 
+    # def render_stickers(self):
+    #     glBegin(GL_QUADS)
+    #     i = 0
+    #     for color, surface in zip(cube_colors, cube_surfaces):
+    #         glColor3fv(color)
+    #         for vertex in surface:
+    #             glVertex3fv(center_pieces[i][vertex])
+    #         j = 0
+    #         for piece in center_pieces:
+    #             glColor3fv((0, 0, 0))
+    #             for vertex in surface:
+    #                 glVertex3fv(center_pieces[j][vertex])
+    #             j += 1
+    #         i += 1
+
+    #     for color, surface, face in zip(cube_colors, cube_surfaces, edges):
+    #         glColor3fv(color)
+    #         for piece in face:
+    #             for vertex in surface:
+    #                 glVertex3fv(edge_pieces[piece[0]][piece[1]][vertex])
+
+    #     # Black inner sides of edge pieces
+    #     edge_black_pat = [
+    #         [0, 1, 2, 3, 4, 5],
+    #         [0, 1, 2, 3, 4, 5],
+    #         [0, 1, 2, 3, 4, 5]
+    #         # [4, 5],
+    #         # [0, 2]
+    #     ]
+
+    #     glColor3fv((0, 0, 0))
+
+    #     for i in range(len(edge_black_pat)):
+    #         for face in edge_black_pat[i]:
+    #             for piece in edge_pieces[i]:
+    #                 for vertex in cube_surfaces[face]:
+    #                     glVertex3fv(piece[vertex])
+
+    #     corner_color_pat = [
+    #         [0, 1, 5],  # 0
+    #         [0, 1, 4],  # 1
+    #         [0, 3, 4],  # 2
+    #         [0, 3, 5],  # 3
+    #         [2, 1, 5],  # 4
+    #         [2, 1, 4],  # 5
+    #         [2, 3, 4],  # 6
+    #         [2, 3, 5],  # 7
+    #     ]
+
+    #     corner_black_pat = [
+    #         [2, 3, 4],  # 0
+    #         [2, 3, 5],  # 1
+    #         [2, 1, 5],  # 2
+    #         [2, 1, 4],  # 3
+    #         [0, 3, 4],  # 4
+    #         [0, 3, 5],  # 5
+    #         [0, 1, 5],  # 6
+    #         [0, 1, 4],  # 7
+    #     ]
+
+    #     for i in range(len(corner_color_pat)):
+    #         for face in corner_color_pat[i]:
+    #             glColor3fv(cube_colors[face])
+    #             for vertex in cube_surfaces[face]:
+    #                 glVertex3fv(corner_pieces[i][vertex])
+    #     glColor3fv((0, 0, 0))
+    #     for i in range(len(corner_black_pat)):
+    #         for face in corner_black_pat[i]:
+    #             for vertex in cube_surfaces[face]:
+    #                 glVertex3fv(corner_pieces[i][vertex])
+    #     glEnd()
+
     def render_stickers(self):
-        glBegin(GL_QUADS)
         i = 0
         for color, surface in zip(cube_colors, cube_surfaces):
             glColor3fv(color)
+            glBegin(GL_QUADS)
             for vertex in surface:
                 glVertex3fv(center_pieces[i][vertex])
+            glEnd()
             j = 0
             for piece in center_pieces:
                 glColor3fv((0, 0, 0))
+                glBegin(GL_QUADS)
                 for vertex in surface:
                     glVertex3fv(center_pieces[j][vertex])
+                glEnd()
                 j += 1
             i += 1
 
         for color, surface, face in zip(cube_colors, cube_surfaces, edges):
             glColor3fv(color)
+            glBegin(GL_QUADS)
             for piece in face:
                 for vertex in surface:
                     glVertex3fv(edge_pieces[piece[0]][piece[1]][vertex])
+            glEnd()
 
         # Black inner sides of edge pieces
         edge_black_pat = [
@@ -351,12 +428,13 @@ class Cube:
         ]
 
         glColor3fv((0, 0, 0))
-
+        glBegin(GL_QUADS)
         for i in range(len(edge_black_pat)):
             for face in edge_black_pat[i]:
                 for piece in edge_pieces[i]:
                     for vertex in cube_surfaces[face]:
                         glVertex3fv(piece[vertex])
+        glEnd()
 
         corner_color_pat = [
             [0, 1, 5],  # 0
@@ -383,9 +461,13 @@ class Cube:
         for i in range(len(corner_color_pat)):
             for face in corner_color_pat[i]:
                 glColor3fv(cube_colors[face])
+                glBegin(GL_QUADS)
                 for vertex in cube_surfaces[face]:
                     glVertex3fv(corner_pieces[i][vertex])
+                glEnd()
+
         glColor3fv((0, 0, 0))
+        glBegin(GL_QUADS)
         for i in range(len(corner_black_pat)):
             for face in corner_black_pat[i]:
                 for vertex in cube_surfaces[face]:
