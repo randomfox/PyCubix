@@ -41,7 +41,7 @@ class App:
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
-        glShadeModel(GL_SMOOTH)
+        glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
     def init_cube(self, cube_padding, face_turn_tween_time, draw_sphere, draw_lines):
