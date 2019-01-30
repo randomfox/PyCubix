@@ -3,7 +3,7 @@ from OpenGL.GLU import *
 from OpenGL.GL import *
 from cube import Cube
 from math import *
-from deltatime import DeltaTime
+from delta_time import DeltaTime
 from fps import Fps
 from enums import FaceRotation
 from constants import Constants
