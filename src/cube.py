@@ -53,7 +53,7 @@ class Cube:
 
         self.update_moves()
         self.update_tween(elapsed_time)
-        self.update_face_rotation(elapsed_time)
+        self.update_face_tweening()
 
     def render(self):
         glPushMatrix()
@@ -96,8 +96,11 @@ class Cube:
             self.moves.append(move)
 
     # algorithm: array consisting of single face moves [FaceRotation.R, FaceRotation.U, ...]
-    def scramble(self, algorithm):
-        pass
+    def scramble(self, moves):
+        print("scramble", moves)
+        theta = pi / 2
+        for face in moves:
+            self.rotate_face(face, theta)
 
     def update_moves(self):
         if self.state == State.TWEENING:
@@ -117,40 +120,65 @@ class Cube:
             self.state = State.IDLE
             self.current_move = None
 
-    def update_face_rotation(self, elapsed_time):
-        delta = self.tween.get_delta()
-        # Front face
-        if self.current_move == FaceRotation.FRONT_CW:
-            self.turn_front_face(-delta)
-        elif self.current_move == FaceRotation.FRONT_CCW:
-            self.turn_front_face(delta)
-        # Back face
-        elif self.current_move == FaceRotation.BACK_CW:
-            self.turn_back_face(delta)
-        elif self.current_move == FaceRotation.BACK_CCW:
-            self.turn_back_face(-delta)
-        # Left face
-        elif self.current_move == FaceRotation.LEFT_CW:
-            self.turn_left_face(delta)
-        elif self.current_move == FaceRotation.LEFT_CCW:
-            self.turn_left_face(-delta)
-        # Right face
-        elif self.current_move == FaceRotation.RIGHT_CW:
-            self.turn_right_face(-delta)
-        elif self.current_move == FaceRotation.RIGHT_CCW:
-            self.turn_right_face(delta)
-        # Up face
-        elif self.current_move == FaceRotation.UP_CW:
-            self.turn_up_face(-delta)
-        elif self.current_move == FaceRotation.UP_CCW:
-            self.turn_up_face(delta)
-        # Down face
-        elif self.current_move == FaceRotation.DOWN_CW:
-            self.turn_down_face(delta)
-        elif self.current_move == FaceRotation.DOWN_CCW:
-            self.turn_down_face(-delta)
+    # def rotate_face(self, face_rot):
+    #     theta = pi / 2
+    #     # Front face
+    #     if face_rot == FaceRotation.FRONT_CW:
+    #         self.turn_front_face(-theta)
+    #     elif face_rot == FaceRotation.FRONT_CCW:
+    #         self.turn_front_face(theta)
+    #     # Back face
+    #     elif face_rot == FaceRotation.BACK_CW:
+    #         self.turn_back_face(theta)
+    #     elif face_rot == FaceRotation.BACK_CCW:
+    #         self.turn_back_face(-theta)
+    #     # Left face
+    #     elif face_rot == FaceRotation.LEFT_CW:
+    #         self.turn_left_face(theta)
+    #     elif face_rot == FaceRotation.LEFT_CCW:
+    #         self.turn_left_face(-theta)
+    #     # Right face
+    #     elif face_rot == FaceRotation.RIGHT_CW:
+    #         self.turn_right_face(-theta)
+    #     elif face_rot == FaceRotation.RIGHT_CCW:
+    #         self.turn_right_face(theta)
+    #     # Up face
+    #     elif face_rot == FaceRotation.UP_CW:
+    #         self.turn_up_face(-theta)
+    #     elif face_rot == FaceRotation.UP_CCW:
+    #         self.turn_up_face(theta)
+    #     # Down face
+    #     elif face_rot == FaceRotation.DOWN_CW:
+    #         self.turn_down_face(theta)
+    #     elif face_rot == FaceRotation.DOWN_CCW:
+    #         self.turn_down_face(-theta)
 
-    def turn_front_face(self, theta):
+    def update_face_tweening(self):
+        theta = self.tween.get_delta()
+        self.rotate_face(self.current_move, theta)
+
+    def rotate_face(self, face, theta):
+        if (face == FaceRotation.FRONT_CW
+            or face == FaceRotation.BACK_CCW
+            or face == FaceRotation.LEFT_CCW
+            or face == FaceRotation.RIGHT_CW
+            or face == FaceRotation.UP_CW
+            or face == FaceRotation.DOWN_CCW):
+            theta *= -1
+        if face == FaceRotation.FRONT_CW or face == FaceRotation.FRONT_CCW:
+            self.rotate_front_face(theta)
+        elif face == FaceRotation.BACK_CW or face == FaceRotation.BACK_CCW:
+            self.rotate_back_face(theta)
+        elif face == FaceRotation.LEFT_CW or face == FaceRotation.LEFT_CCW:
+            self.rotate_left_face(theta)
+        elif face == FaceRotation.RIGHT_CW or face == FaceRotation.RIGHT_CCW:
+            self.rotate_right_face(theta)
+        elif face == FaceRotation.UP_CW or face == FaceRotation.UP_CCW:
+            self.rotate_up_face(theta)
+        elif face == FaceRotation.DOWN_CW or face == FaceRotation.DOWN_CCW:
+            self.rotate_down_face(theta)
+
+    def rotate_front_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[0][i] = z_rot(self.geom.center_pieces[0][i], theta)
         for axis in self.geom.edge_pieces:
@@ -173,7 +201,7 @@ class Cube:
                 for i in range(8):
                     piece[i] = z_rot(piece[i], theta)
 
-    def turn_back_face(self, theta):
+    def rotate_back_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[2][i] = z_rot(self.geom.center_pieces[2][i], theta)
         for axis in self.geom.edge_pieces:
@@ -196,7 +224,7 @@ class Cube:
                 for i in range(8):
                     piece[i] = z_rot(piece[i], theta)
 
-    def turn_left_face(self, theta):
+    def rotate_left_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[1][i] = x_rot(self.geom.center_pieces[1][i], theta)
         for axis in self.geom.edge_pieces:
@@ -219,7 +247,7 @@ class Cube:
                 for i in range(8):
                     piece[i] = x_rot(piece[i], theta)
 
-    def turn_right_face(self, theta):
+    def rotate_right_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[3][i] = x_rot(self.geom.center_pieces[3][i], theta)
         for axis in self.geom.edge_pieces:
@@ -242,7 +270,7 @@ class Cube:
                 for i in range(8):
                     piece[i] = x_rot(piece[i], theta)
 
-    def turn_up_face(self, theta):
+    def rotate_up_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[4][i] = y_rot(self.geom.center_pieces[4][i], theta)
         for axis in self.geom.edge_pieces:
@@ -265,7 +293,7 @@ class Cube:
                 for i in range(8):
                     piece[i] = y_rot(piece[i], theta)
 
-    def turn_down_face(self, theta):
+    def rotate_down_face(self, theta):
         for i in range(8):
             self.geom.center_pieces[5][i] = y_rot(self.geom.center_pieces[5][i], theta)
         for axis in self.geom.edge_pieces:

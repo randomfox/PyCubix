@@ -58,6 +58,9 @@ class App:
     def init_cube(self, padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines):
         self.cube = Cube(padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines)
 
+    def reset_cube(self):
+        self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+
     def run(self):
         glutMainLoop()
 
@@ -97,7 +100,7 @@ class App:
             sys.exit()
         # reset cube
         elif ch == chr(8):
-            self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+            self.reset_cube()
         # reset scale and rotation
         elif ch == chr(13):
             self.cube.reset_rotation()
@@ -105,10 +108,17 @@ class App:
         # stop rotation
         elif ch == ' ':
             self.cube.stop_rotation()
+        # test scramble with sexy move
+        elif ch == '1':
+            self.cube.scramble(Constants.sexy_move)
+        # test scramble with sledgehammer move
+        elif ch == '2':
+            self.cube.scramble(Constants.sledgehammer_move)
 
         scale = None
         if ch == '+':
             scale = 1
+            # self.cube.scramble([ FaceRotation.RIGHT_CW, FaceRotation.UP_CCW, FaceRotation.RIGHT_CCW, FaceRotation.UP_CW])
         elif ch == '-':
             scale = -1
         if scale != None:
