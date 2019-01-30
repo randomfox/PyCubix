@@ -22,9 +22,10 @@ class App:
 
         cube_padding = 0.5
         face_turn_tween_time = 0.5
+        draw_stickers = True
         draw_sphere = True
         draw_lines = False
-        self.init_cube(cube_padding, face_turn_tween_time, draw_sphere, draw_lines)
+        self.init_cube(cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
 
         self.show_frame_count = True
         self.last_time = time.time()
@@ -54,8 +55,8 @@ class App:
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
-    def init_cube(self, cube_padding, face_turn_tween_time, draw_sphere, draw_lines):
-        self.cube = Cube(cube_padding, face_turn_tween_time, draw_sphere, draw_lines)
+    def init_cube(self, cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
+        self.cube = Cube(cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
 
     def run(self):
         glutMainLoop()
