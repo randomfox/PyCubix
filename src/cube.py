@@ -13,11 +13,12 @@ from geometry import *
 from math import *
 from collections import deque
 from tween import Tween
-
+from geometry import Geometry
 from enums import *
 
 class Cube:
     def __init__(self, initial_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
+        self.geom = Geometry()
         self.moves = deque()
 
         self.rot_x = 0
@@ -27,10 +28,9 @@ class Cube:
 
         self.padding = initial_padding
         self.face_turn_tween_time = face_turn_tween_time
-
         self.draw_stickers = draw_stickers
-        self.draw_lines = draw_lines
         self.draw_sphere = draw_sphere
+        self.draw_lines = draw_lines
 
         self.sphere_radius = 3
         self.sphere_slices = 16
@@ -41,7 +41,7 @@ class Cube:
         self.tween = Tween()
         self.current_move = None
 
-        add_padding(0.3)
+        self.geom.add_padding(self.padding)
 
     def update(self, elapsed_time):
         rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.rot_x))
@@ -78,10 +78,6 @@ class Cube:
     def add_scale(self, value):
         self.scale = max(self.scale + value, 0.1)
 
-    def reset(self):
-        self.reset_rotation()
-        self.reset_scale()
-
     def reset_rotation(self):
         self.rot_x = 0
         self.rot_y = 0
@@ -96,6 +92,9 @@ class Cube:
 
     def add_move(self, face):
         self.moves.append(face)
+
+    def scramble(self):
+        pass
 
     def update_moves(self):
         if self.state == State.TWEENING:
@@ -154,8 +153,8 @@ class Cube:
 
     def turn_front_face(self, theta):
         for i in range(8):
-            center_pieces[0][i] = z_rot(center_pieces[0][i], theta)
-        for axis in edge_pieces:
+            self.geom.center_pieces[0][i] = z_rot(self.geom.center_pieces[0][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -165,7 +164,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = z_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[2] < 0:
@@ -177,9 +176,8 @@ class Cube:
 
     def turn_back_face(self, theta):
         for i in range(8):
-            center_pieces[2][i] = z_rot(center_pieces[2][i], theta)
-
-        for axis in edge_pieces:
+            self.geom.center_pieces[2][i] = z_rot(self.geom.center_pieces[2][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -189,7 +187,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = z_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[2] > 0:
@@ -201,9 +199,8 @@ class Cube:
 
     def turn_left_face(self, theta):
         for i in range(8):
-            center_pieces[1][i] = x_rot(center_pieces[1][i], theta)
-
-        for axis in edge_pieces:
+            self.geom.center_pieces[1][i] = x_rot(self.geom.center_pieces[1][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -213,7 +210,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = x_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[0] > 0:
@@ -225,9 +222,8 @@ class Cube:
 
     def turn_right_face(self, theta):
         for i in range(8):
-            center_pieces[3][i] = x_rot(center_pieces[3][i], theta)
-
-        for axis in edge_pieces:
+            self.geom.center_pieces[3][i] = x_rot(self.geom.center_pieces[3][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -237,7 +233,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = x_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[0] < 0:
@@ -249,9 +245,8 @@ class Cube:
 
     def turn_up_face(self, theta):
         for i in range(8):
-            center_pieces[4][i] = y_rot(center_pieces[4][i], theta)
-
-        for axis in edge_pieces:
+            self.geom.center_pieces[4][i] = y_rot(self.geom.center_pieces[4][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -261,7 +256,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = y_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[1] < 0:
@@ -273,9 +268,8 @@ class Cube:
 
     def turn_down_face(self, theta):
         for i in range(8):
-            center_pieces[5][i] = y_rot(center_pieces[5][i], theta)
-
-        for axis in edge_pieces:
+            self.geom.center_pieces[5][i] = y_rot(self.geom.center_pieces[5][i], theta)
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 flag = True
                 for vertex in piece:
@@ -285,7 +279,7 @@ class Cube:
                 if flag:
                     for i in range(8):
                         piece[i] = y_rot(piece[i], theta)
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             flag = True
             for vertex in piece:
                 if vertex[1] > 0:
@@ -303,18 +297,18 @@ class Cube:
         glLineWidth(5.0)
         glColor3f(0, 0, 0)
         glBegin(GL_LINES)
-        for axis in edge_pieces:
+        for axis in self.geom.edge_pieces:
             for piece in axis:
                 for edge in cube_edges:
                     for vertex in edge:
                         v = piece[vertex]
                         glVertex3f(v[0], v[1], v[2])
-        for piece in center_pieces:
+        for piece in self.geom.center_pieces:
             for edge in cube_edges:
                 for vertex in edge:
                     v = piece[vertex]
                     glVertex3f(v[0], v[1], v[2])
-        for piece in corner_pieces:
+        for piece in self.geom.corner_pieces:
             for edge in cube_edges:
                 for vertex in edge:
                     v = piece[vertex]
@@ -323,56 +317,55 @@ class Cube:
 
     def render_stickers(self):
         glBegin(GL_QUADS)
-
         i = 0
-        for color, surface in zip(cube_colors, cube_surfaces):
+        for color, surface in zip(self.geom.cube_colors, self.geom.cube_surfaces):
             glColor3f(color[0], color[1], color[2])
             for vertex in surface:
-                v = center_pieces[i][vertex]
+                v = self.geom.center_pieces[i][vertex]
                 glVertex3f(v[0], v[1], v[2])
             j = 0
-            for piece in center_pieces:
+            for piece in self.geom.center_pieces:
                 glColor3f(0, 0, 0)
                 for vertex in surface:
-                    v = center_pieces[j][vertex]
+                    v = self.geom.center_pieces[j][vertex]
                     glVertex3f(v[0], v[1], v[2])
                 j += 1
             i += 1
 
-        for color, surface, face in zip(cube_colors, cube_surfaces, edges):
+        for color, surface, face in zip(self.geom.cube_colors, self.geom.cube_surfaces, self.geom.edges):
             glColor3f(color[0], color[1], color[2])
             for piece in face:
                 for vertex in surface:
-                    p = edge_pieces[piece[0]][piece[1]][vertex]
+                    p = self.geom.edge_pieces[piece[0]][piece[1]][vertex]
                     glVertex3f(p[0], p[1], p[2])
 
         glColor3f(0, 0, 0)
-        for i in range(len(edge_black_pat)):
-            for face in edge_black_pat[i]:
-                for piece in edge_pieces[i]:
-                    for vertex in cube_surfaces[face]:
+        for i in range(len(self.geom.edge_black_pat)):
+            for face in self.geom.edge_black_pat[i]:
+                for piece in self.geom.edge_pieces[i]:
+                    for vertex in self.geom.cube_surfaces[face]:
                         v = piece[vertex]
                         glVertex3f(v[0], v[1], v[2])
 
-        for i in range(len(corner_color_pat)):
-            for face in corner_color_pat[i]:
-                color = cube_colors[face]
+        for i in range(len(self.geom.corner_color_pat)):
+            for face in self.geom.corner_color_pat[i]:
+                color = self.geom.cube_colors[face]
                 glColor3f(color[0], color[1], color[2])
-                for vertex in cube_surfaces[face]:
-                    v = corner_pieces[i][vertex]
+                for vertex in self.geom.cube_surfaces[face]:
+                    v = self.geom.corner_pieces[i][vertex]
                     glVertex3f(v[0], v[1], v[2])
         glColor3f(0, 0, 0)
-        for i in range(len(corner_black_pat)):
-            for face in corner_black_pat[i]:
-                for vertex in cube_surfaces[face]:
-                    v = corner_pieces[i][vertex]
+        for i in range(len(self.geom.corner_black_pat)):
+            for face in self.geom.corner_black_pat[i]:
+                for vertex in self.geom.cube_surfaces[face]:
+                    v = self.geom.corner_pieces[i][vertex]
                     glVertex3f(v[0], v[1], v[2])
         glEnd()
 
     def render_axis(self):
         glLineWidth(1.0)
         glBegin(GL_LINES)
-        for color, axis in zip(axis_colors, axes):
+        for color, axis in zip(self.geom.axis_colors, self.geom.axes):
             glColor3f(color[0], color[1], color[2])
             for point in axis:
                 p = axis_verts[point]

@@ -24,12 +24,12 @@ class App:
         if "--glinfo" in sys.argv:
             self.show_gl_info()
 
-        cube_padding = 0.5
-        face_turn_tween_time = 0.5
-        draw_stickers = True
-        draw_sphere = True
-        draw_lines = False
-        self.init_cube(cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
+        self.padding = 0.3
+        self.face_turn_tween_time = 0.5
+        self.draw_stickers = True
+        self.draw_sphere = True
+        self.draw_lines = False
+        self.init_cube(self.padding, self.face_turn_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
 
     def init_opengl(self, caption, width, height, background_color):
         glutInit()
@@ -54,8 +54,8 @@ class App:
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
-    def init_cube(self, cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
-        self.cube = Cube(cube_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
+    def init_cube(self, padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
+        self.cube = Cube(padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
 
     def run(self):
         glutMainLoop()
@@ -105,11 +105,16 @@ class App:
     def on_keyboard_input(self, key, x, y):
         ch = key.decode("utf-8")
 
+        print("ch", ch, key)
+
         # Exit app on q or ESC
         if ch == 'q' or ch == chr(27):
             sys.exit()
+        if ch == chr(8):
+            self.init_cube(self.padding, self.face_turn_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
         elif ch == chr(13):
-            self.cube.reset()
+            self.cube.reset_rotation()
+            self.cube.reset_scale()
         elif ch == ' ':
             self.cube.stop_rotation()
 
