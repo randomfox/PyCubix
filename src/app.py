@@ -5,39 +5,28 @@ from cube import Cube
 from math import *
 from deltatime import DeltaTime
 from fps import Fps
-from enums import *
+from enums import FaceRotation
 from constants import Constants
+from settings import Settings
 
 class App:
     def __init__(self):
         self.delta_time = DeltaTime()
-
-        update_interval = 10.0
-        self.fps = Fps(update_interval)
+        self.fps = Fps(Settings.fps_update_interval)
         self.show_fps = True
 
-        width = 600
-        height = 600
-        caption = "PyCubix"
-        background_color = (60/255, 67/255, 78/255)
-        self.init_opengl(caption, width, height, background_color)
+        self.init_opengl()
+        self.init_cube()
 
         if "--glinfo" in sys.argv:
             self.show_gl_info()
 
-        self.padding = 0.3
-        self.face_rotation_tween_time = 0.5
-        self.draw_stickers = True
-        self.draw_sphere = True
-        self.draw_lines = False
-        self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
-
-    def init_opengl(self, caption, width, height, background_color):
+    def init_opengl(self):
         glutInit()
         glutInitWindowPosition(0, 0)
         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
-        glutInitWindowSize(width, height)
-        glutCreateWindow(caption)
+        glutInitWindowSize(Settings.window_width, Settings.window_height)
+        glutCreateWindow(Settings.window_caption)
 
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
@@ -46,20 +35,22 @@ class App:
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
 
-        if len(background_color) < 3:
-            background_color = (1, 1, 1)
-        glClearColor(background_color[0], background_color[1], background_color[2], 1)
+        clear_color = Settings.window_background_color;
+        glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
-    def init_cube(self, padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines):
-        self.cube = Cube(padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines)
-
-    def reset_cube(self):
-        self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+    def init_cube(self):
+        padding = Settings.cube_padding
+        tween_time = Settings.cube_face_rotation_tween_time
+        draw_stickers = Settings.cube_draw_stickers
+        draw_sphere = Settings.cube_draw_sphere
+        draw_lines = Settings.cube_draw_lines
+        line_width = Settings.cube_line_width
+        self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width)
 
     def run(self):
         glutMainLoop()
@@ -95,35 +86,35 @@ class App:
     def on_keyboard_input(self, key, x, y):
         ch = key.decode("utf-8")
 
-        # Exit app on q or ESC
+        # exit app on q or ESC:
         if ch == 'q' or ch == chr(27):
             sys.exit()
-        # reset cube
+        # reset cube:
         elif ch == chr(8):
-            self.reset_cube()
-        # reset scale and rotation
+            self.init_cube()
+        # reset scale and rotation:
         elif ch == chr(13):
             self.cube.reset_rotation()
             self.cube.reset_scale()
-        # stop rotation
+        # stop rotation:
         elif ch == ' ':
             self.cube.stop_rotation()
-        # test scramble with sexy move
+        # test scramble with sexy move:
         elif ch == '1':
             self.cube.scramble(Constants.sexy_move)
-        # test scramble with sledgehammer move
+        # test scramble with sledgehammer move:
         elif ch == '2':
             self.cube.scramble(Constants.sledgehammer_move)
 
         scale = None
         if ch == '+':
             scale = 1
-            # self.cube.scramble([ FaceRotation.RIGHT_CW, FaceRotation.UP_CCW, FaceRotation.RIGHT_CCW, FaceRotation.UP_CW])
         elif ch == '-':
             scale = -1
         if scale != None:
             self.cube.add_scale(scale * self.delta_time.elapsed())
 
+        # translate move:
         move = None
         if ch == 'f':   move = "F"
         elif ch == 'F': move = "F'"

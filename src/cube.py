@@ -18,7 +18,7 @@ from enums import State, FaceRotation
 from constants import Constants
 
 class Cube:
-    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines):
+    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines, line_width):
         self.geom = Geometry()
         self.moves = deque()
 
@@ -32,6 +32,7 @@ class Cube:
         self.draw_stickers = draw_stickers
         self.draw_sphere = draw_sphere
         self.draw_lines = draw_lines
+        self.line_width = line_width
 
         self.sphere_radius = 3
         self.sphere_slices = 16
@@ -56,19 +57,17 @@ class Cube:
         self.update_face_tweening()
 
     def render(self):
-        glPushMatrix()
+        # glPushMatrix()
         glLoadMatrixf(q_to_mat4(self.accum))
         glScalef(self.scale, self.scale, self.scale)
 
         if self.draw_sphere:
             self.render_sphere()
-
         if self.draw_stickers:
             self.render_stickers()
-
         if self.draw_lines:
             self.render_lines()
-        glPopMatrix()
+        # glPopMatrix()
 
     def add_rotate_x(self, value):
         self.rot_x += value
@@ -95,7 +94,7 @@ class Cube:
         if type(move) == FaceRotation:
             self.moves.append(move)
 
-    # algorithm: array consisting of single face moves [FaceRotation.R, FaceRotation.U, ...]
+    # moves: array consisting of single face rotations, e.g. [RIGHT_CW, UP_CCW, RIGHT_CCW, UP_CW]
     def scramble(self, moves):
         print("scramble", moves)
         theta = pi / 2
@@ -119,39 +118,6 @@ class Cube:
         else:
             self.state = State.IDLE
             self.current_move = None
-
-    # def rotate_face(self, face_rot):
-    #     theta = pi / 2
-    #     # Front face
-    #     if face_rot == FaceRotation.FRONT_CW:
-    #         self.turn_front_face(-theta)
-    #     elif face_rot == FaceRotation.FRONT_CCW:
-    #         self.turn_front_face(theta)
-    #     # Back face
-    #     elif face_rot == FaceRotation.BACK_CW:
-    #         self.turn_back_face(theta)
-    #     elif face_rot == FaceRotation.BACK_CCW:
-    #         self.turn_back_face(-theta)
-    #     # Left face
-    #     elif face_rot == FaceRotation.LEFT_CW:
-    #         self.turn_left_face(theta)
-    #     elif face_rot == FaceRotation.LEFT_CCW:
-    #         self.turn_left_face(-theta)
-    #     # Right face
-    #     elif face_rot == FaceRotation.RIGHT_CW:
-    #         self.turn_right_face(-theta)
-    #     elif face_rot == FaceRotation.RIGHT_CCW:
-    #         self.turn_right_face(theta)
-    #     # Up face
-    #     elif face_rot == FaceRotation.UP_CW:
-    #         self.turn_up_face(-theta)
-    #     elif face_rot == FaceRotation.UP_CCW:
-    #         self.turn_up_face(theta)
-    #     # Down face
-    #     elif face_rot == FaceRotation.DOWN_CW:
-    #         self.turn_down_face(theta)
-    #     elif face_rot == FaceRotation.DOWN_CCW:
-    #         self.turn_down_face(-theta)
 
     def update_face_tweening(self):
         theta = self.tween.get_delta()
@@ -321,22 +287,22 @@ class Cube:
         glutSolidSphere(self.sphere_radius, self.sphere_slices, self.sphere_stacks)
 
     def render_lines(self):
-        glLineWidth(5.0)
+        glLineWidth(self.line_width)
         glColor3f(0, 0, 0)
         glBegin(GL_LINES)
         for axis in self.geom.edge_pieces:
             for piece in axis:
-                for edge in cube_edges:
+                for edge in self.geom.cube_edges:
                     for vertex in edge:
                         v = piece[vertex]
                         glVertex3f(v[0], v[1], v[2])
         for piece in self.geom.center_pieces:
-            for edge in cube_edges:
+            for edge in self.geom.cube_edges:
                 for vertex in edge:
                     v = piece[vertex]
                     glVertex3f(v[0], v[1], v[2])
         for piece in self.geom.corner_pieces:
-            for edge in cube_edges:
+            for edge in self.geom.cube_edges:
                 for vertex in edge:
                     v = piece[vertex]
                     glVertex3f(v[0], v[1], v[2])
