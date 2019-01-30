@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Face(Enum):
+class FaceRotation(Enum):
     FRONT_CW = 1
     FRONT_CCW = -1
     BACK_CW = 2

@@ -5,7 +5,8 @@ from cube import Cube
 from math import *
 from deltatime import DeltaTime
 from fps import Fps
-from enums import Face
+from enums import *
+from constants import Constants
 
 class App:
     def __init__(self):
@@ -25,11 +26,11 @@ class App:
             self.show_gl_info()
 
         self.padding = 0.3
-        self.face_turn_tween_time = 0.5
+        self.face_rotation_tween_time = 0.5
         self.draw_stickers = True
         self.draw_sphere = True
         self.draw_lines = False
-        self.init_cube(self.padding, self.face_turn_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+        self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
 
     def init_opengl(self, caption, width, height, background_color):
         glutInit()
@@ -54,8 +55,8 @@ class App:
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
-    def init_cube(self, padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
-        self.cube = Cube(padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines)
+    def init_cube(self, padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines):
+        self.cube = Cube(padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines)
 
     def run(self):
         glutMainLoop()
@@ -84,37 +85,24 @@ class App:
         else:
             glutIdleFunc(None)
 
-    def turn_cube_face(self, move):
-        move_map = {
-            "F": Face.FRONT_CW,
-            "F'": Face.FRONT_CCW,
-            "B": Face.BACK_CW,
-            "B'": Face.BACK_CCW,
-            "U": Face.UP_CW,
-            "U'": Face.UP_CCW,
-            "D": Face.DOWN_CW,
-            "D'": Face.DOWN_CCW,
-            "L": Face.LEFT_CW,
-            "L'": Face.LEFT_CCW,
-            "R": Face.RIGHT_CW,
-            "R'": Face.RIGHT_CCW
-        }
-        face = move_map.get(move)
+    def rotate_face(self, move):
+        face = Constants.str_to_face_rotation_map.get(move)
         self.cube.add_move(face)
 
     def on_keyboard_input(self, key, x, y):
         ch = key.decode("utf-8")
 
-        print("ch", ch, key)
-
         # Exit app on q or ESC
         if ch == 'q' or ch == chr(27):
             sys.exit()
-        if ch == chr(8):
-            self.init_cube(self.padding, self.face_turn_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+        # reset cube
+        elif ch == chr(8):
+            self.init_cube(self.padding, self.face_rotation_tween_time, self.draw_stickers, self.draw_sphere, self.draw_lines)
+        # reset scale and rotation
         elif ch == chr(13):
             self.cube.reset_rotation()
             self.cube.reset_scale()
+        # stop rotation
         elif ch == ' ':
             self.cube.stop_rotation()
 
@@ -140,7 +128,7 @@ class App:
         elif ch == 'r': move = "R"
         elif ch == 'R': move = "R'"
         if move != None:
-            self.turn_cube_face(move)
+            self.rotate_face(move)
 
     def on_special_input(self, key, x, y):
         value = pi / 32 * self.delta_time.elapsed()

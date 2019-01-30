@@ -14,10 +14,11 @@ from math import *
 from collections import deque
 from tween import Tween
 from geometry import Geometry
-from enums import *
+from enums import State, FaceRotation
+from constants import Constants
 
 class Cube:
-    def __init__(self, initial_padding, face_turn_tween_time, draw_stickers, draw_sphere, draw_lines):
+    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines):
         self.geom = Geometry()
         self.moves = deque()
 
@@ -27,7 +28,7 @@ class Cube:
         self.scale = 1
 
         self.padding = initial_padding
-        self.face_turn_tween_time = face_turn_tween_time
+        self.face_rotation_tween_time = face_rotation_tween_time
         self.draw_stickers = draw_stickers
         self.draw_sphere = draw_sphere
         self.draw_lines = draw_lines
@@ -52,7 +53,7 @@ class Cube:
 
         self.update_moves()
         self.update_tween(elapsed_time)
-        self.update_face_turn(elapsed_time)
+        self.update_face_rotation(elapsed_time)
 
     def render(self):
         glPushMatrix()
@@ -90,10 +91,12 @@ class Cube:
         self.rot_x = 0
         self.rot_y = 0
 
-    def add_move(self, face):
-        self.moves.append(face)
+    def add_move(self, move):
+        if type(move) == FaceRotation:
+            self.moves.append(move)
 
-    def scramble(self):
+    # algorithm: array consisting of single face moves [FaceRotation.R, FaceRotation.U, ...]
+    def scramble(self, algorithm):
         pass
 
     def update_moves(self):
@@ -101,54 +104,50 @@ class Cube:
             return
         if len(self.moves) == 0:
             return
-
         self.current_move = self.moves.popleft()
         self.state = State.TWEENING
-
-        self.tween.tween(0.0, pi/2, self.face_turn_tween_time)
-        # print("current_move", self.current_move)
+        self.tween.tween(0.0, pi/2, self.face_rotation_tween_time)
 
     def update_tween(self, elapsed_time):
         if self.state != State.TWEENING:
             return
         if not self.tween.is_done():
             self.tween.update(elapsed_time)
-            # print(self.tween.current, self.tween.elapsed)
         else:
             self.state = State.IDLE
             self.current_move = None
 
-    def update_face_turn(self, elapsed_time):
+    def update_face_rotation(self, elapsed_time):
         delta = self.tween.get_delta()
         # Front face
-        if self.current_move == Face.FRONT_CW:
+        if self.current_move == FaceRotation.FRONT_CW:
             self.turn_front_face(-delta)
-        elif self.current_move == Face.FRONT_CCW:
+        elif self.current_move == FaceRotation.FRONT_CCW:
             self.turn_front_face(delta)
         # Back face
-        elif self.current_move == Face.BACK_CW:
+        elif self.current_move == FaceRotation.BACK_CW:
             self.turn_back_face(delta)
-        elif self.current_move == Face.BACK_CCW:
+        elif self.current_move == FaceRotation.BACK_CCW:
             self.turn_back_face(-delta)
         # Left face
-        elif self.current_move == Face.LEFT_CW:
+        elif self.current_move == FaceRotation.LEFT_CW:
             self.turn_left_face(delta)
-        elif self.current_move == Face.LEFT_CCW:
+        elif self.current_move == FaceRotation.LEFT_CCW:
             self.turn_left_face(-delta)
         # Right face
-        elif self.current_move == Face.RIGHT_CW:
+        elif self.current_move == FaceRotation.RIGHT_CW:
             self.turn_right_face(-delta)
-        elif self.current_move == Face.RIGHT_CCW:
+        elif self.current_move == FaceRotation.RIGHT_CCW:
             self.turn_right_face(delta)
         # Up face
-        elif self.current_move == Face.UP_CW:
+        elif self.current_move == FaceRotation.UP_CW:
             self.turn_up_face(-delta)
-        elif self.current_move == Face.UP_CCW:
+        elif self.current_move == FaceRotation.UP_CCW:
             self.turn_up_face(delta)
         # Down face
-        elif self.current_move == Face.DOWN_CW:
+        elif self.current_move == FaceRotation.DOWN_CW:
             self.turn_down_face(delta)
-        elif self.current_move == Face.DOWN_CCW:
+        elif self.current_move == FaceRotation.DOWN_CCW:
             self.turn_down_face(-delta)
 
     def turn_front_face(self, theta):
