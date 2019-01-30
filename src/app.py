@@ -8,6 +8,7 @@ from fps import Fps
 from enums import FaceRotation
 from constants import Constants
 from settings import Settings
+# import socket_server
 
 class App:
     def __init__(self):
