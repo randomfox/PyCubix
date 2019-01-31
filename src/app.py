@@ -8,7 +8,7 @@ from fps import Fps
 from enums import FaceRotation
 from constants import Constants
 from settings import Settings
-# import socket_server
+from cube_helpers import CubeHelpers
 
 class App:
     def __init__(self):
@@ -80,10 +80,6 @@ class App:
         else:
             glutIdleFunc(None)
 
-    def rotate_face(self, move):
-        face = Constants.str_to_face_rotation_map.get(move)
-        self.cube.add_move(face)
-
     def on_keyboard_input(self, key, x, y):
         ch = key.decode("utf-8")
 
@@ -92,7 +88,7 @@ class App:
             sys.exit()
         # reset cube:
         elif ch == chr(8):
-            self.init_cube()
+            self.cube.reset()
         # reset scale and rotation:
         elif ch == chr(13):
             self.cube.reset_rotation()
@@ -100,12 +96,17 @@ class App:
         # stop rotation:
         elif ch == ' ':
             self.cube.stop_rotation()
-        # test scramble with sexy move:
+        # test scramble
         elif ch == '1':
-            self.cube.scramble(Constants.sexy_move)
-        # test scramble with sledgehammer move:
+            pattern = CubeHelpers.get_random_pattern()
+            moves = CubeHelpers.expand_moves(pattern.split(' '))
+            self.scramble_cube(moves)
         elif ch == '2':
-            self.cube.scramble(Constants.sledgehammer_move)
+            self.cube.reset()
+            pattern = CubeHelpers.get_random_pattern()
+            moves = CubeHelpers.expand_moves(pattern.split(' '))
+            face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+            self.append_face_rotations(face_rotations)
 
         scale = None
         if ch == '+':
@@ -113,7 +114,7 @@ class App:
         elif ch == '-':
             scale = -1
         if scale != None:
-            self.cube.add_scale(scale * self.delta_time.elapsed())
+            self.cube.inc_scale(scale * self.delta_time.elapsed())
 
         # translate move:
         move = None
@@ -130,19 +131,19 @@ class App:
         elif ch == 'r': move = "R"
         elif ch == 'R': move = "R'"
         if move != None:
-            self.rotate_face(move)
+            self.add_moves([move])
 
     def on_special_input(self, key, x, y):
         value = pi / 32 * self.delta_time.elapsed()
 
         if key == GLUT_KEY_UP:
-            self.cube.add_rotate_x(value)
+            self.cube.inc_rotate_x(value)
         if key == GLUT_KEY_DOWN:
-            self.cube.add_rotate_x(-value)
+            self.cube.inc_rotate_x(-value)
         if key == GLUT_KEY_LEFT:
-            self.cube.add_rotate_y(value)
+            self.cube.inc_rotate_y(value)
         if key == GLUT_KEY_RIGHT:
-            self.cube.add_rotate_y(-value)
+            self.cube.inc_rotate_y(-value)
 
     def on_update(self):
         self.delta_time.update()
@@ -156,6 +157,20 @@ class App:
 
         if self.show_fps:
             self.fps.update()
+
+    def add_moves(self, moves):
+        face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+        self.append_face_rotations(face_rotations)
+
+    def append_face_rotations(self, face_rotations):
+        for face_rotation in face_rotations:
+            self.cube.append_face_rotation(face_rotation)
+
+    # moves: array
+    def scramble_cube(self, moves):
+        face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+        self.cube.reset()
+        self.cube.scramble(face_rotations)
 
     # def _glut_mouse(self, button, state, x, y):
     #     self._glut_update_modifiers()

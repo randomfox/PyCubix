@@ -19,14 +19,6 @@ from constants import Constants
 
 class Cube:
     def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines, line_width):
-        self.geom = Geometry()
-        self.moves = deque()
-
-        self.rot_x = 0
-        self.rot_y = 0
-        self.accum = (1, 0, 0, 0)
-        self.scale = 1
-
         self.padding = initial_padding
         self.face_rotation_tween_time = face_rotation_tween_time
         self.draw_stickers = draw_stickers
@@ -34,16 +26,24 @@ class Cube:
         self.draw_lines = draw_lines
         self.line_width = line_width
 
+        self.rot_x = 0
+        self.rot_y = 0
+        self.accum = (1, 0, 0, 0)
+        self.scale = 1
+
         self.sphere_radius = 3
         self.sphere_slices = 16
         self.sphere_stacks = 16
 
-        self.state = State.IDLE
+        self.reset()
 
-        self.tween = Tween()
-        self.current_move = None
-
+    def reset(self):
+        self.geom = Geometry()
         self.geom.add_padding(self.padding)
+        self.queued_face_rotations = deque()
+        self.tween = Tween()
+        self.state = State.IDLE
+        self.current_face_rotation = None
 
     def update(self, elapsed_time):
         rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.rot_x))
@@ -52,7 +52,7 @@ class Cube:
         self.accum = q_mult(self.accum, rot_x)
         self.accum = q_mult(self.accum, rot_y)
 
-        self.update_moves()
+        self.update_queue()
         self.update_tween(elapsed_time)
         self.update_face_tweening()
 
@@ -69,13 +69,13 @@ class Cube:
             self.render_lines()
         # glPopMatrix()
 
-    def add_rotate_x(self, value):
+    def inc_rotate_x(self, value):
         self.rot_x += value
 
-    def add_rotate_y(self, value):
+    def inc_rotate_y(self, value):
         self.rot_y += value
 
-    def add_scale(self, value):
+    def inc_scale(self, value):
         self.scale = max(self.scale + value, 0.1)
 
     def reset_rotation(self):
@@ -90,23 +90,21 @@ class Cube:
         self.rot_x = 0
         self.rot_y = 0
 
-    def add_move(self, move):
-        if type(move) == FaceRotation:
-            self.moves.append(move)
+    def append_face_rotation(self, face_rotation):
+        if type(face_rotation) == FaceRotation:
+            self.queued_face_rotations.append(face_rotation)
 
-    # moves: array consisting of single face rotations, e.g. [RIGHT_CW, UP_CCW, RIGHT_CCW, UP_CW]
-    def scramble(self, moves):
-        print("scramble", moves)
+    def scramble(self, face_rotations):
         theta = pi / 2
-        for face in moves:
+        for face in face_rotations:
             self.rotate_face(face, theta)
 
-    def update_moves(self):
+    def update_queue(self):
         if self.state == State.TWEENING:
             return
-        if len(self.moves) == 0:
+        if len(self.queued_face_rotations) == 0:
             return
-        self.current_move = self.moves.popleft()
+        self.current_face_rotation = self.queued_face_rotations.popleft()
         self.state = State.TWEENING
         self.tween.tween(0.0, pi/2, self.face_rotation_tween_time)
 
@@ -117,11 +115,11 @@ class Cube:
             self.tween.update(elapsed_time)
         else:
             self.state = State.IDLE
-            self.current_move = None
+            self.current_face_rotation = None
 
     def update_face_tweening(self):
         theta = self.tween.get_delta()
-        self.rotate_face(self.current_move, theta)
+        self.rotate_face(self.current_face_rotation, theta)
 
     def rotate_face(self, face, theta):
         if (face == FaceRotation.FRONT_CW

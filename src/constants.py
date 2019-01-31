@@ -1,7 +1,7 @@
 from enums import *
 
 class Constants:
-    known_str_face_rotations = [
+    known_moves = [
         "F",
         "F'",
         "B",
@@ -16,7 +16,7 @@ class Constants:
         "R'"
     ]
 
-    str_to_face_rotation_map = {
+    move_to_face_rotation_map = {
         "F": FaceRotation.FRONT_CW,
         "F'": FaceRotation.FRONT_CCW,
         "B": FaceRotation.BACK_CW,
@@ -31,7 +31,7 @@ class Constants:
         "R'": FaceRotation.RIGHT_CCW
     }
 
-    face_rotation_to_str_map = {
+    face_rotation_to_move_map = {
         FaceRotation.FRONT_CW: "F",
         FaceRotation.FRONT_CCW: "F'",
         FaceRotation.BACK_CW: "B",
@@ -64,34 +64,34 @@ class Constants:
         FaceRotation.DOWN_CCW
     ]
 
-    sexy_move = [
-        FaceRotation.RIGHT_CW,
-        FaceRotation.UP_CW,
-        FaceRotation.RIGHT_CCW,
-        FaceRotation.UP_CCW
-    ]
+    sexy_move_trigger = "R U R' U'"
+    sledgehammer_trigger = "R' F R F'"
 
-    sledgehammer_move = [
-        FaceRotation.RIGHT_CCW,
-        FaceRotation.FRONT_CW,
-        FaceRotation.RIGHT_CW,
-        FaceRotation.FRONT_CCW
-    ]
+    # pattern nicked from https://ruwix.com/the-rubiks-cube/rubiks-cube-patterns-algorithms/
+    checkerboard_pattern = "U2 D2 F2 B2 L2 R2"
+    cubeincube_pattern = "F L F U' R U F2 L2 U' L' B D' B' L2 U"
+    four_crosses_pattern = "U2 R2 L2 F2 B2 D2 L2 R2 F2 B2"
+    four_spots_pattern = "F2 B2 U D' R2 L2 U D'"
+    plusminus_pattern = "U2 R2 L2 U2 R2 L2"
+    six_spots_pattern = "U D' R L' F B' U D'"
+    superflip_pattern = "U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2"
+    tetris_pattern = "L R F B U' D' L' R'"
+    verticalstripes_pattern = "F U F R L2 B D' R D2 L D' B R2 L F U F"
 
     @staticmethod
-    def is_known_face_rotation(str):
-        for face in Constants.known_str_face_rotations:
-            if face == str:
+    def is_known_move(str):
+        for move in Constants.known_move:
+            if move == str:
                 return True
         return False
 
     @staticmethod
-    def get_face_rotation_by_str(str):
-        return Constants.str_to_face_rotation_map[str]
+    def get_face_rotation_by_move(str):
+        return Constants.move_to_face_rotation_map.get(str)
 
     @staticmethod
-    def get_str_by_face_rotation(face):
-        return Constants.face_rotation_to_str_map[face]
+    def get_move_by_face_rotation(face):
+        return Constants.face_rotation_to_move_map.get(face)
 
     @staticmethod
     def is_cw_face_rotation(face):
