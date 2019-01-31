@@ -548,4 +548,3 @@ class Geometry:
             vertex[0] += value
             vertex[1] -= value
             vertex[2] -= value
-

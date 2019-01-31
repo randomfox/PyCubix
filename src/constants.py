@@ -66,9 +66,9 @@ class Constants:
 
     sexy_move = [
         FaceRotation.RIGHT_CW,
-        FaceRotation.UP_CCW,
+        FaceRotation.UP_CW,
         FaceRotation.RIGHT_CCW,
-        FaceRotation.UP_CW
+        FaceRotation.UP_CCW
     ]
 
     sledgehammer_move = [
