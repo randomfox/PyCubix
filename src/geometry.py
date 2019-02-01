@@ -416,8 +416,8 @@ class Geometry:
             [4, 5, 1, 0],  # Left 1
             [7, 6, 5, 4],  # Back 2
             [3, 2, 6, 7],  # Right 3
-            [1, 5, 6, 2],  # Top 4
-            [4, 0, 3, 7]  # Bottom 5
+            [1, 5, 6, 2],  # Up 4
+            [4, 0, 3, 7]  # Down 5
         )
 
         self.cube_colors = [
@@ -425,8 +425,17 @@ class Geometry:
             (0.996, 0.549, 0.184),  # Left: Orange
             (0.102, 0.878, 0.133),  # Back: Green
             (0.855, 0.082, 0.102),  # Right: Red
-            (0.961, 1.000, 0.204),  # Top: Yellow
-            (1.000, 1.000, 1.000)  # Bottom: White
+            (0.961, 1.000, 0.204),  # Up: Yellow
+            (1.000, 1.000, 1.000)  # Down: White
+        ]
+
+        self.original_cube_colors = [
+            (0.066, 0.490, 0.988),  # Front: Blue
+            (0.996, 0.549, 0.184),  # Left: Orange
+            (0.102, 0.878, 0.133),  # Back: Green
+            (0.855, 0.082, 0.102),  # Right: Red
+            (0.961, 1.000, 0.204),  # Up: Yellow
+            (1.000, 1.000, 1.000)  # Down: White
         ]
 
         self.pulse_color = [0.0, 0.0, 0.0]
@@ -462,6 +471,13 @@ class Geometry:
             [0, 1, 5],  # 6
             [0, 1, 4],  # 7
         ]
+
+    def set_colors(self, front_color, back_color, left_color, right_color, up_color, down_color):
+        colors = [front_color, left_color, back_color, right_color, up_color, down_color]
+        self.cube_colors = colors
+
+    def reset_colos(self):
+        self.cube_colors = self.original_cube_colors
 
     def add_padding(self, value):
         for vertex in self.center_pieces[0]:

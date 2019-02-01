@@ -5,7 +5,7 @@ from cube import Cube
 from math import *
 from delta_time import DeltaTime
 from fps import Fps
-from enums import FaceRotation
+from enums import *
 from constants import Constants
 from settings import Settings
 from cube_helpers import CubeHelpers
@@ -36,7 +36,7 @@ class App:
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
 
-        clear_color = Settings.window_background_color;
+        clear_color = Settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
@@ -99,14 +99,16 @@ class App:
         # test scramble
         elif ch == '1':
             pattern = CubeHelpers.get_random_pattern()
-            moves = CubeHelpers.expand_moves(pattern.split(' '))
+            moves = CubeHelpers.expand_notations(pattern.split(' '))
             self.scramble_cube(moves)
         elif ch == '2':
-            self.cube.reset()
             pattern = CubeHelpers.get_random_pattern()
-            moves = CubeHelpers.expand_moves(pattern.split(' '))
+            moves = CubeHelpers.expand_notations(pattern.split(' '))
             face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
             self.append_face_rotations(face_rotations)
+        elif ch == '0':
+            str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW "
+            self.set_cube_color_orienation(str)
 
         scale = None
         if ch == '+':
@@ -172,27 +174,18 @@ class App:
         self.cube.reset()
         self.cube.scramble(face_rotations)
 
-    # def _glut_mouse(self, button, state, x, y):
-    #     self._glut_update_modifiers()
+    # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
+    def set_cube_color_orienation(self, str):
+        map = CubeHelpers.translate_cube_color_orienation(str)
+        if len(map) != 6:
+            return
+        front_color = CubeHelpers.get_color_value_by_color(map.get(Face.FRONT))
+        back_color = CubeHelpers.get_color_value_by_color(map.get(Face.BACK))
+        left_color = CubeHelpers.get_color_value_by_color(map.get(Face.LEFT))
+        right_color = CubeHelpers.get_color_value_by_color(map.get(Face.RIGHT))
+        up_color = CubeHelpers.get_color_value_by_color(map.get(Face.UP))
+        down_color = CubeHelpers.get_color_value_by_color(map.get(Face.DOWN))
+        self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
 
-    #     btn = 'left'
-    #     if button == GLUT_RIGHT_BUTTON:
-    #         btn = 'right'
-
-    #     if state == GLUT_DOWN:
-    #         self.dispatch_event('on_mouse_down', x, y, btn, self.modifiers)
-    #     else:
-    #         self.dispatch_event('on_mouse_up', x, y, btn, self.modifiers)
-
-    # def _glut_mouse_motion(self, x, y):
-    #     self.dispatch_event('on_mouse_move', x, y, self.modifiers)
-
-    # def _glut_update_modifiers(self):
-    #     self._modifiers = []
-    #     mods = glutGetModifiers()
-    #     if mods & GLUT_ACTIVE_SHIFT:
-    #         self._modifiers.append('shift')
-    #     if mods & GLUT_ACTIVE_ALT:
-    #         self._modifiers.append('alt')
-    #     if mods & GLUT_ACTIVE_CTRL:
-    #         self._modifiers.append('ctrl')
+    def test(self):
+        pass

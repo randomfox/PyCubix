@@ -1,7 +1,7 @@
 from enums import *
 
 class Constants:
-    known_moves = [
+    KNOWN_NOTATIONS = [
         "F",
         "F'",
         "B",
@@ -16,7 +16,7 @@ class Constants:
         "R'"
     ]
 
-    move_to_face_rotation_map = {
+    NOTATION_TO_FACE_ROTATION_MAP = {
         "F": FaceRotation.FRONT_CW,
         "F'": FaceRotation.FRONT_CCW,
         "B": FaceRotation.BACK_CW,
@@ -31,7 +31,7 @@ class Constants:
         "R'": FaceRotation.RIGHT_CCW
     }
 
-    face_rotation_to_move_map = {
+    FACE_ROTATION_TO_NOTATION_MAP = {
         FaceRotation.FRONT_CW: "F",
         FaceRotation.FRONT_CCW: "F'",
         FaceRotation.BACK_CW: "B",
@@ -46,7 +46,7 @@ class Constants:
         FaceRotation.RIGHT_CCW: "R'"
     }
 
-    cw_face_rotations = [
+    CW_FACE_ROTATIONS = [
         FaceRotation.FRONT_CW,
         FaceRotation.BACK_CW,
         FaceRotation.LEFT_CW,
@@ -55,7 +55,7 @@ class Constants:
         FaceRotation.DOWN_CW
     ]
 
-    ccw_face_rotations = [
+    CCW_FACE_ROTATIONS = [
         FaceRotation.FRONT_CCW,
         FaceRotation.BACK_CCW,
         FaceRotation.LEFT_CCW,
@@ -64,45 +64,68 @@ class Constants:
         FaceRotation.DOWN_CCW
     ]
 
-    sexy_move_trigger = "R U R' U'"
-    sledgehammer_trigger = "R' F R F'"
+    GEOMETRY_FACE_ORIENTATION_ORDER = [
+        Face.FRONT,
+        Face.LEFT,
+        Face.BACK,
+        Face.RIGHT,
+        Face.UP,
+        Face.DOWN
+    ]
+
+    STR_TO_FACE_MAP = {
+        "FRONT": Face.FRONT,
+        "LEFT": Face.LEFT,
+        "BACK": Face.BACK,
+        "RIGHT": Face.RIGHT,
+        "UP": Face.UP,
+        "DOWN": Face.DOWN
+    }
+
+    STR_TO_COLOR_MAP = {
+        "BLUE": Color.BLUE,
+        "ORANGE": Color.ORANGE,
+        "GREEN": Color.GREEN,
+        "RED": Color.RED,
+        "YELLOW": Color.YELLOW,
+        "WHITE": Color.WHITE
+    }
+
+    SEXY_MOVE_TRIGGER = "R U R' U'"
+    SLEDGEHAMMER_TRIGGER = "R' F R F'"
 
     # pattern nicked from https://ruwix.com/the-rubiks-cube/rubiks-cube-patterns-algorithms/
-    checkerboard_pattern = "U2 D2 F2 B2 L2 R2"
-    cubeincube_pattern = "F L F U' R U F2 L2 U' L' B D' B' L2 U"
-    four_crosses_pattern = "U2 R2 L2 F2 B2 D2 L2 R2 F2 B2"
-    four_spots_pattern = "F2 B2 U D' R2 L2 U D'"
-    plusminus_pattern = "U2 R2 L2 U2 R2 L2"
-    six_spots_pattern = "U D' R L' F B' U D'"
-    superflip_pattern = "U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2"
-    tetris_pattern = "L R F B U' D' L' R'"
-    verticalstripes_pattern = "F U F R L2 B D' R D2 L D' B R2 L F U F"
+    CHECKERBOARD_PATTERN = "U2 D2 F2 B2 L2 R2"
+    CUBE_IN_CUBE_PATTERN = "F L F U' R U F2 L2 U' L' B D' B' L2 U"
+    FOUR_CROSSES_PATTERN = "U2 R2 L2 F2 B2 D2 L2 R2 F2 B2"
+    FOUR_SPOTS_PATTERN = "F2 B2 U D' R2 L2 U D'"
+    PLUS_MINUS_PATTERN = "U2 R2 L2 U2 R2 L2"
+    SIX_SPOTS_PATTERN = "U D' R L' F B' U D'"
+    SUPERFLIP_PATTERN = "U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2"
+    TETRIS_PATTERN = "L R F B U' D' L' R'"
+    VERTICAL_STRIPES_PATTERN = "F U F R L2 B D' R D2 L D' B R2 L F U F"
 
-    @staticmethod
-    def is_known_move(str):
-        for move in Constants.known_move:
-            if move == str:
-                return True
-        return False
+    BLUE_COLOR = (0.066, 0.490, 0.988)
+    ORANGE_COLOR = (0.996, 0.549, 0.184)
+    GREEN_COLOR = (0.102, 0.878, 0.133)
+    RED_COLOR = (0.855, 0.082, 0.102)
+    YELLOW_COLOR = (0.961, 1.000, 0.204)
+    WHITE_COLOR = (1.000, 1.000, 1.000)
 
-    @staticmethod
-    def get_face_rotation_by_move(str):
-        return Constants.move_to_face_rotation_map.get(str)
+    COLOR_TO_COLOR_VALUE_MAP = {
+        Color.BLUE: BLUE_COLOR,
+        Color.ORANGE: ORANGE_COLOR,
+        Color.GREEN: GREEN_COLOR,
+        Color.RED: RED_COLOR,
+        Color.YELLOW: YELLOW_COLOR,
+        Color.WHITE: WHITE_COLOR
+    }
 
-    @staticmethod
-    def get_move_by_face_rotation(face):
-        return Constants.face_rotation_to_move_map.get(face)
-
-    @staticmethod
-    def is_cw_face_rotation(face):
-        for cwf in Constants.cw_face_rotations:
-            if face == cwf:
-                return True
-        return False
-
-    @staticmethod
-    def is_ccw_face_rotation(face):
-        for ccwf in Constants.ccw_face_rotations:
-            if face == ccwf:
-                return True
-        return False
+    FACE_TO_COLOR_MAP = {
+        Face.FRONT: Color.BLUE,
+        Face.LEFT: Color.ORANGE,
+        Face.BACK: Color.GREEN,
+        Face.RIGHT: Color.RED,
+        Face.UP: Color.YELLOW,
+        Face.DOWN: Color.WHITE
+    }

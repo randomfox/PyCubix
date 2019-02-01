@@ -1,5 +1,21 @@
 from enum import Enum
 
+class Face(Enum):
+    FRONT = 0
+    BACK = 1
+    LEFT = 2
+    RIGHT = 3
+    UP = 4
+    DOWN = 5
+
+class Color(Enum):
+    BLUE = 0,
+    ORANGE = 1
+    GREEN = 2
+    RED = 3
+    YELLOW = 4
+    WHITE = 5
+
 class FaceRotation(Enum):
     FRONT_CW = 1
     FRONT_CCW = -1
