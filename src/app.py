@@ -107,7 +107,7 @@ class App:
             face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
             self.append_face_rotations(face_rotations)
         elif ch == '0':
-            str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW "
+            str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
             self.set_cube_color_orienation(str)
 
         scale = None
