@@ -43,6 +43,7 @@ Python 3.x: `pip3 install numpy pyopengl`
 - Use the ARROW keys to rotate the cube
 - SPACE stops the rotation
 - RETURN resets the rotation
+- Use +/- to scale the cube
 - BACKSPACE resets the cube geometry
 - Use '1' to instantly apply a random pattern
 - Use '2' to apply a random pattern (you should probably reset the cube geometry first if the cube is already scrambled)
