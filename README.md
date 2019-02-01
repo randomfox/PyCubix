@@ -47,6 +47,7 @@ Python 3.x: `pip3 install numpy pyopengl`
 - BACKSPACE resets the cube geometry
 - Use '1' to instantly apply a random pattern
 - Use '2' to apply a random pattern (you should probably reset the cube geometry first if the cube is already scrambled)
+- Use '0' to reorient the colors (in this test case, white is applied to the UP face and so forth)
 - Mouse support isn't implemented yet
 
 ## Tested on the following systems
