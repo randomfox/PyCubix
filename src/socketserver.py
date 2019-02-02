@@ -75,7 +75,7 @@ class SocketServerControl:
         server.start()
 
     def stop(self):
-        self.message.put(SocketServer.STOP_COMMAND)
+        self.message_queue.put(SocketServer.STOP_COMMAND)
 
     def has_pending_messages(self):
         return self.message_queue.empty() == False
