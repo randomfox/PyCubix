@@ -1,0 +1,29 @@
+{
+    "settings": {
+        "server": {
+            "start": true,
+            "host": "127.0.0.1",
+            "port": 8000,
+            "recv_bufsize": 1024
+        },
+        "fps": {
+            "update_interval": 10
+        },
+        "window": {
+            "caption": "PyCubix",
+            "background_color": "1024",
+            "size": {
+                "width": 600,
+                "height": 600
+            }
+        },
+        "cube": {
+            "draw_stickers": true,
+            "draw_sphere": true,
+            "draw_lines": false,
+            "paddingx": 0.3,
+            "line_width": 2,
+            "face_rotation_tween_time": 0.5
+        }
+    }
+}

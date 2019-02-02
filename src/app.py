@@ -7,13 +7,14 @@ from delta_time import DeltaTime
 from fps import Fps
 from enums import *
 from constants import Constants
-from settings import Settings
 from cube_helpers import CubeHelpers
 
 class App:
-    def __init__(self):
+    def __init__(self, settings):
+        self.settings = settings
         self.delta_time = DeltaTime()
-        self.fps = Fps(Settings.fps_update_interval)
+        print(self.settings)
+        self.fps = Fps(self.settings.fps_update_interval)
         self.show_fps = True
 
         self.init_opengl()
@@ -26,8 +27,8 @@ class App:
         glutInit()
         glutInitWindowPosition(0, 0)
         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
-        glutInitWindowSize(Settings.window_width, Settings.window_height)
-        glutCreateWindow(Settings.window_caption)
+        glutInitWindowSize(self.settings.window_width, self.settings.window_height)
+        glutCreateWindow(self.settings.window_caption)
 
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
@@ -36,7 +37,7 @@ class App:
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
 
-        clear_color = Settings.window_background_color
+        clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
@@ -45,12 +46,12 @@ class App:
         glDepthFunc(GL_LESS)
 
     def init_cube(self):
-        padding = Settings.cube_padding
-        tween_time = Settings.cube_face_rotation_tween_time
-        draw_stickers = Settings.cube_draw_stickers
-        draw_sphere = Settings.cube_draw_sphere
-        draw_lines = Settings.cube_draw_lines
-        line_width = Settings.cube_line_width
+        padding = self.settings.cube_padding
+        tween_time = self.settings.cube_face_rotation_tween_time
+        draw_stickers = self.settings.cube_draw_stickers
+        draw_sphere = self.settings.cube_draw_sphere
+        draw_lines = self.settings.cube_draw_lines
+        line_width = self.settings.cube_line_width
         self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width)
 
     def run(self):
