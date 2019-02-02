@@ -1,7 +1,10 @@
+# Original server code written by joonty/Jonathan Cairns
+# https://gist.github.com/joonty/6463568
+
 import sys
 import socket
-from queue import Queue
 import threading
+from queue import Queue
 
 class SocketServer(threading.Thread):
     STOP_COMMAND = "stop"
@@ -36,7 +39,8 @@ class SocketServer(threading.Thread):
                 except socket.error:
                     pass
         except Exception:
-            print('An error occured:', sys.exc_info())
+            print('# WTF')
+            print(sys.exc_info())
         print('Stopping server')
 
     def handle_client(self, client):
@@ -60,7 +64,7 @@ class SocketServer(threading.Thread):
             return True
         return False
 
-class SocketServerStarter:
+class SocketServerControl:
     def __init__(self):
         self.command_queue = Queue(0)
         self.message_queue = Queue(0)

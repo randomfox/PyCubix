@@ -10,8 +10,9 @@ from constants import Constants
 from cube_helpers import CubeHelpers
 
 class App:
-    def __init__(self, settings):
+    def __init__(self, settings, server_control):
         self.settings = settings
+        self.server_control = server_control
         self.delta_time = DeltaTime()
         print(self.settings)
         self.fps = Fps(self.settings.fps_update_interval)
