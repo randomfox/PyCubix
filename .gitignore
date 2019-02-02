@@ -114,3 +114,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Temp files (e.g. used by vim or nano)
+*.swp
