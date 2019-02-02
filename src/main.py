@@ -10,7 +10,8 @@ server_control = SocketServerControl()
 if settings.server_start:
 	host = settings.server_host
 	port = settings.server_port
-	server_control.start(host, port)
+	bufsize = settings.server_bufsize
+	server_control.start(host, port, bufsize)
 else:
 	print('Not starting socket server')
 

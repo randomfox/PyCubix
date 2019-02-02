@@ -9,9 +9,10 @@ from queue import Queue
 class SocketServer(threading.Thread):
     STOP_COMMAND = "stop"
 
-    def __init__(self, host, port, command_queue, message_queue):
+    def __init__(self, host, port, bufsize, command_queue, message_queue):
         self.host = host
         self.port = port
+        self.bufsize = bufsize
         self.command_queue = command_queue
         self.message_queue = message_queue
         self.count = 0
@@ -44,7 +45,7 @@ class SocketServer(threading.Thread):
         print('Stopping server')
 
     def handle_client(self, client):
-        data = client.recv(1024).decode()
+        data = client.recv(self.bufsize).decode()
         if data == '':
             print('Client disconnected')
             return False
@@ -69,8 +70,8 @@ class SocketServerControl:
         self.command_queue = Queue(0)
         self.message_queue = Queue(0)
 
-    def start(self, host, port):
-        server = SocketServer(host, port, self.command_queue, self.message_queue)
+    def start(self, host, port, bufsize):
+        server = SocketServer(host, port, bufsize, self.command_queue, self.message_queue)
         server.start()
 
     def stop(self):
