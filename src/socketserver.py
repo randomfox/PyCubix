@@ -60,6 +60,7 @@ class SocketServer(threading.Thread):
         try:
             if self.command_queue.empty() == False:
                 if self.command_queue.get_nowait() == SocketServer.STOP_COMMAND:
+                    print("received exit command")
                     return True
         except:
             return True
@@ -75,7 +76,7 @@ class SocketServerControl:
         server.start()
 
     def stop(self):
-        self.message_queue.put(SocketServer.STOP_COMMAND)
+        self.command_queue.put(SocketServer.STOP_COMMAND)
 
     def has_pending_messages(self):
         return self.message_queue.empty() == False
