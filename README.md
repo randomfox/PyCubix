@@ -22,8 +22,8 @@ Python 3.x: `pip3 install numpy pyopengl`
 ## Install using Virtualenv and make
 
 - `cd PyCubix`
-- `virtualenv -p python3 venv`
-- `source venv/bin/activate`
+- `virtualenv -p python3 env`
+- `source env/bin/activate`
 - `make install`
 
 ## Run the program
