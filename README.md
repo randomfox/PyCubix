@@ -9,7 +9,10 @@ To be determined.
 ## Dependencies
 
 Glut:
-- `sudo apt install freeglut3 freeglut3-dev`
+- `$ sudo apt install freeglut3 freeglut3-dev`
+
+Paho MQTT:
+- `$ sudo apt install mosquitto mosquitto-clients`
 
 The following Python modules are needed to run this program:
 - [NumPy](http://www.numpy.org/)
@@ -20,27 +23,27 @@ The following Python modules are needed to run this program:
 
 ### Install using pip
 
-Python 3.x: `pip3 install numpy pyopengl`
+Python 3.x: `$ pip3 install numpy pyopengl`
 
 ### Install using Virtualenv and make
 
-- `cd PyCubix`
-- `virtualenv -p python3 env`
-- `source env/bin/activate`
-- `make install`
+- `$ cd PyCubix`
+- `$ virtualenv -p python3 env`
+- `$ source env/bin/activate`
+- `$ make install`
 
 ## Running the program
 
 ### Just do it
 
-- `cd PyCubix`
-- `python src/main.py`
+- `$ cd PyCubix`
+- `$ python src/main.py`
 
 ### Run using Virtualenv and make
 
-- `cd PyCubix`
-- `source venv/bin/activate`
-- `make run` or simply `make`
+- `$ cd PyCubix`
+- `$ source venv/bin/activate`
+- `$ make run` or simply `$ make`
 
 ## Usage:
 
