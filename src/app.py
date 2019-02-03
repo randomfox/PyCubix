@@ -61,8 +61,9 @@ class App:
         draw_sphere = self.settings.cube_draw_sphere
         draw_lines = self.settings.cube_draw_lines
         line_width = self.settings.cube_line_width
+        inner_color = self.settings.cube_inner_color
         sphere_color = self.settings.cube_sphere_color
-        self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width, sphere_color)
+        self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
 
     def run(self):
         glutMainLoop()

@@ -1,5 +1,6 @@
 import pprint
 from config import Config
+from constants import Constants
 
 class Settings(Config):
     def __init__(self):
@@ -11,7 +12,8 @@ class Settings(Config):
         self.cube_face_rotation_tween_time = 0.5
         self.cube_padding = 0.3
         self.cube_line_width = 2.0
-        self.cube_sphere_color = [1, 0, 1]
+        self.cube_inner_color = [0.0, 0.0, 0.0]
+        self.cube_sphere_color = [0.0, 0.0, 0.0]
 
         # fps settings
         self.fps_update_interval = 10
@@ -20,10 +22,10 @@ class Settings(Config):
         self.subscriber_start = True
         self.subscriber_broker = '127.0.0.1'
         self.subscriber_port = 1883
-        self.subscriber_topic = 'test'
+        self.subscriber_topic = 'pycubix'
 
         # window settings
-        self.window_caption = 'PyCubix'
+        self.window_caption = Constants.WINDOW_CAPTION
         self.window_width = 600
         self.window_height = 600
         self.window_background_color = [60/255, 67/255, 78/255]
@@ -58,6 +60,7 @@ class Settings(Config):
             self.cube_face_rotation_tween_time = self.get_value(cube, ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_padding = self.get_value(cube, ['padding'], self.cube_padding)
             self.cube_line_width = self.get_value(cube, ['line_width'], self.cube_line_width)
+            self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
 
         if prop_fps in settings:

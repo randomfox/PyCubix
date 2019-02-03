@@ -1,6 +1,8 @@
 from enums import *
 
 class Constants:
+    WINDOW_CAPTION = 'PyCubix'
+
     KNOWN_NOTATIONS = [
         "F",
         "F'",
