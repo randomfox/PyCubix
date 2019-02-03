@@ -11,6 +11,10 @@ from constants import Constants
 from helpers import LittleHelpers
 
 class App:
+    KEY_BACKSPACE = 8
+    KEY_RETURN = 13
+    KEY_ESCAPE = 27
+
     def __init__(self, settings, subscriber):
         self.settings = settings
         self.subscriber = subscriber
@@ -39,7 +43,7 @@ class App:
         glutVisibilityFunc(self.on_visibility_change)
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
-        # glutCloseFunc(self.on_close_window)
+        glutCloseFunc(self.on_close_window)
 
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
@@ -68,10 +72,10 @@ class App:
         print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
 
     def exit_app(self):
-        pass
+        self.subscriber.stop()
 
     def on_close_window(self):
-        pass
+        self.exit_app()
 
     def on_reshape_window(self, w, h):
         if h == 0:
@@ -95,15 +99,14 @@ class App:
         ch = key.decode("utf-8")
 
         # exit app on q or ESC:
-        if ch == 'q' or ch == chr(27):
-            self.subscriber.stop()
+        if ch == 'q' or ch == chr(self.KEY_ESCAPE):
+            self.exit_app()
             sys.exit()
-            # self.exit_app()
         # reset cube:
-        elif ch == chr(8):
+        elif ch == chr(self.KEY_BACKSPACE):
             self.cube.reset()
         # reset scale and rotation:
-        elif ch == chr(13):
+        elif ch == chr(self.KEY_RETURN):
             self.cube.reset_rotation()
             self.cube.reset_scale()
         # stop rotation:
