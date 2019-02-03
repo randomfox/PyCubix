@@ -11,7 +11,7 @@ from OpenGL.GLUT import *
 from quat import *
 from geometry import *
 from math import *
-from collections import deque
+from queue import Queue
 from tween import Tween
 from geometry import Geometry
 from enums import State, FaceRotation
@@ -40,7 +40,7 @@ class Cube:
     def reset(self):
         self.geometry = Geometry()
         self.geometry.add_padding(self.padding)
-        self.queued_face_rotations = deque()
+        self.queued_face_rotations = Queue(0)
         self.tween = Tween()
         self.state = State.IDLE
         self.current_face_rotation = None
@@ -92,7 +92,7 @@ class Cube:
 
     def append_face_rotation(self, face_rotation):
         if type(face_rotation) == FaceRotation:
-            self.queued_face_rotations.append(face_rotation)
+            self.queued_face_rotations.put(face_rotation)
 
     def scramble(self, face_rotations):
         theta = pi / 2
@@ -103,11 +103,9 @@ class Cube:
         self.geometry.set_colors(front_color, back_color, left_color, right_color, up_color, down_color)
 
     def update_queue(self):
-        if self.state == State.TWEENING:
+        if self.state == State.TWEENING or self.queued_face_rotations.empty():
             return
-        if len(self.queued_face_rotations) == 0:
-            return
-        self.current_face_rotation = self.queued_face_rotations.popleft()
+        self.current_face_rotation = self.queued_face_rotations.get_nowait()
         self.state = State.TWEENING
         self.tween.tween(0.0, pi/2, self.face_rotation_tween_time)
 

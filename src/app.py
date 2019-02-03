@@ -160,7 +160,7 @@ class App:
     def on_update(self):
         self.delta_time.update()
         self.cube.update(self.delta_time.elapsed())
-        self.read_message_queue()
+        # self.read_message_queue()
         glutPostRedisplay()
 
     def on_display(self):
