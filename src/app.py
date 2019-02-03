@@ -71,11 +71,11 @@ class App:
         print("* GL_VENDOR     : ", glGetString(GL_VENDOR))
         print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
 
-    def exit_app(self):
+    def prepare_exit(self):
         self.subscriber.stop()
 
     def on_close_window(self):
-        self.exit_app()
+        self.prepare_exit()
 
     def on_reshape_window(self, w, h):
         if h == 0:
@@ -100,7 +100,7 @@ class App:
 
         # exit app on q or ESC:
         if ch == 'q' or ch == chr(self.KEY_ESCAPE):
-            self.exit_app()
+            self.prepare_exit()
             sys.exit()
         # reset cube:
         elif ch == chr(self.KEY_BACKSPACE):
@@ -213,6 +213,9 @@ class App:
         if message == None:
             return
         print('message_handler', message)
+        if message == 'quit()' or message == 'exit()':
+            self.prepare_exit()
+            sys.exit()
 
     def test(self):
         pass
