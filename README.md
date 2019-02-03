@@ -13,8 +13,8 @@ Glut:
 
 The following Python modules are needed to run this program:
 - [NumPy](http://www.numpy.org/)
-- [PyOpenGL](pyopengl.sourceforge.net/). See also: [OpenGL](https://www.opengl.org/)
-- [Paho MQTT](https://pypi.org/project/paho-mqtt/). See also: [Eclipse Paho](https://www.eclipse.org/paho/)
+- [PyOpenGL](pyopengl.sourceforge.net/), see also [OpenGL](https://www.opengl.org/)
+- [Paho MQTT](https://pypi.org/project/paho-mqtt/), see also [Eclipse Paho](https://www.eclipse.org/paho/)
 
 ## Installation
 
@@ -85,7 +85,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "draw_lines": false,
             "padding": 0.3,
             "line_width": 2,
-            "sphere_color": [0, 0, 0],
+            "sphere_color": [0.0, 0.0, 0.0],
             "face_rotation_tween_time": 0.5
         }
     }
