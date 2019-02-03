@@ -134,10 +134,7 @@ class App:
             moves = LittleHelpers.expand_notations(pattern.split(' '))
             self.scramble_cube(moves)
         elif ch == '2':
-            pattern = LittleHelpers.get_random_pattern()
-            moves = LittleHelpers.expand_notations(pattern.split(' '))
-            face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
-            self.append_face_rotations(face_rotations)
+            self.apply_random_pattern()
         elif ch == '0':
             str = "front:blue, back:green, left:red, right:orange, up:white, down:yellow"
             self.set_cube_color_orientation(str)
@@ -221,6 +218,12 @@ class App:
         down_color = LittleHelpers.get_color_value_by_color(map.get(Face.DOWN))
         self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
 
+    def apply_random_pattern(self):
+        pattern = LittleHelpers.get_random_pattern()
+        moves = LittleHelpers.expand_notations(pattern.split(' '))
+        face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
+        self.append_face_rotations(face_rotations)
+
     def check_message_queue(self):
         if self.subscriber.has_pending_messages():
             message = self.subscriber.get_message()
@@ -262,6 +265,9 @@ class App:
 
         elif cmd == 'stop_cube_rotation':
             self.cube.stop_rotation()
+
+        elif cmd == 'apply_random_pattern':
+            self.apply_random_pattern()
 
         elif cmd == 'add_rotation_x':
             if num_parts == 2:

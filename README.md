@@ -124,6 +124,7 @@ Standalone commands:
 - `reset_cube_rotation`: Reset the cube's rotation
 - `reset_cube_scale`: Reset the cube's scale
 - `stop_cube_rotation`: Stop the cube's rotation
+- `apply_random_pattern`: Apply a random pattern from the pattern database (***)
 - `quit` or `exit`: Quit/exit application
 
 Commands with parameters:
@@ -132,6 +133,8 @@ Commands with parameters:
 - `rotate_face = <list_of_faces_to_be_rotated>`: Rotate one or more faces of the cube using the Rubik's cube notation. The cube is not reset before executing the moves. Example: `rotate_face = R U R' U'`
 - `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube is reset first and then the faces are rotated INSTANTLY (within the same frame), meaning that the the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`
 - `set_color_orientation = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
+
+It's also possible to put more than one command in a single message. The commands need to be separated by a semicolon though. Example: `reset_cube;apply_random_pattern`
 
 ## What else is there?
 
@@ -146,6 +149,10 @@ Commands with parameters:
 
 Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the moment.
 
-## Tested on the following systems
+## Tested on the following operating systems
+
 - Ubuntu 18.04
-- Raspberry Pi
+- Raspbian
+
+*** The database is a lie.
+
