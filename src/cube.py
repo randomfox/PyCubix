@@ -18,13 +18,14 @@ from enums import State, FaceRotation
 from constants import Constants
 
 class Cube:
-    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines, line_width):
+    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines, line_width, sphere_color):
         self.padding = initial_padding
         self.face_rotation_tween_time = face_rotation_tween_time
         self.draw_stickers = draw_stickers
         self.draw_sphere = draw_sphere
         self.draw_lines = draw_lines
         self.line_width = line_width
+        self.sphere_color = sphere_color
 
         self.rot_x = 0
         self.rot_y = 0
@@ -282,7 +283,7 @@ class Cube:
                     piece[i] = y_rot(piece[i], theta)
 
     def render_sphere(self):
-        glColor3f(0, 0, 0)
+        glColor3f(self.sphere_color[0], self.sphere_color[1], self.sphere_color[2])
         glutSolidSphere(self.sphere_radius, self.sphere_slices, self.sphere_stacks)
 
     def render_lines(self):

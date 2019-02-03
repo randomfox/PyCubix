@@ -11,6 +11,7 @@ class Settings(Config):
         self.cube_face_rotation_tween_time = 0.5
         self.cube_padding = 0.3
         self.cube_line_width = 2.0
+        self.cube_sphere_color = [1, 0, 1]
 
         # fps settings
         self.fps_update_interval = 10
@@ -25,7 +26,7 @@ class Settings(Config):
         self.window_caption = 'PyCubix'
         self.window_width = 600
         self.window_height = 600
-        self.window_background_color = (60/255, 67/255, 78/255)
+        self.window_background_color = [60/255, 67/255, 78/255]
 
     def load(self, filename):
         config = self.load_json(filename)
@@ -57,6 +58,7 @@ class Settings(Config):
             self.cube_face_rotation_tween_time = self.get_value(cube, ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_padding = self.get_value(cube, ['padding'], self.cube_padding)
             self.cube_line_width = self.get_value(cube, ['line_width'], self.cube_line_width)
+            self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
 
         if prop_fps in settings:
             fps = settings[prop_fps]
