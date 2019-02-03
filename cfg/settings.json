@@ -1,10 +1,10 @@
 {
     "settings": {
-        "server": {
+        "subscriber": {
             "start": true,
-            "host": "127.0.0.1",
-            "port": 8000,
-            "recv_bufsize": 1024
+            "broker": "127.0.0.1",
+            "port": 1883,
+            "topic": "pycubix"
         },
         "fps": {
             "update_interval": 10

@@ -11,8 +11,10 @@ from constants import Constants
 from cube_helpers import CubeHelpers
 
 class App:
-    def __init__(self, settings):
+    def __init__(self, settings, subscriber):
         self.settings = settings
+        self.subscriber = subscriber
+
         self.delta_time = DeltaTime()
         print(self.settings)
         self.fps = Fps(self.settings.fps_update_interval)
@@ -94,6 +96,7 @@ class App:
 
         # exit app on q or ESC:
         if ch == 'q' or ch == chr(27):
+            self.subscriber.stop()
             sys.exit()
             # self.exit_app()
         # reset cube:
@@ -160,7 +163,7 @@ class App:
     def on_update(self):
         self.delta_time.update()
         self.cube.update(self.delta_time.elapsed())
-        # self.read_message_queue()
+        self.check_message_queue()
         glutPostRedisplay()
 
     def on_display(self):
@@ -198,15 +201,15 @@ class App:
         down_color = CubeHelpers.get_color_value_by_color(map.get(Face.DOWN))
         self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
 
-    def read_message_queue(self):
-        pass
-        # message = self.server_control.get_message()
-        # if message != None:
-        #     self.handle_message(message)
+    def check_message_queue(self):
+        if self.subscriber.has_pending_messages():
+            message = self.subscriber.get_message()
+            self.handle_message(message)
 
     def handle_message(self, message):
-        pass
-        # print('handling_message', message)
+        if message == None:
+            return
+        print('message_handler', message)
 
     def test(self):
         pass

@@ -15,11 +15,11 @@ class Settings(Config):
         # fps settings
         self.fps_update_interval = 10
 
-        # server settings
-        self.server_start = True
-        self.server_host = '127.0.0.1'
-        self.server_port = 8000
-        self.server_recv_bufsize = 1024
+        # subscriber settings
+        self.subscriber_start = True
+        self.subscriber_broker = '127.0.0.1'
+        self.subscriber_port = 1883
+        self.subscriber_topic = 'test'
 
         # window settings
         self.window_caption = 'PyCubix'
@@ -42,7 +42,7 @@ class Settings(Config):
         prop_settings = 'settings'
         prop_cube = 'cube'
         prop_fps = 'fps'
-        prop_server = 'server'
+        prop_subscriber = 'subscriber'
         prop_window = 'window'
 
         if not config or prop_settings not in config:
@@ -62,12 +62,12 @@ class Settings(Config):
             fps = settings[prop_fps]
             self.fps_update_interval = self.get_value(fps, ['update_interval'], self.fps_update_interval)
 
-        if prop_server in settings:
-            server = settings[prop_server]
-            self.server_start = self.get_value(server, ['start'], self.server_start)
-            self.server_host = self.get_value(server, ['host'], self.server_host)
-            self.server_post = self.get_value(server, ['port'], self.server_port)
-            self.server_recv_bufsize = self.get_value(server, ['recv_bufsize'], self.server_recv_bufsize)
+        if prop_subscriber in settings:
+            subscriber = settings[prop_subscriber]
+            self.subscriber_start = self.get_value(subscriber, ['start'], self.subscriber_start)
+            self.subscriber_broker = self.get_value(subscriber, ['broker'], self.subscriber_broker)
+            self.subscriber_port = self.get_value(subscriber, ['port'], self.subscriber_port)
+            self.subscriber_topic = self.get_value(subscriber, ['topic'], self.subscriber_topic)
 
         if prop_fps in settings:
             fps = settings[prop_fps]
