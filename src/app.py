@@ -64,6 +64,7 @@ class App:
         inner_color = self.settings.cube_inner_color
         sphere_color = self.settings.cube_sphere_color
         self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
+        self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
 
     def run(self):
         glutMainLoop()
@@ -126,8 +127,8 @@ class App:
             face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
             self.append_face_rotations(face_rotations)
         elif ch == '0':
-            str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
-            self.set_cube_color_orienation(str)
+            str = "front:blue, back:green, left:red, right:orange, up:white, down:yellow"
+            self.set_cube_color_orientation(str)
 
         scale = None
         if ch == '+':
@@ -196,8 +197,8 @@ class App:
         self.cube.scramble(face_rotations)
 
     # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
-    def set_cube_color_orienation(self, str):
-        map = LittleHelpers.translate_cube_color_orienation(str)
+    def set_cube_color_orientation(self, str):
+        map = LittleHelpers.translate_cube_color_orientation(str)
         if len(map) != 6:
             return
         front_color = LittleHelpers.get_color_value_by_color(map.get(Face.FRONT))
@@ -263,15 +264,15 @@ class App:
                     self.cube.inc_rotate_y(value * self.delta_time.elapsed())
 
         elif cmd == 'rotate_face':
-            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+            moves = LittleHelpers.expand_notations(parts[1].split(' '))
             self.add_moves(moves)
 
         elif cmd == 'scramble':
-            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+            moves = LittleHelpers.expand_notations(parts[1].split(' '))
             self.scramble_cube(moves)
 
         elif cmd == 'set_color_orientation':
-            self.set_cube_color_orienation(parts[1].upper())
+            self.set_cube_color_orientation(parts[1])
 
         else:
             print('Unknown command:', cmd)

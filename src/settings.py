@@ -14,6 +14,7 @@ class Settings(Config):
         self.cube_line_width = 2.0
         self.cube_inner_color = [0.0, 0.0, 0.0]
         self.cube_sphere_color = [0.0, 0.0, 0.0]
+        self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
 
         # fps settings
         self.fps_update_interval = 10
@@ -62,6 +63,7 @@ class Settings(Config):
             self.cube_line_width = self.get_value(cube, ['line_width'], self.cube_line_width)
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
+            self.cube_color_orientation_str = self.get_value(cube, ['color_orientation_string'], self.cube_color_orientation_str)
 
         if prop_fps in settings:
             fps = settings[prop_fps]

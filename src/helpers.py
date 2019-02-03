@@ -46,6 +46,7 @@ class LittleHelpers:
     # expand notations like "R2" to "R R"
     # not supported are notations like "R2'"
     def expand_notations(str):
+        str = str.upper()
         expanded_notations = []
         for move in str:
             length = len(move)
@@ -60,11 +61,11 @@ class LittleHelpers:
     # string format: "FACE1:COLOR1, FACE2:COLOR2, ...]
     # e.g. "FRONT:BLUE,BACK:GREEN,UP:WHITE, ..."
     @staticmethod
-    def translate_cube_color_orienation(str):
-        color_orientation = {}
-        arr = str.split(",")
+    def translate_cube_color_orientation(str):
+        arr = str.upper().split(",")
         if len(arr) != 6:
             return {}
+        color_orientation = {}
         for face_to_color in arr:
             face_and_color = face_to_color.split(":")
             if len(face_and_color) != 2:
