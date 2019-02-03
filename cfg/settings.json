@@ -1,7 +1,7 @@
 {
     "settings": {
         "server": {
-            "start": false,
+            "start": true,
             "host": "127.0.0.1",
             "port": 8000,
             "recv_bufsize": 1024

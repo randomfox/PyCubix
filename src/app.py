@@ -1,3 +1,4 @@
+import time
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -10,9 +11,8 @@ from constants import Constants
 from cube_helpers import CubeHelpers
 
 class App:
-    def __init__(self, settings, server_control):
+    def __init__(self, settings):
         self.settings = settings
-        self.server_control = server_control
         self.delta_time = DeltaTime()
         print(self.settings)
         self.fps = Fps(self.settings.fps_update_interval)
@@ -37,6 +37,7 @@ class App:
         glutVisibilityFunc(self.on_visibility_change)
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
+        # glutCloseFunc(self.on_close_window)
 
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
@@ -64,6 +65,12 @@ class App:
         print("* GL_VENDOR     : ", glGetString(GL_VENDOR))
         print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
 
+    def exit_app(self):
+        pass
+
+    def on_close_window(self):
+        pass
+
     def on_reshape_window(self, w, h):
         if h == 0:
             h = 1
@@ -88,6 +95,7 @@ class App:
         # exit app on q or ESC:
         if ch == 'q' or ch == chr(27):
             sys.exit()
+            # self.exit_app()
         # reset cube:
         elif ch == chr(8):
             self.cube.reset()
@@ -152,6 +160,7 @@ class App:
     def on_update(self):
         self.delta_time.update()
         self.cube.update(self.delta_time.elapsed())
+        self.read_message_queue()
         glutPostRedisplay()
 
     def on_display(self):
@@ -188,6 +197,16 @@ class App:
         up_color = CubeHelpers.get_color_value_by_color(map.get(Face.UP))
         down_color = CubeHelpers.get_color_value_by_color(map.get(Face.DOWN))
         self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
+
+    def read_message_queue(self):
+        pass
+        # message = self.server_control.get_message()
+        # if message != None:
+        #     self.handle_message(message)
+
+    def handle_message(self, message):
+        pass
+        # print('handling_message', message)
 
     def test(self):
         pass
