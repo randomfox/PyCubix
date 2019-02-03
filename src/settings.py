@@ -73,6 +73,14 @@ class Settings(Config):
             fps = settings[prop_fps]
             self.fps_update_interval = self.get_value(fps, ['update_interval'], self.fps_update_interval)
 
+        if prop_window in settings:
+            window = settings[prop_window]
+            self.window_caption = self.get_value(window, ['caption'], self.window_caption)
+            self.window_width = self.get_value(window['size'], ['width'], self.window_width)
+            self.window_height = self.get_value(window['size'], ['height'], self.window_height)
+            self.window_background_color = self.get_value(window, ['background_color'], self.window_background_color)
+            print('color', self.window_background_color)
+
     def get_value(self, property, keys, default=None):
         t = property
         for key in keys:

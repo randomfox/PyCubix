@@ -11,7 +11,7 @@
         },
         "window": {
             "caption": "PyCubix",
-            "background_color": "1024",
+            "background_color": [0.235, 0.263, 0.306],
             "size": {
                 "width": 600,
                 "height": 600
@@ -21,7 +21,7 @@
             "draw_stickers": true,
             "draw_sphere": true,
             "draw_lines": false,
-            "paddingx": 0.3,
+            "padding": 0.3,
             "line_width": 2,
             "face_rotation_tween_time": 0.5
         }
