@@ -74,7 +74,6 @@ class App:
             right_color = self.settings.cube_face_colors['red']
             up_color = self.settings.cube_face_colors['yellow']
             down_color = self.settings.cube_face_colors['white']
-            print('fucking front_color', front_color)
             self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
         except:
             print('WTF. Check your colors.')
