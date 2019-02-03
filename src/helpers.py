@@ -38,6 +38,8 @@ class LittleHelpers:
             face_rotation = LittleHelpers.get_face_rotation_by_notation(move)
             if face_rotation != None:
                 face_rotations.append(face_rotation)
+            else:
+                return None
         return face_rotations
 
     @staticmethod
@@ -97,4 +99,12 @@ class LittleHelpers:
     @staticmethod
     def get_random_pattern():
         return random.choice(LittleHelpers.get_patterns())
+
+    @staticmethod
+    def convert_str_to_float(str, default=None):
+        try:
+            return float(str)
+        except ValueError:
+            print('WTF: Given value cannot be converted to a float.')
+        return default
 

@@ -181,7 +181,8 @@ class App:
 
     def add_moves(self, moves):
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
-        self.append_face_rotations(face_rotations)
+        if face_rotations:
+            self.append_face_rotations(face_rotations)
 
     def append_face_rotations(self, face_rotations):
         for face_rotation in face_rotations:
@@ -211,20 +212,24 @@ class App:
             message = self.subscriber.get_message()
             if message == None:
                 return
-            commands = message.split(self.command_delimiter)
+            commands = message.strip().split(self.command_delimiter)
             for command in commands:
                 self.handle_command(command)
 
     # :TODO: clean up this mess
     def handle_command(self, command):
-        print('Message handler', command)
+        # print('Message handler |{}|'.format(command))
         if not command:
             return
 
-        parts = command.split(' ')
+        parts = command.split('=')
+
         num_parts = len(parts)
         if num_parts == 0:
             return
+
+        for index, part in enumerate(parts):
+            parts[index] = part.strip()
 
         cmd = parts[0]
 
@@ -244,25 +249,31 @@ class App:
         elif cmd == 'stop_cube_rotation':
             self.cube.stop_rotation()
 
-        elif cmd == 'rotate_cube_x':
+        elif cmd == 'add_rotation_x':
             if num_parts == 2:
-                value = float(parts[1])
-                self.cube.inc_rotate_x(value * self.delta_time.elapsed())
+                value = LittleHelpers.convert_str_to_float(parts[1])
+                if value:
+                    self.cube.inc_rotate_x(value * self.delta_time.elapsed())
 
-        elif cmd == 'rotate_cube_y':
+        elif cmd == 'add_rotation_y':
             if num_parts == 2:
-                value = float(parts[1])
-                self.cube.inc_rotate_y(value * self.delta_time.elapsed())
+                value = LittleHelpers.convert_str_to_float(parts[1])
+                if value:
+                    self.cube.inc_rotate_y(value * self.delta_time.elapsed())
 
-        elif cmd == 'rotate_cube_face':
-            print('recv rotate_cube_face')
+        elif cmd == 'rotate_face':
+            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+            self.add_moves(moves)
 
-        elif cmd == 'set_cube_color_orientation':
-            print('recv set_cube_color_orientation')
+        elif cmd == 'scramble':
+            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+            self.scramble_cube(moves)
 
-        # rotate_face: F R U
-        # str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
-        # self.set_cube_color_orienation(str)
+        elif cmd == 'set_color_orientation':
+            self.set_cube_color_orienation(parts[1].upper())
+
+        else:
+            print('Unknown command:', cmd)
 
     def test(self):
         pass
