@@ -13,8 +13,8 @@ Glut:
 
 The following Python modules are needed to run this program:
 - [NumPy](http://www.numpy.org/)
-- [PyOpenGL](pyopengl.sourceforge.net/) (see also: [OpenGL](https://www.opengl.org/))
-- [Paho MQTT]https://pypi.org/project/paho-mqtt/ (see also: [Eclipse Paho](https://www.eclipse.org/paho/))
+- [PyOpenGL](pyopengl.sourceforge.net/). See also: [OpenGL](https://www.opengl.org/)
+- [Paho MQTT](https://pypi.org/project/paho-mqtt/). See also: [Eclipse Paho](https://www.eclipse.org/paho/)
 
 ## Installation
 
@@ -102,9 +102,8 @@ See also [How to Install and Secure the Mosquitto MQTT Messaging Broker](https:/
 ### Publish (send) a message to the application via a terminal
 
 `$ mosquitto_pub -h localhost -t pycubix -m "add_rotation_x = 0.73"`
-where -h is used to specify the hostname of the MQTT server and -t is the name of the topic.
 
-MQTT topic: pycubix
+Where -h is used to specify the hostname of the MQTT server and -t is the name of the topic.
 
 Using `iot.eclipse.org` for instance also works fine as a host.
 
