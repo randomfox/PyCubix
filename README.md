@@ -155,7 +155,7 @@ Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the mo
 ## Tested on the following operating systems
 
 - Ubuntu 18.04
-- Raspbian
+- Raspbian 9 (Stretch)
 
 *** The database is a lie.
 
