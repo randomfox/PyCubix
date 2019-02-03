@@ -87,7 +87,8 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "line_width": 4,
             "face_rotation_tween_time": 0.5,
             "inner_color": [0.0, 0.0, 0.0],
-            "sphere_color": [0.0, 0.0, 0.0]
+            "sphere_color": [0.0, 0.0, 0.0],
+            "color_orientation_string": "front:blue, back:green, right:red, left:orange, up:yellow, down:white"
         }
     }
 }`
