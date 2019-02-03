@@ -20,9 +20,10 @@ class App:
         self.subscriber = subscriber
 
         self.delta_time = DeltaTime()
-        print(self.settings)
         self.fps = Fps(self.settings.fps_update_interval)
         self.show_fps = True
+
+        self.command_delimiter = ';'
 
         self.init_opengl()
         self.init_cube()
@@ -208,15 +209,60 @@ class App:
     def check_message_queue(self):
         if self.subscriber.has_pending_messages():
             message = self.subscriber.get_message()
-            self.handle_message(message)
+            if message == None:
+                return
+            commands = message.split(self.command_delimiter)
+            for command in commands:
+                self.handle_command(command)
 
-    def handle_message(self, message):
-        if message == None:
+    # :TODO: clean up this mess
+    def handle_command(self, command):
+        print('Message handler', command)
+        if not command:
             return
-        print('message_handler', message)
-        if message == 'quit()' or message == 'exit()':
+
+        parts = command.split(' ')
+        num_parts = len(parts)
+        if num_parts == 0:
+            return
+
+        cmd = parts[0]
+
+        if cmd == 'quit' or cmd == 'exit':
             self.prepare_exit()
             sys.exit()
+
+        elif cmd == 'reset_cube':
+            self.cube.reset()
+
+        elif cmd == 'reset_cube_rotation':
+            self.cube.reset_rotation()
+
+        elif cmd == 'reset_cube_scale':
+            self.cube.reset_scale()
+
+        elif cmd == 'stop_cube_rotation':
+            self.cube.stop_rotation()
+
+        elif cmd == 'rotate_cube_x':
+            if num_parts == 2:
+                value = float(parts[1])
+                self.cube.inc_rotate_x(value * self.delta_time.elapsed())
+
+        elif cmd == 'rotate_cube_y':
+            if num_parts == 2:
+                value = float(parts[1])
+                self.cube.inc_rotate_y(value * self.delta_time.elapsed())
+
+        elif cmd == 'rotate_cube_face':
+            print('recv rotate_cube_face')
+
+        elif cmd == 'set_cube_color_orientation':
+            print('recv set_cube_color_orientation')
+
+        # rotate_face: F R U
+        # str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
+        # self.set_cube_color_orienation(str)
 
     def test(self):
         pass
