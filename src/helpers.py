@@ -46,7 +46,7 @@ class LittleHelpers:
     # expand notations like "R2" to "R R"
     # not supported are notations like "R2'"
     def expand_notations(str):
-        str = str.upper()
+        str = str
         expanded_notations = []
         for move in str:
             length = len(move)

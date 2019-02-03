@@ -125,16 +125,16 @@ Commands with parameters:
 - `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube is reset first and then the faces are rotated INSTANTLY (within the same frame), meaning that the the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`
 - `set_color_orientation = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
 
-## What else?
+## What else is there?
 
 ### List of known notations
 
-- F F' F2
-- B B' B2
-- U U' U2
-- D D' D2
-- L L' L2
-- R R' R2
+- Front face: F F' F2
+- Back face: B B' B2
+- Left face: L L' L2
+- Right face: R R' R2
+- Up face: U U' U2
+- Down face: D D' D2
 
 Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the moment.
 

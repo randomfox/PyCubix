@@ -66,6 +66,19 @@ class App:
         self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
         self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
 
+        # this is a hack, more or less, but it is how it is.
+        try:
+            front_color = self.settings.cube_face_colors['blue']
+            back_color = self.settings.cube_face_colors['green']
+            left_color = self.settings.cube_face_colors['orange']
+            right_color = self.settings.cube_face_colors['red']
+            up_color = self.settings.cube_face_colors['yellow']
+            down_color = self.settings.cube_face_colors['white']
+            print('fucking front_color', front_color)
+            self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
+        except:
+            print('WTF. Check your colors.')
+
     def run(self):
         glutMainLoop()
 
@@ -198,7 +211,7 @@ class App:
 
     # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
     def set_cube_color_orientation(self, str):
-        map = LittleHelpers.translate_cube_color_orientation(str)
+        map = LittleHelpers.translate_cube_color_orientation(str.upper())
         if len(map) != 6:
             return
         front_color = LittleHelpers.get_color_value_by_color(map.get(Face.FRONT))
@@ -264,11 +277,11 @@ class App:
                     self.cube.inc_rotate_y(value * self.delta_time.elapsed())
 
         elif cmd == 'rotate_face':
-            moves = LittleHelpers.expand_notations(parts[1].split(' '))
+            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
             self.add_moves(moves)
 
         elif cmd == 'scramble':
-            moves = LittleHelpers.expand_notations(parts[1].split(' '))
+            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
             self.scramble_cube(moves)
 
         elif cmd == 'set_color_orientation':

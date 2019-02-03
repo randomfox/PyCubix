@@ -15,6 +15,14 @@ class Settings(Config):
         self.cube_inner_color = [0.0, 0.0, 0.0]
         self.cube_sphere_color = [0.0, 0.0, 0.0]
         self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
+        self.cube_face_colors = {
+            "blue": [0.066, 0.490, 0.988],
+            "orange": [0.996, 0.549, 0.184],
+            "green": [0.102, 0.878, 0.133],
+            "red": [0.855, 0.082, 0.102],
+            "yellow": [0.961, 1.000, 0.204],
+            "white": [1.000, 1.000, 1.000]
+        }
 
         # fps settings
         self.fps_update_interval = 10
@@ -33,7 +41,7 @@ class Settings(Config):
 
     def load(self, filename):
         config = self.load_json(filename)
-        self.print(config)
+        # self.print(config)
         self.assign(config)
 
     def print(self, config):
@@ -64,6 +72,7 @@ class Settings(Config):
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
             self.cube_color_orientation_str = self.get_value(cube, ['color_orientation_string'], self.cube_color_orientation_str)
+            self.cube_face_colors = self.get_value(cube, ['face_colors'], self.cube_face_colors)
 
         if prop_fps in settings:
             fps = settings[prop_fps]
@@ -86,7 +95,6 @@ class Settings(Config):
             self.window_width = self.get_value(window['size'], ['width'], self.window_width)
             self.window_height = self.get_value(window['size'], ['height'], self.window_height)
             self.window_background_color = self.get_value(window, ['background_color'], self.window_background_color)
-            print('color', self.window_background_color)
 
     def get_value(self, property, keys, default=None):
         t = property
