@@ -1,7 +1,7 @@
 from constants import Constants
 import random
 
-class CubeHelpers:
+class LittleHelpers:
     @staticmethod
     def is_known_notation(str):
         for move in Constants.KNOWN_NOTATIONS:
@@ -35,7 +35,7 @@ class CubeHelpers:
     def translate_moves_to_face_rotations(moves):
         face_rotations = []
         for move in moves:
-            face_rotation = CubeHelpers.get_face_rotation_by_notation(move)
+            face_rotation = LittleHelpers.get_face_rotation_by_notation(move)
             if face_rotation != None:
                 face_rotations.append(face_rotation)
         return face_rotations
@@ -96,5 +96,5 @@ class CubeHelpers:
 
     @staticmethod
     def get_random_pattern():
-        return random.choice(CubeHelpers.get_patterns())
+        return random.choice(LittleHelpers.get_patterns())
 

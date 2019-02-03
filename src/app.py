@@ -8,7 +8,7 @@ from delta_time import DeltaTime
 from fps import Fps
 from enums import *
 from constants import Constants
-from cube_helpers import CubeHelpers
+from helpers import LittleHelpers
 
 class App:
     def __init__(self, settings, subscriber):
@@ -111,13 +111,13 @@ class App:
             self.cube.stop_rotation()
         # test scramble
         elif ch == '1':
-            pattern = CubeHelpers.get_random_pattern()
-            moves = CubeHelpers.expand_notations(pattern.split(' '))
+            pattern = LittleHelpers.get_random_pattern()
+            moves = LittleHelpers.expand_notations(pattern.split(' '))
             self.scramble_cube(moves)
         elif ch == '2':
-            pattern = CubeHelpers.get_random_pattern()
-            moves = CubeHelpers.expand_notations(pattern.split(' '))
-            face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+            pattern = LittleHelpers.get_random_pattern()
+            moves = LittleHelpers.expand_notations(pattern.split(' '))
+            face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
             self.append_face_rotations(face_rotations)
         elif ch == '0':
             str = "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
@@ -175,7 +175,7 @@ class App:
             self.fps.update()
 
     def add_moves(self, moves):
-        face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+        face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
 
     def append_face_rotations(self, face_rotations):
@@ -184,21 +184,21 @@ class App:
 
     # moves: array
     def scramble_cube(self, moves):
-        face_rotations = CubeHelpers.translate_moves_to_face_rotations(moves)
+        face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.reset()
         self.cube.scramble(face_rotations)
 
     # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
     def set_cube_color_orienation(self, str):
-        map = CubeHelpers.translate_cube_color_orienation(str)
+        map = LittleHelpers.translate_cube_color_orienation(str)
         if len(map) != 6:
             return
-        front_color = CubeHelpers.get_color_value_by_color(map.get(Face.FRONT))
-        back_color = CubeHelpers.get_color_value_by_color(map.get(Face.BACK))
-        left_color = CubeHelpers.get_color_value_by_color(map.get(Face.LEFT))
-        right_color = CubeHelpers.get_color_value_by_color(map.get(Face.RIGHT))
-        up_color = CubeHelpers.get_color_value_by_color(map.get(Face.UP))
-        down_color = CubeHelpers.get_color_value_by_color(map.get(Face.DOWN))
+        front_color = LittleHelpers.get_color_value_by_color(map.get(Face.FRONT))
+        back_color = LittleHelpers.get_color_value_by_color(map.get(Face.BACK))
+        left_color = LittleHelpers.get_color_value_by_color(map.get(Face.LEFT))
+        right_color = LittleHelpers.get_color_value_by_color(map.get(Face.RIGHT))
+        up_color = LittleHelpers.get_color_value_by_color(map.get(Face.UP))
+        down_color = LittleHelpers.get_color_value_by_color(map.get(Face.DOWN))
         self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
 
     def check_message_queue(self):
