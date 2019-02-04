@@ -1,5 +1,5 @@
 """ cube
-Original Author: Michael King
+Originally PyCube written by Michael King
 
 Based and modified from original version found at:
 http://stackoverflow.com/questions/30745703/rotating-a-cube-using-quaternions-in-pyopengl
@@ -8,17 +8,18 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-from quat import *
-from geometry import *
 from math import *
+import numpy as np
 from queue import Queue
-from tween import Tween
-from geometry import Geometry
-from enums import State, FaceRotation
+
 from constants import Constants
+from enums import State, FaceRotation
+from geometry import Geometry
+from quat import *
+from tween import Tween
 
 class Cube:
-    def __init__(self, initial_padding, face_rotation_tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color):
+    def __init__(self, initial_padding, face_rotation_tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, angular_drag):
         self.padding = initial_padding
         self.face_rotation_tween_time = face_rotation_tween_time
         self.draw_cubies = draw_cubies
@@ -27,6 +28,7 @@ class Cube:
         self.line_width = line_width
         self.inner_color = inner_color
         self.sphere_color = sphere_color
+        self.angular_drag = angular_drag
 
         self.rot_x = 0
         self.rot_y = 0
@@ -48,6 +50,9 @@ class Cube:
         self.current_face_rotation = None
 
     def update(self, elapsed_time):
+        self.rot_x -= abs(self.rot_x) * self.angular_drag * elapsed_time * np.sign(self.rot_x)
+        self.rot_y -= abs(self.rot_y) * self.angular_drag * elapsed_time * np.sign(self.rot_y)
+
         rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.rot_x))
         rot_y = normalize(axisangle_to_q((0.0, 1.0, 0.0), self.rot_y))
 

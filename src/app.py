@@ -66,7 +66,8 @@ class App:
         line_width = self.settings.cube_line_width
         inner_color = self.settings.cube_inner_color
         sphere_color = self.settings.cube_sphere_color
-        self.cube = Cube(padding, tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
+        angular_drag = self.settings.cube_angular_drag
+        self.cube = Cube(padding, tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, angular_drag)
         self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
 
         # this is a hack, more or less, but it is how it is.

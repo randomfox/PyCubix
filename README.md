@@ -88,10 +88,10 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "draw_lines": false,
             "padding": 0.3,
             "line_width": 4,
-            "face_rotation_tween_time": 0.5,
+            "face_rotation_tween_time": 0.3,
+            "angular_drag": 0.5,
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
-            "color_orientation_string": "front:blue, back:green, right:red, left:orange, up:yellow, down:white",
             "face_colors": {
                 "blue": [0.066, 0.490, 0.988],
                 "orange": [0.996, 0.549, 0.184],
@@ -99,7 +99,8 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "red": [0.855, 0.082, 0.102],
                 "yellow": [0.961, 1.000, 0.204],
                 "white": [1.000, 1.000, 1.000]
-            }
+            },
+            "color_orientation_string": "front:blue, back:green, right:red, left:orange, up:yellow, down:white"
         }
     }
 }`

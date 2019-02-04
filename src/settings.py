@@ -10,11 +10,11 @@ class Settings(Config):
         self.cube_draw_sphere = True
         self.cube_draw_lines = False
         self.cube_face_rotation_tween_time = 0.5
+        self.cube_angular_drag = 0.3
         self.cube_padding = 0.3
         self.cube_line_width = 2.0
         self.cube_inner_color = [0.0, 0.0, 0.0]
         self.cube_sphere_color = [0.0, 0.0, 0.0]
-        self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
         self.cube_face_colors = {
             "blue": [0.066, 0.490, 0.988],
             "orange": [0.996, 0.549, 0.184],
@@ -23,6 +23,7 @@ class Settings(Config):
             "yellow": [0.961, 1.000, 0.204],
             "white": [1.000, 1.000, 1.000]
         }
+        self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
 
         # fps settings
         self.fps_update_interval = 10
@@ -71,6 +72,7 @@ class Settings(Config):
             self.cube_line_width = self.get_value(cube, ['line_width'], self.cube_line_width)
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
+            self.cube_angular_drag = self.get_value(cube, ['angular_drag'], self.cube_angular_drag)
             self.cube_color_orientation_str = self.get_value(cube, ['color_orientation_string'], self.cube_color_orientation_str)
             self.cube_face_colors = self.get_value(cube, ['face_colors'], self.cube_face_colors)
 
