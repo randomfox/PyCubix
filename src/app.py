@@ -202,7 +202,7 @@ class App:
     # moves: array
     def scramble_cube(self, moves):
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
-        self.cube.reset()
+        # self.cube.reset()
         self.cube.scramble(face_rotations)
 
     # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
