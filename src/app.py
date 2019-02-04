@@ -200,6 +200,7 @@ class App:
             self.fps.update()
 
     def add_moves(self, moves):
+        print('add_moves', moves)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         if face_rotations:
             self.append_face_rotations(face_rotations)
@@ -210,6 +211,7 @@ class App:
 
     # moves: array
     def scramble_cube(self, moves):
+        print('scramble_cube', moves)
         moves = LittleHelpers.expand_notations(moves.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
@@ -218,6 +220,7 @@ class App:
         map = LittleHelpers.translate_cube_color_orientation(str.upper())
         if len(map) != 6:
             return
+        print('set_cube_color_orientation', str)
         front_color = LittleHelpers.get_color_value_by_color(map.get(Face.FRONT))
         back_color = LittleHelpers.get_color_value_by_color(map.get(Face.BACK))
         left_color = LittleHelpers.get_color_value_by_color(map.get(Face.LEFT))
@@ -228,6 +231,7 @@ class App:
 
     def apply_random_pattern(self):
         pattern = LittleHelpers.get_random_pattern()
+        print('apply_random_pattern', pattern)
         moves = LittleHelpers.expand_notations(pattern.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
@@ -310,5 +314,4 @@ class App:
             print('Unknown command:', cmd)
 
     def test(self):
-        value = 0.1
-        self.cube.geometry.set_padding(value)
+        pass

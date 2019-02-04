@@ -46,9 +46,11 @@ class LittleHelpers:
                 if move[1] == '2':
                     expanded_notations.append(move[0])
                     expanded_notations.append(move[0])
+                elif move[1] == Constants.PRIME:
+                    expanded_notations.append(move)
             elif length == 3:
-                if move[1] == '2' and move[2] == '\'':
-                    m = move[0] + '\''
+                if move[1] == '2' and move[2] == Constants.PRIME:
+                    m = move[0] + Constants.PRIME
                     expanded_notations.append(m)
                     expanded_notations.append(m)
             else:
@@ -100,11 +102,17 @@ class LittleHelpers:
             Constants.CUBE_IN_CUBE_PATTERN,
             Constants.FOUR_CROSSES_PATTERN,
             Constants.FOUR_SPOTS_PATTERN,
+            Constants.GIFT_BOX_PATTERN,
+            Constants.HI_AGAIN_PATTERN,
+            Constants.HI_ALL_AROUND_PATTERN,
             Constants.PLUS_MINUS_PATTERN,
             Constants.SIX_SPOTS_PATTERN,
+            Constants.SPEEDSOLVER_PATTERN,
             Constants.SUPERFLIP_PATTERN,
             Constants.TETRIS_PATTERN,
-            Constants.VERTICAL_STRIPES_PATTERN
+            Constants.UNION_JACK_PATTERN,
+            Constants.VERTICAL_STRIPES_PATTERN,
+            Constants.WIRE_PATTERN
         ]
 
     @staticmethod
