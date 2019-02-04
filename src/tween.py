@@ -1,3 +1,5 @@
+# Using Robert Penner' easing functions
+# http://robertpenner.com/easing
 from math import *
 
 class Tween:
@@ -37,12 +39,37 @@ class Tween:
             self.elapsed = self.duration
             self.done = True
 
-        value = self.ease_in_sine(self.elapsed, self.begin, self.end, self.duration)
+        # foo = self.ease_in_sine
+        # foo = self.ease_in_quad
+        # foo = self.ease_in_cubic
+        # foo = self.ease_in_circ
+        foo = self.ease_cosine
+        value = foo(self.elapsed, self.begin, self.end, self.duration)
         self.delta = value - self.current
         self.current = value
 
-    # -c * math.cos(t/d * (math.pi/2)) + c + b
+    # -c * cos(t/d * (pi/2)) + c + b
     def ease_in_sine(self, elapsed, begin, end, duration):
         change = end - begin
-        return -change * cos(elapsed/duration * (pi/2)) + change + begin
+        value = elapsed / duration
+        return -change * cos(value * (pi/2)) + change + begin
 
+    def ease_in_quad(self, elapsed, begin, end, duration):
+        change = end - begin
+        value = elapsed / duration
+        return end * value * value + begin
+
+    def ease_in_cubic(self, elapsed, begin, end, duration):
+        change = end - begin
+        value = elapsed / duration
+        return change * value * value * value + begin
+
+    def ease_in_circ(self, elapsed, begin, end, duration):
+        change = end - begin
+        value = elapsed / duration
+        return -change * (sqrt(1 - value * value) - 1) + begin
+
+    def ease_cosine(self, elapsed, begin, end, duration):
+        value = elapsed / duration
+        t = (1.0 - cos(value * pi)) / 2.0
+        return begin * (1.0 - t) + end * t
