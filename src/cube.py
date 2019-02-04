@@ -18,10 +18,10 @@ from enums import State, FaceRotation
 from constants import Constants
 
 class Cube:
-    def __init__(self, initial_padding, face_rotation_tween_time, draw_stickers, draw_sphere, draw_lines, line_width, inner_color, sphere_color):
+    def __init__(self, initial_padding, face_rotation_tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color):
         self.padding = initial_padding
         self.face_rotation_tween_time = face_rotation_tween_time
-        self.draw_stickers = draw_stickers
+        self.draw_cubies = draw_cubies
         self.draw_sphere = draw_sphere
         self.draw_lines = draw_lines
         self.line_width = line_width
@@ -65,8 +65,8 @@ class Cube:
 
         if self.draw_sphere:
             self.render_sphere()
-        if self.draw_stickers:
-            self.render_stickers()
+        if self.draw_cubies:
+            self.render_cubies()
         if self.draw_lines:
             self.render_lines()
         # glPopMatrix()
@@ -309,7 +309,7 @@ class Cube:
                     glVertex3f(v[0], v[1], v[2])
         glEnd()
 
-    def render_stickers(self):
+    def render_cubies(self):
         inner_color = self.inner_color
 
         glBegin(GL_QUADS)

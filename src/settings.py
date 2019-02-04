@@ -6,7 +6,7 @@ class Settings(Config):
     def __init__(self):
         pass
         # cube settings
-        self.cube_draw_stickers = True
+        self.cube_draw_cubies = True
         self.cube_draw_sphere = True
         self.cube_draw_lines = False
         self.cube_face_rotation_tween_time = 0.5
@@ -63,8 +63,8 @@ class Settings(Config):
 
         if prop_cube in settings:
             cube = settings[prop_cube]
-            self.cube_draw_stickers = self.get_value(cube, ['draw_stickers'], self.cube_draw_stickers)
-            self.cube_draw_sphere = self.get_value(cube, ['draw_sphere'], self.cube_draw_stickers)
+            self.cube_draw_cubies = self.get_value(cube, ['draw_cubies'], self.cube_draw_cubies)
+            self.cube_draw_sphere = self.get_value(cube, ['draw_sphere'], self.cube_draw_sphere)
             self.cube_draw_lines = self.get_value(cube, ['draw_lines'], self.cube_draw_lines)
             self.cube_face_rotation_tween_time = self.get_value(cube, ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_padding = self.get_value(cube, ['padding'], self.cube_padding)

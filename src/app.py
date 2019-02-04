@@ -57,13 +57,13 @@ class App:
     def init_cube(self):
         padding = self.settings.cube_padding
         tween_time = self.settings.cube_face_rotation_tween_time
-        draw_stickers = self.settings.cube_draw_stickers
+        draw_cubies = self.settings.cube_draw_cubies
         draw_sphere = self.settings.cube_draw_sphere
         draw_lines = self.settings.cube_draw_lines
         line_width = self.settings.cube_line_width
         inner_color = self.settings.cube_inner_color
         sphere_color = self.settings.cube_sphere_color
-        self.cube = Cube(padding, tween_time, draw_stickers, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
+        self.cube = Cube(padding, tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color)
         self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
 
         # this is a hack, more or less, but it is how it is.
@@ -132,6 +132,7 @@ class App:
         elif ch == '1':
             pattern = LittleHelpers.get_random_pattern()
             moves = LittleHelpers.expand_notations(pattern.split(' '))
+            self.cube.reset()
             self.scramble_cube(moves)
         elif ch == '2':
             self.apply_random_pattern()
@@ -202,10 +203,8 @@ class App:
     # moves: array
     def scramble_cube(self, moves):
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
-        # self.cube.reset()
         self.cube.scramble(face_rotations)
 
-    # e.g. "FRONT:BLUE, BACK:GREEN, LEFT:RED, RIGHT:ORANGE, UP:WHITE, DOWN:YELLOW"
     def set_cube_color_orientation(self, str):
         map = LittleHelpers.translate_cube_color_orientation(str.upper())
         if len(map) != 6:

@@ -83,7 +83,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
             }
         },
         "cube": {
-            "draw_stickers": true,
+            "draw_cubies": true,
             "draw_sphere": true,
             "draw_lines": false,
             "padding": 0.3,
