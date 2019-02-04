@@ -134,7 +134,7 @@ Commands with parameters:
 - `add_rotation_x = <float_value>`: Rotate the cube around the x axis. Example: `add_rotation_x = 0.11`
 - `add_rotation_y = <float_value>`: Rotate the cube around the y axis. Example: `add_rotation_y = 0.29`
 - `rotate_face = <list_of_faces_to_be_rotated>`: Rotate one or more faces of the cube using the Rubik's cube notation. The cube is not reset before executing the moves. Example: `rotate_face = R U R' U'`
-- `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube is reset first and then the faces are rotated INSTANTLY (within the same frame), meaning that the the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`
+- `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube the faces are rotated INSTANTLY (within the same frame), meaning that the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`. Principially, you would reset the cube first, then set color orienation and afterwards apply the scramble.
 - `set_color_orientation = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
 
 It's also possible to put more than one command in a single message. The commands need to be separated by a semicolon though. Example: `reset_cube;apply_random_pattern`
