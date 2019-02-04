@@ -32,34 +32,44 @@ class LittleHelpers:
         return False
 
     @staticmethod
+    # expand notations like "R2" to "R R"
+    # not supported are notations like "R2'"
+    def expand_notations(moves):
+        expanded_notations = []
+        for move in moves:
+            if not LittleHelpers.is_known_notation(move):
+                return []
+            length = len(move)
+            if length == 1:
+                expanded_notations.append(move)
+            elif length == 2:
+                if move[1] == '2':
+                    expanded_notations.append(move[0])
+                    expanded_notations.append(move[0])
+            elif length == 3:
+                if move[1] == '2' and move[2] == '\'':
+                    m = move[0] + '\''
+                    expanded_notations.append(m)
+                    expanded_notations.append(m)
+            else:
+                return []
+        return expanded_notations
+
+    @staticmethod
     def translate_moves_to_face_rotations(moves):
         face_rotations = []
         for move in moves:
+            if not LittleHelpers.is_known_notation(move):
+                return []
             face_rotation = LittleHelpers.get_face_rotation_by_notation(move)
             if face_rotation != None:
                 face_rotations.append(face_rotation)
             else:
-                return None
+                return []
         return face_rotations
 
-    @staticmethod
-    # expand notations like "R2" to "R R"
-    # not supported are notations like "R2'"
-    def expand_notations(str):
-        str = str
-        expanded_notations = []
-        for move in str:
-            length = len(move)
-            if length == 2:
-                if move[1] == '2':
-                    expanded_notations.append(move[0])
-                    expanded_notations.append(move[0])
-                    continue
-            expanded_notations.append(move)
-        return expanded_notations
-
     # string format: "FACE1:COLOR1, FACE2:COLOR2, ...]
-    # e.g. "FRONT:BLUE,BACK:GREEN,UP:WHITE, ..."
+    # e.g. "front:blue, back:green, up:white, ..."
     @staticmethod
     def translate_cube_color_orientation(str):
         arr = str.upper().split(",")

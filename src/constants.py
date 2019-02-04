@@ -4,18 +4,12 @@ class Constants:
     WINDOW_CAPTION = 'PyCubix'
 
     KNOWN_NOTATIONS = [
-        "F",
-        "F'",
-        "B",
-        "B'",
-        "U",
-        "U'",
-        "D",
-        "D'",
-        "L",
-        "L'",
-        "R",
-        "R'"
+        "F", "F'", "F2", "F2'",
+        "B", "B'", "B2", "B2'",
+        "L", "L'", "L2", "L2'",
+        "R", "R'", "R2", "R2'",
+        "U", "U'", "U2", "U2'",
+        "D", "D'", "D2", "D2'",
     ]
 
     NOTATION_TO_FACE_ROTATION_MAP = {

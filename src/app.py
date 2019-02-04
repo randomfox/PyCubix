@@ -1,13 +1,16 @@
 import time
+import numpy as np
+
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
-from cube import Cube
 from math import *
-from delta_time import DeltaTime
-from fps import Fps
-from enums import *
+
 from constants import Constants
+from cube import Cube
+from delta_time import DeltaTime
+from enums import *
+from fps import Fps
 from helpers import LittleHelpers
 
 class App:
@@ -128,17 +131,21 @@ class App:
         # stop rotation:
         elif ch == ' ':
             self.cube.stop_rotation()
-        # test scramble
+        # scramble with random pattern:
         elif ch == '1':
             pattern = LittleHelpers.get_random_pattern()
-            moves = LittleHelpers.expand_notations(pattern.split(' '))
             self.cube.reset()
-            self.scramble_cube(moves)
+            self.scramble_cube(pattern)
+        # apply random pattern:
         elif ch == '2':
             self.apply_random_pattern()
+        # switch white and yellow:
         elif ch == '0':
             str = "front:blue, back:green, left:red, right:orange, up:white, down:yellow"
             self.set_cube_color_orientation(str)
+        # debug test case:
+        elif ch == 'x':
+            self.test()
 
         scale = None
         if ch == '+':
@@ -202,6 +209,7 @@ class App:
 
     # moves: array
     def scramble_cube(self, moves):
+        moves = LittleHelpers.expand_notations(moves.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
 
@@ -285,14 +293,21 @@ class App:
             self.add_moves(moves)
 
         elif cmd == 'scramble':
-            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+            moves = parts[1].upper()
             self.scramble_cube(moves)
 
         elif cmd == 'set_color_orientation':
             self.set_cube_color_orientation(parts[1])
 
+        elif cmd == 'set_padding':
+            value = LittleHelpers.convert_str_to_float(parts[1])
+            if value:
+                print('setting padding', value)
+                self.cube.geometry.set_padding(value)
+
         else:
             print('Unknown command:', cmd)
 
     def test(self):
-        pass
+        value = 0.1
+        self.cube.geometry.set_padding(value)

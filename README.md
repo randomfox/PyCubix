@@ -143,12 +143,12 @@ It's also possible to put more than one command in a single message. The command
 
 ### List of known notations
 
-- Front face: F F' F2
-- Back face: B B' B2
-- Left face: L L' L2
-- Right face: R R' R2
-- Up face: U U' U2
-- Down face: D D' D2
+- Front face: F F' F2 F2'
+- Back face: B B' B2 B2'
+- Left face: L L' L2 L2'
+- Right face: R R' R2 R2'
+- Up face: U U' U2 U2'
+- Down face: D D' D2 D2'
 
 Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the moment.
 
@@ -158,4 +158,3 @@ Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the mo
 - Raspbian 9 (Stretch)
 
 *** The database is a lie.
-

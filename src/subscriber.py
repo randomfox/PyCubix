@@ -36,7 +36,7 @@ class Subscriber:
     def on_message(self, client, userdata, message):
         payload = str(message.payload.decode('utf-8'))
         topic = message.topic
-        print('message: {}:{}'.format(payload, topic))
+        print('message topic:{} payload:{}'.format(topic, payload))
         if topic == self.topic:
             self.message_queue.put_nowait(payload)
 
