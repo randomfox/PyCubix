@@ -19,9 +19,8 @@ from quat import *
 from tween import *
 
 class Cube:
-    def __init__(self, initial_padding, face_rotation_tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, angular_drag):
+    def __init__(self, initial_padding, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, face_rotation_tween_time, face_rotation_ease_type, angular_drag, ):
         self.padding = initial_padding
-        self.face_rotation_tween_time = face_rotation_tween_time
         self.draw_cubies = draw_cubies
         self.draw_sphere = draw_sphere
         self.draw_lines = draw_lines
@@ -38,6 +37,9 @@ class Cube:
         self.sphere_radius = 3
         self.sphere_slices = 16
         self.sphere_stacks = 16
+
+        self.face_rotation_tween_time = face_rotation_tween_time
+        self.face_rotation_ease_type = face_rotation_ease_type
 
         self.reset()
 
@@ -114,7 +116,7 @@ class Cube:
             return
         self.current_face_rotation = self.queued_face_rotations.get_nowait()
         self.state = State.TWEENING
-        self.tween.tween(0.0, pi/2, self.face_rotation_tween_time, TweenEaseFunc.EASE_COSINE)
+        self.tween.tween(0.0, pi/2, self.face_rotation_tween_time, self.face_rotation_ease_type)
 
     def update_tween(self, elapsed_time):
         if self.state != State.TWEENING:

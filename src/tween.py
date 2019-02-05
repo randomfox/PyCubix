@@ -3,7 +3,7 @@
 from enum import Enum
 from math import *
 
-class TweenEaseFunc(Enum):
+class TweenEaseType(Enum):
     EASE_COSINE = 0
     EASE_IN_SINE = 1
     EASE_IN_QUAD = 2
@@ -21,10 +21,10 @@ class Tween:
         self.delta = 0
         self.done = True
 
-        self.ease_type = TweenEaseFunc.EASE_COSINE
+        self.ease_type = TweenEaseType.EASE_COSINE
         self.ease_foo = self.ease_cosine
 
-    def tween(self, begin, end, duration, ease_type=TweenEaseFunc.EASE_COSINE):
+    def tween(self, begin, end, duration, ease_type=TweenEaseType.EASE_COSINE):
         self.begin = begin
         self.end = end
         self.duration = duration
@@ -35,13 +35,13 @@ class Tween:
         self.ease_foo = self.get_ease_func(ease_type)
 
     def get_ease_func(self, type):
-        if type == TweenEaseFunc.EASE_IN_SINE:
+        if type == TweenEaseType.EASE_IN_SINE:
             return self.ease_in_sine
-        elif type == TweenEaseFunc.EASE_IN_QUAD:
+        elif type == TweenEaseType.EASE_IN_QUAD:
             return self.ease_in_quad
-        elif type == TweenEaseFunc.EASE_IN_CUBIC:
+        elif type == TweenEaseType.EASE_IN_CUBIC:
             return self.ease_in_cubic
-        elif type == TweenEaseFunc.EASE_IN_CIRC:
+        elif type == TweenEaseType.EASE_IN_CIRC:
             return self.ease_in_circ
         else:
             return self.ease_cosine

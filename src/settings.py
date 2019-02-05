@@ -9,7 +9,6 @@ class Settings(Config):
         self.cube_draw_cubies = True
         self.cube_draw_sphere = True
         self.cube_draw_lines = False
-        self.cube_face_rotation_tween_time = 0.5
         self.cube_angular_drag = 0.3
         self.cube_padding = 0.3
         self.cube_line_width = 2.0
@@ -24,6 +23,8 @@ class Settings(Config):
             "white": [1.000, 1.000, 1.000]
         }
         self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
+        self.cube_face_rotation_tween_time = 0.5
+        self.cube_face_rotation_ease_type = "ease_cosine"
 
         # fps settings
         self.fps_update_interval = 10
@@ -67,7 +68,6 @@ class Settings(Config):
             self.cube_draw_cubies = self.get_value(cube, ['draw_cubies'], self.cube_draw_cubies)
             self.cube_draw_sphere = self.get_value(cube, ['draw_sphere'], self.cube_draw_sphere)
             self.cube_draw_lines = self.get_value(cube, ['draw_lines'], self.cube_draw_lines)
-            self.cube_face_rotation_tween_time = self.get_value(cube, ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_padding = self.get_value(cube, ['padding'], self.cube_padding)
             self.cube_line_width = self.get_value(cube, ['line_width'], self.cube_line_width)
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
@@ -75,6 +75,8 @@ class Settings(Config):
             self.cube_angular_drag = self.get_value(cube, ['angular_drag'], self.cube_angular_drag)
             self.cube_color_orientation_str = self.get_value(cube, ['color_orientation_string'], self.cube_color_orientation_str)
             self.cube_face_colors = self.get_value(cube, ['face_colors'], self.cube_face_colors)
+            self.cube_face_rotation_tween_time = self.get_value(cube['tween'], ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
+            self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
 
         if prop_fps in settings:
             fps = settings[prop_fps]
@@ -108,5 +110,3 @@ class Settings(Config):
                 break
         print('{}: {}'.format(keys[-1], t))
         return t
-
-

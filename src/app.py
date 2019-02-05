@@ -58,16 +58,20 @@ class App:
         glDepthFunc(GL_LESS)
 
     def init_cube(self):
+        # :TODO: un-uglify!
         padding = self.settings.cube_padding
-        tween_time = self.settings.cube_face_rotation_tween_time
         draw_cubies = self.settings.cube_draw_cubies
         draw_sphere = self.settings.cube_draw_sphere
         draw_lines = self.settings.cube_draw_lines
         line_width = self.settings.cube_line_width
         inner_color = self.settings.cube_inner_color
         sphere_color = self.settings.cube_sphere_color
+
+        tween_time = self.settings.cube_face_rotation_tween_time
+        ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
         angular_drag = self.settings.cube_angular_drag
-        self.cube = Cube(padding, tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, angular_drag)
+
+        self.cube = Cube(padding, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, tween_time, ease_type, angular_drag)
         self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
 
         # this is a hack, more or less, but it is how it is.

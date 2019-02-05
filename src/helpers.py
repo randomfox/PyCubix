@@ -1,4 +1,6 @@
 from constants import Constants
+# from enums import *
+from tween import TweenEaseType
 import random
 
 class LittleHelpers:
@@ -127,3 +129,11 @@ class LittleHelpers:
             print('WTF: Given value cannot be converted to a float.')
         return default
 
+    @staticmethod
+    def get_ease_type_by_str(str):
+        if str == 'ease_cosine': return TweenEaseType.EASE_COSINE
+        if str == 'ease_in_sine': return TweenEaseType.EASE_IN_SINE
+        if str == 'ease_in_quad': return TweenEaseType.EASE_IN_QUAD
+        if str == 'ease_in_cubic': return TweenEaseType.EASE_IN_CUBIC
+        if str == 'ease_in_circ': return TweenEaseType.EASE_IN_CIRC
+        return None
