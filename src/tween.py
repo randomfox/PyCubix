@@ -6,9 +6,14 @@ from math import *
 class TweenEaseType(Enum):
     EASE_COSINE = 0
     EASE_IN_SINE = 1
-    EASE_IN_QUAD = 2
-    EASE_IN_CUBIC = 3
-    EASE_IN_CIRC = 4
+    EASE_OUT_SINE = 2
+    EASE_IN_OUT_SINE = 3
+    EASE_IN_QUAD = 4
+    EASE_OUT_QUAD = 5
+    EASE_IN_OUT_QUAD = 6
+    EASE_IN_CUBIC = 7
+    EASE_OUT_CUBIC = 8
+    EASE_IN_OUT_CUBIC = 9
 
 class Tween:
     def __init__(self):
@@ -41,8 +46,6 @@ class Tween:
             return self.ease_in_quad
         elif type == TweenEaseType.EASE_IN_CUBIC:
             return self.ease_in_cubic
-        elif type == TweenEaseType.EASE_IN_CIRC:
-            return self.ease_in_circ
         else:
             return self.ease_cosine
 
@@ -64,32 +67,56 @@ class Tween:
             self.elapsed = self.duration
             self.done = True
 
-        value = self.ease_foo(self.elapsed, self.begin, self.end, self.duration)
+        value = self.elapsed / self.duration
+        value = self.ease_foo(self.begin, self.end, value)
         self.delta = value - self.current
         self.current = value
 
-    # -c * cos(t/d * (pi/2)) + c + b
-    def ease_in_sine(self, elapsed, begin, end, duration):
+    def ease_in_sine(self, begin, end, value):
         change = end - begin
-        value = elapsed / duration
         return -change * cos(value * (pi/2)) + change + begin
 
-    def ease_in_quad(self, elapsed, begin, end, duration):
+    def ease_out_sine(self, begin, end, value):
         change = end - begin
-        value = elapsed / duration
-        return end * value * value + begin
+        return change * sin(value * (pi/2)) + begin
 
-    def ease_in_cubic(self, elapsed, begin, end, duration):
+    def ease_in_out_sine(self, begin, end, value):
         change = end - begin
-        value = elapsed / duration
+        return change * sin(value * (pi/2)) + begin
+
+    def ease_in_quad(self, begin, end, value):
+        change = end - begin
+        return change * value * value + begin
+
+    def ease_out_quad(self, begin, end, value):
+        change = end - begin
+        return -change * value * (value - 2.0) + begin
+
+    def ease_in_out_quad(self, begin, end, value):
+        change = end - begin
+        value /= 0.5
+        if value < 1.0:
+            return change * 0.5 * value * value + begin
+        value -= 1.0
+        return -change * 0.5 * (value * (value - 2.0) - 1.0) + begin;
+
+    def ease_in_cubic(self, begin, end, value):
+        change = end - begin
         return change * value * value * value + begin
 
-    def ease_in_circ(self, elapsed, begin, end, duration):
+    def ease_out_cubic(self, begin, end, value):
         change = end - begin
-        value = elapsed / duration
-        return -change * (sqrt(1 - value * value) - 1) + begin
+        value -= 1.0
+        return change * (value * value * value + 1.0) + begin;
 
-    def ease_cosine(self, elapsed, begin, end, duration):
-        value = elapsed / duration
+    def ease_in_out_cubic(self, begin, end, value):
+        change = end - begin
+        value /= 0.5
+        if value < 1.0:
+            return change * 0.5 * value * value * value + begin;
+        value -= 2.0;
+        return change * 0.5 * (value * value * value + 2.0) + begin;
+
+    def ease_cosine(self, begin, end, value):
         t = (1.0 - cos(value * pi)) / 2.0
         return begin * (1.0 - t) + end * t
