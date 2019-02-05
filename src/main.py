@@ -1,8 +1,16 @@
+import argparse
+
 from app import App
 from settings import Settings
 from subscriber import *
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-s', '--settings', help='Path to settings file', required=False)
+args = parser.parse_args()
+
 filename = 'cfg/settings.json'
+if args.settings != None:
+	filename = args.settings
 settings = Settings()
 settings.load(filename)
 

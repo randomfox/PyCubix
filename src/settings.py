@@ -1,6 +1,5 @@
 import pprint
 from config import Config
-from constants import Constants
 
 class Settings(Config):
     def __init__(self):
@@ -14,7 +13,7 @@ class Settings(Config):
         self.cube_line_width = 2.0
         self.cube_inner_color = [0.0, 0.0, 0.0]
         self.cube_sphere_color = [0.0, 0.0, 0.0]
-        self.cube_face_colors = {
+        self.cube_colors = {
             "blue": [0.066, 0.490, 0.988],
             "orange": [0.996, 0.549, 0.184],
             "green": [0.102, 0.878, 0.133],
@@ -22,12 +21,20 @@ class Settings(Config):
             "yellow": [0.961, 1.000, 0.204],
             "white": [1.000, 1.000, 1.000]
         }
-        self.cube_color_orientation_str = 'front:blue, back:green, right:red, left:orange, up:yellow, down:white'
+        self.cube_color_mapping = {
+            "front": "blue",
+            "back": "green",
+            "left": "orange",
+            "right": "red",
+            "up": "yellow",
+            "down": "white",
+        }
         self.cube_face_rotation_tween_time = 0.5
         self.cube_face_rotation_ease_type = "ease_cosine"
 
         # fps settings
         self.fps_update_interval = 10
+        self.fps_show = True
 
         # subscriber settings
         self.subscriber_start = True
@@ -36,14 +43,14 @@ class Settings(Config):
         self.subscriber_topic = 'pycubix'
 
         # window settings
-        self.window_caption = Constants.WINDOW_CAPTION
+        self.window_caption = "PyCubix"
         self.window_width = 600
         self.window_height = 600
         self.window_background_color = [60/255, 67/255, 78/255]
 
     def load(self, filename):
+        print('load_settings', filename)
         config = self.load_json(filename)
-        # self.print(config)
         self.assign(config)
 
     def print(self, config):
@@ -73,14 +80,15 @@ class Settings(Config):
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
             self.cube_angular_drag = self.get_value(cube, ['angular_drag'], self.cube_angular_drag)
-            self.cube_color_orientation_str = self.get_value(cube, ['color_orientation_string'], self.cube_color_orientation_str)
-            self.cube_face_colors = self.get_value(cube, ['face_colors'], self.cube_face_colors)
             self.cube_face_rotation_tween_time = self.get_value(cube['tween'], ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
+            self.cube_colors = self.get_value(cube, ['colors'], self.cube_colors)
+            self.cube_color_mapping = self.get_value(cube, ['color_mapping'], self.cube_color_mapping)
 
         if prop_fps in settings:
             fps = settings[prop_fps]
             self.fps_update_interval = self.get_value(fps, ['update_interval'], self.fps_update_interval)
+            self.fps_show = self.get_value(fps, ['show'], self.fps_show)
 
         if prop_subscriber in settings:
             subscriber = settings[prop_subscriber]

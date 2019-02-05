@@ -12,7 +12,6 @@ from math import *
 import numpy as np
 from queue import Queue
 
-from constants import Constants
 from enums import State, FaceRotation
 from geometry import Geometry
 from quat import *
@@ -42,13 +41,19 @@ class Cube:
         self.face_rotation_ease_type = face_rotation_ease_type
 
         self.geometry = Geometry()
+        self.face_colors = [
+            (0.066, 0.490, 0.988),  # Front: Blue
+            (0.996, 0.549, 0.184),  # Left: Orange
+            (0.102, 0.878, 0.133),  # Back: Green
+            (0.855, 0.082, 0.102),  # Right: Red
+            (0.961, 1.000, 0.204),  # Up: Yellow
+            (1.000, 1.000, 1.000)  # Down: White
+        ]
         self.reset()
 
     def reset(self):
         # :HACK: keep colors
-        colors = self.geometry.cube_colors
         self.geometry = Geometry()
-        self.geometry.cube_colors = colors
 
         self.geometry.add_padding(self.padding)
         self.queued_face_rotations = Queue(0)
@@ -114,7 +119,8 @@ class Cube:
             self.rotate_face(face, theta)
 
     def set_color_orientation(self, front_color, back_color, left_color, right_color, up_color, down_color):
-        self.geometry.set_colors(front_color, back_color, left_color, right_color, up_color, down_color)
+        colors = [front_color, left_color, back_color, right_color, up_color, down_color]
+        self.face_colors = colors
 
     def update_queue(self):
         if self.state == State.TWEENING or self.queued_face_rotations.empty():
@@ -326,7 +332,7 @@ class Cube:
 
         glBegin(GL_QUADS)
         i = 0
-        for color, surface in zip(self.geometry.cube_colors, self.geometry.cube_surfaces):
+        for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
             glColor3f(color[0], color[1], color[2])
             for vertex in surface:
                 v = self.geometry.center_pieces[i][vertex]
@@ -340,7 +346,7 @@ class Cube:
                 j += 1
             i += 1
 
-        for color, surface, face in zip(self.geometry.cube_colors, self.geometry.cube_surfaces, self.geometry.edges):
+        for color, surface, face in zip(self.face_colors, self.geometry.cube_surfaces, self.geometry.edges):
             glColor3f(color[0], color[1], color[2])
             for piece in face:
                 for vertex in surface:
@@ -357,7 +363,7 @@ class Cube:
 
         for i in range(len(self.geometry.corner_color_pat)):
             for face in self.geometry.corner_color_pat[i]:
-                color = self.geometry.cube_colors[face]
+                color = self.face_colors[face]
                 glColor3f(color[0], color[1], color[2])
                 for vertex in self.geometry.cube_surfaces[face]:
                     v = self.geometry.corner_pieces[i][vertex]

@@ -1,8 +1,6 @@
 from enums import *
 
 class Constants:
-    WINDOW_CAPTION = 'PyCubix'
-
     PRIME = '\''
 
     KNOWN_NOTATIONS = [
@@ -71,22 +69,22 @@ class Constants:
         Face.DOWN
     ]
 
-    STR_TO_FACE_MAP = {
-        "FRONT": Face.FRONT,
-        "LEFT": Face.LEFT,
-        "BACK": Face.BACK,
-        "RIGHT": Face.RIGHT,
-        "UP": Face.UP,
-        "DOWN": Face.DOWN
+    FACE_TO_NAME_MAP = {
+        Face.FRONT: "front",
+        Face.BACK: "back",
+        Face.LEFT: "left",
+        Face.RIGHT: "right",
+        Face.UP: "up",
+        Face.DOWN: "down"
     }
 
-    STR_TO_COLOR_MAP = {
-        "BLUE": Color.BLUE,
-        "ORANGE": Color.ORANGE,
-        "GREEN": Color.GREEN,
-        "RED": Color.RED,
-        "YELLOW": Color.YELLOW,
-        "WHITE": Color.WHITE
+    NAME_TO_FACE_MAP = {
+        "front": Face.FRONT,
+        "left": Face.LEFT,
+        "back": Face.BACK,
+        "right": Face.RIGHT,
+        "up": Face.UP,
+        "down": Face.DOWN
     }
 
     SEXY_MOVE_TRIGGER = "R U R' U'"
@@ -109,27 +107,4 @@ class Constants:
     VERTICAL_STRIPES_PATTERN = "F U F R L2 B D' R D2 L D' B R2 L F U F"
     WIRE_PATTERN = "R L F B R L F B R L F B R2 B2 L2 R2 B2 L2"
 
-    BLUE_COLOR = (0.066, 0.490, 0.988)
-    ORANGE_COLOR = (0.996, 0.549, 0.184)
-    GREEN_COLOR = (0.102, 0.878, 0.133)
-    RED_COLOR = (0.855, 0.082, 0.102)
-    YELLOW_COLOR = (0.961, 1.000, 0.204)
-    WHITE_COLOR = (1.000, 1.000, 1.000)
-
-    COLOR_TO_COLOR_VALUE_MAP = {
-        Color.BLUE: BLUE_COLOR,
-        Color.ORANGE: ORANGE_COLOR,
-        Color.GREEN: GREEN_COLOR,
-        Color.RED: RED_COLOR,
-        Color.YELLOW: YELLOW_COLOR,
-        Color.WHITE: WHITE_COLOR
-    }
-
-    FACE_TO_COLOR_MAP = {
-        Face.FRONT: Color.BLUE,
-        Face.LEFT: Color.ORANGE,
-        Face.BACK: Color.GREEN,
-        Face.RIGHT: Color.RED,
-        Face.UP: Color.YELLOW,
-        Face.DOWN: Color.WHITE
-    }
+    FALLBACK_COLOR = (1, 0, 1)

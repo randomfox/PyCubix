@@ -8,14 +8,6 @@ class Face(Enum):
     UP = 4
     DOWN = 5
 
-class Color(Enum):
-    BLUE = 0,
-    ORANGE = 1
-    GREEN = 2
-    RED = 3
-    YELLOW = 4
-    WHITE = 5
-
 class FaceRotation(Enum):
     FRONT_CW = 1
     FRONT_CCW = -1

@@ -6,7 +6,7 @@ from OpenGL.GLU import *
 from OpenGL.GL import *
 from math import *
 
-from constants import Constants
+from constants import *
 from cube import Cube
 from delta_time import DeltaTime
 from enums import *
@@ -24,15 +24,14 @@ class App:
 
         self.delta_time = DeltaTime()
         self.fps = Fps(self.settings.fps_update_interval)
-        self.show_fps = True
 
         self.command_delimiter = ';'
 
         self.init_opengl()
         self.init_cube()
 
-        if "--glinfo" in sys.argv:
-            self.show_gl_info()
+        # if "--glinfo" in sys.argv:
+        #     self.show_gl_info()
 
     def init_opengl(self):
         glutInit()
@@ -72,25 +71,13 @@ class App:
         angular_drag = self.settings.cube_angular_drag
 
         self.cube = Cube(padding, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, tween_time, ease_type, angular_drag)
-        self.set_cube_color_orientation(self.settings.cube_color_orientation_str)
-
-        # this is a hack, more or less, but it is how it is.
-        try:
-            front_color = self.settings.cube_face_colors['blue']
-            back_color = self.settings.cube_face_colors['green']
-            left_color = self.settings.cube_face_colors['orange']
-            right_color = self.settings.cube_face_colors['red']
-            up_color = self.settings.cube_face_colors['yellow']
-            down_color = self.settings.cube_face_colors['white']
-            self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
-        except:
-            print('WTF. Check your colors.')
+        self.set_cube_color_orientation(self.settings.cube_color_mapping)
 
     def run(self):
         glutMainLoop()
 
     def show_gl_info(self):
-        print("* GL_RENDERER   :", glGetString(GL_RENDERER))
+        print("* GL_RENDERER   : ", glGetString(GL_RENDERER))
         print("* GL_VERSION    : ", glGetString(GL_VERSION))
         print("* GL_VENDOR     : ", glGetString(GL_VENDOR))
         print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
@@ -147,7 +134,8 @@ class App:
         # switch white and yellow:
         elif ch == '0':
             str = "front:blue, back:green, left:red, right:orange, up:white, down:yellow"
-            self.set_cube_color_orientation(str)
+            color_mapping = LittleHelpers.make_color_mapping_from_string(str)
+            self.set_cube_color_orientation(color_mapping)
         # debug test case:
         elif ch == 'x':
             self.test()
@@ -200,7 +188,7 @@ class App:
         self.cube.render()
         glutSwapBuffers()
 
-        if self.show_fps:
+        if self.settings.fps_show:
             self.fps.update()
 
     def add_moves(self, moves):
@@ -220,17 +208,24 @@ class App:
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
 
-    def set_cube_color_orientation(self, str):
-        map = LittleHelpers.translate_cube_color_orientation(str.upper())
-        if len(map) != 6:
-            return
-        print('set_cube_color_orientation', str)
-        front_color = LittleHelpers.get_color_value_by_color(map.get(Face.FRONT))
-        back_color = LittleHelpers.get_color_value_by_color(map.get(Face.BACK))
-        left_color = LittleHelpers.get_color_value_by_color(map.get(Face.LEFT))
-        right_color = LittleHelpers.get_color_value_by_color(map.get(Face.RIGHT))
-        up_color = LittleHelpers.get_color_value_by_color(map.get(Face.UP))
-        down_color = LittleHelpers.get_color_value_by_color(map.get(Face.DOWN))
+    def set_cube_color_orientation(self, color_mapping):
+        front_color = Constants.FALLBACK_COLOR
+        back_color = Constants.FALLBACK_COLOR
+        left_color = Constants.FALLBACK_COLOR
+        right_color = Constants.FALLBACK_COLOR
+        up_color = Constants.FALLBACK_COLOR
+        down_color = Constants.FALLBACK_COLOR
+
+        colors = self.settings.cube_colors
+        try:
+            front_color = LittleHelpers.get_mapped_color(Face.FRONT, color_mapping, colors)
+            back_color = LittleHelpers.get_mapped_color(Face.BACK, color_mapping, colors)
+            left_color = LittleHelpers.get_mapped_color(Face.LEFT, color_mapping, colors)
+            right_color = LittleHelpers.get_mapped_color(Face.RIGHT, color_mapping, colors)
+            up_color = LittleHelpers.get_mapped_color(Face.UP, color_mapping, colors)
+            down_color = LittleHelpers.get_mapped_color(Face.DOWN, color_mapping, colors)
+        except:
+            pass
         self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
 
     def apply_random_pattern(self):
@@ -309,12 +304,12 @@ class App:
             self.scramble_cube(moves)
 
         elif cmd == 'set_color_orientation':
-            self.set_cube_color_orientation(parts[1])
+            color_mapping = LittleHelpers.make_color_mapping_from_string(parts[1])
+            self.set_cube_color_orientation(color_mapping)
 
         elif cmd == 'set_padding':
             value = LittleHelpers.convert_str_to_float(parts[1])
             if value:
-                print('setting padding', value)
                 self.cube.geometry.set_padding(value)
 
         else:

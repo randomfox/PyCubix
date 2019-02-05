@@ -1,6 +1,6 @@
 from constants import Constants
-# from enums import *
 from tween import TweenEaseType
+from enums import *
 import random
 
 class LittleHelpers:
@@ -72,30 +72,57 @@ class LittleHelpers:
                 return []
         return face_rotations
 
-    # string format: "FACE1:COLOR1, FACE2:COLOR2, ...]
-    # e.g. "front:blue, back:green, up:white, ..."
     @staticmethod
-    def translate_cube_color_orientation(str):
+    def build_color_orienation_string(color_mapping):
+        try:
+            front = Constants.FACE_TO_NAME_MAP.get(Face.FRONT)
+            back = Constants.FACE_TO_NAME_MAP[Face.BACK]
+            left = Constants.FACE_TO_NAME_MAP[Face.LEFT]
+            right = Constants.FACE_TO_NAME_MAP[Face.RIGHT]
+            up = Constants.FACE_TO_NAME_MAP[Face.UP]
+            down = Constants.FACE_TO_NAME_MAP[Face.DOWN]
+
+            fname = color_mapping[front]
+            bname = color_mapping[back]
+            lname = color_mapping[left]
+            rname = color_mapping[right]
+            uname = color_mapping[up]
+            dname = color_mapping[down]
+
+            # format: "front:blue, back:green, right:red, left:orange, up:yellow, down:white"
+            return '{0}:{1},{2}:{3},{4}:{5},{6}:{7},{8}:{9},{10}:{11}'.format(front, fname, back, bname, right, rname, left, lname, up, uname, down, dname)
+        except:
+            print('Big Nope.')
+        return ''
+
+    @staticmethod
+    def get_mapped_color(face_type, color_mapping, colors):
+        try:
+            face_name = Constants.FACE_TO_NAME_MAP[face_type]
+            color_name = color_mapping[face_name]
+            color = colors[color_name]
+            return color
+        except:
+            print('Big Nope.')
+        return Constants.FALLBACK_COLOR
+
+    @staticmethod
+    def make_color_mapping_from_string(str):
         arr = str.upper().split(",")
         if len(arr) != 6:
             return {}
-        color_orientation = {}
-        for face_to_color in arr:
-            face_and_color = face_to_color.split(":")
-            if len(face_and_color) != 2:
-                return {}
-            face_str = face_and_color[0].strip()
-            color_str = face_and_color[1].strip()
-            face = Constants.STR_TO_FACE_MAP.get(face_str)
-            color = Constants.STR_TO_COLOR_MAP.get(color_str)
-            if face == None or color == None:
-                return {}
-            color_orientation[face] = color
-        return color_orientation
-
-    @staticmethod
-    def get_color_value_by_color(color):
-        return Constants.COLOR_TO_COLOR_VALUE_MAP.get(color)
+        color_mapping = {}
+        try:
+            for face_to_color in arr:
+                face_and_color = face_to_color.split(":")
+                if len(face_and_color) != 2:
+                    return {}
+                face = face_and_color[0].strip().lower()
+                color = face_and_color[1].strip().lower()
+                color_mapping[face] = color
+        except:
+            pass
+        return color_mapping
 
     @staticmethod
     def get_patterns():
@@ -126,7 +153,7 @@ class LittleHelpers:
         try:
             return float(str)
         except ValueError:
-            print('WTF: Given value cannot be converted to a float.')
+            print('Big Nope. Given value cannot be converted to a float.')
         return default
 
     @staticmethod
