@@ -133,7 +133,12 @@ class LittleHelpers:
     def get_ease_type_by_str(str):
         if str == 'ease_cosine': return TweenEaseType.EASE_COSINE
         if str == 'ease_in_sine': return TweenEaseType.EASE_IN_SINE
+        if str == 'ease_out_sine': return TweenEaseType.EASE_OUT_SINE
+        if str == 'ease_in_out_sine': return TweenEaseType.EASE_IN_OUT_SINE
         if str == 'ease_in_quad': return TweenEaseType.EASE_IN_QUAD
+        if str == 'ease_out_quad': return TweenEaseType.EASE_OUT_QUAD
+        if str == 'ease_in_out_quad': return TweenEaseType.EASE_IN_OUT_QUAD
         if str == 'ease_in_cubic': return TweenEaseType.EASE_IN_CUBIC
-        if str == 'ease_in_circ': return TweenEaseType.EASE_IN_CIRC
-        return None
+        if str == 'ease_out_cubic': return TweenEaseType.EASE_OUT_CUBIC
+        if str == 'ease_in_out_cubic': return TweenEaseType.EASE_IN_OUT_CUBIC
+        return TweenEaseType.EASE_COSINE
