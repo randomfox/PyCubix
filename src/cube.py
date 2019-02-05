@@ -16,7 +16,7 @@ from constants import Constants
 from enums import State, FaceRotation
 from geometry import Geometry
 from quat import *
-from tween import Tween
+from tween import *
 
 class Cube:
     def __init__(self, initial_padding, face_rotation_tween_time, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, angular_drag):
@@ -114,7 +114,7 @@ class Cube:
             return
         self.current_face_rotation = self.queued_face_rotations.get_nowait()
         self.state = State.TWEENING
-        self.tween.tween(0.0, pi/2, self.face_rotation_tween_time)
+        self.tween.tween(0.0, pi/2, self.face_rotation_tween_time, TweenEaseFunc.EASE_COSINE)
 
     def update_tween(self, elapsed_time):
         if self.state != State.TWEENING:
