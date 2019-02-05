@@ -128,7 +128,7 @@ class App:
             sys.exit()
         # reset cube:
         elif ch == chr(self.KEY_BACKSPACE):
-            self.cube.reset()
+            self.reset_cube()
         # reset scale and rotation:
         elif ch == chr(self.KEY_RETURN):
             self.cube.reset_rotation()
@@ -139,7 +139,7 @@ class App:
         # scramble with random pattern:
         elif ch == '1':
             pattern = LittleHelpers.get_random_pattern()
-            self.cube.reset()
+            self.reset_cube()
             self.scramble_cube(pattern)
         # apply random pattern:
         elif ch == '2':
@@ -240,6 +240,9 @@ class App:
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
 
+    def reset_cube(self):
+        self.cube.reset()
+
     def check_message_queue(self):
         if self.subscriber.has_pending_messages():
             message = self.subscriber.get_message()
@@ -271,7 +274,7 @@ class App:
             sys.exit()
 
         elif cmd == 'reset_cube':
-            self.cube.reset()
+            self.reset_cube()
 
         elif cmd == 'reset_cube_rotation':
             self.cube.reset_rotation()

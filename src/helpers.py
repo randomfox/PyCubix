@@ -131,7 +131,7 @@ class LittleHelpers:
 
     @staticmethod
     def get_ease_type_by_str(str):
-        if str == 'ease_cosine': return TweenEaseType.EASE_COSINE
+        if str == 'ease_linear': return TweenEaseType.EASE_LINEAR
         if str == 'ease_in_sine': return TweenEaseType.EASE_IN_SINE
         if str == 'ease_out_sine': return TweenEaseType.EASE_OUT_SINE
         if str == 'ease_in_out_sine': return TweenEaseType.EASE_IN_OUT_SINE

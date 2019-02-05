@@ -41,10 +41,15 @@ class Cube:
         self.face_rotation_tween_time = face_rotation_tween_time
         self.face_rotation_ease_type = face_rotation_ease_type
 
+        self.geometry = Geometry()
         self.reset()
 
     def reset(self):
+        # :HACK: keep colors
+        colors = self.geometry.cube_colors
         self.geometry = Geometry()
+        self.geometry.cube_colors = colors
+
         self.geometry.add_padding(self.padding)
         self.queued_face_rotations = Queue(0)
         self.tween = Tween()
