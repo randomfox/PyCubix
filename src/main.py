@@ -5,7 +5,8 @@ from settings import Settings
 from subscriber import *
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-s', '--settings', help='Path to settings file', required=False)
+parser.add_argument('--settings', help='Path to settings file', required=False)
+parser.add_argument('--glinfo', help='Show OpenGL info', required=False, action="store_true")
 args = parser.parse_args()
 
 filename = 'cfg/settings.json'
@@ -21,5 +22,6 @@ if settings.subscriber_start:
 	subscriber = Subscriber(broker, port, topic)
 	subscriber.start()
 
-app = App(settings, subscriber)
+glinfo = args.glinfo
+app = App(settings, subscriber, glinfo)
 app.run()

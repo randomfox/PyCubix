@@ -18,7 +18,7 @@ class App:
     KEY_RETURN = 13
     KEY_ESCAPE = 27
 
-    def __init__(self, settings, subscriber):
+    def __init__(self, settings, subscriber, glinfo):
         self.settings = settings
         self.subscriber = subscriber
 
@@ -30,8 +30,8 @@ class App:
         self.init_opengl()
         self.init_cube()
 
-        # if "--glinfo" in sys.argv:
-        #     self.show_gl_info()
+        if glinfo:
+            self.show_gl_info()
 
     def init_opengl(self):
         glutInit()

@@ -11,8 +11,7 @@ class Config:
             with open(filename, encoding='utf-8') as file:
                 data = json.loads(file.read())
         except:
-            print('# WTF')
-            print('Tried to read file', filename)
+            print('Big Nope. Tried to read file', filename)
             print(sys.exc_info())
         return data
 
