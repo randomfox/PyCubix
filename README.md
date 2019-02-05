@@ -63,7 +63,8 @@ Python 3.x: `$ pip3 install numpy pyopengl`
 
 Some parts of the application are customizable with a config file in `cfg/settings.json`. The default values are as follows and can also be found in `cfg/no-touch.json`. Just in case.
 
-`{
+```
+{
     "settings": {
         "subscriber": {
             "start": true,
@@ -72,6 +73,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "topic": "pycubix"
         },
         "fps": {
+            "show": true,
             "update_interval": 10
         },
         "window": {
@@ -91,7 +93,11 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "angular_drag": 0.3,
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
-            "face_colors": {
+            "tween": {
+                "face_rotation_tween_time": 0.5,
+                "face_rotation_ease_type": "ease_cosine"
+            },
+            "colors": {
                 "blue": [0.066, 0.490, 0.988],
                 "orange": [0.996, 0.549, 0.184],
                 "green": [0.102, 0.878, 0.133],
@@ -99,14 +105,18 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "yellow": [0.961, 1.000, 0.204],
                 "white": [1.000, 1.000, 1.000]
             },
-            "tween": {
-                "face_rotation_tween_time": 0.5,
-                "face_rotation_ease_type": "ease_cosine"
-            },
-            "color_orientation_string": "front:blue, back:green, right:red, left:orange, up:yellow, down:white"
+            "color_mapping": {
+                "front": "blue",
+                "back": "green",
+                "left": "orange",
+                "right": "red",
+                "up": "yellow",
+                "down": "white"
+            }
         }
     }
-}`
+}
+```
 
 ## Using MQTT to send commands to the cube
 
