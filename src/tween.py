@@ -40,14 +40,16 @@ class Tween:
         self.ease_foo = self.get_ease_func(ease_type)
 
     def get_ease_func(self, type):
-        if type == TweenEaseType.EASE_IN_SINE:
-            return self.ease_in_sine
-        elif type == TweenEaseType.EASE_IN_QUAD:
-            return self.ease_in_quad
-        elif type == TweenEaseType.EASE_IN_CUBIC:
-            return self.ease_in_cubic
-        else:
-            return self.ease_cosine
+        if type == TweenEaseType.EASE_IN_SINE: return self.ease_in_sine
+        if type == TweenEaseType.EASE_OUT_SINE: return self.ease_out_sine
+        if type == TweenEaseType.EASE_IN_OUT_SINE: return self.ease_in_out_sine
+        if type == TweenEaseType.EASE_IN_QUAD: return self.ease_in_quad
+        if type == TweenEaseType.EASE_OUT_QUAD: return self.ease_out_quad
+        if type == TweenEaseType.EASE_IN_OUT_QUAD: return self.ease_in_out_quad
+        if type == TweenEaseType.EASE_IN_CUBIC: return self.ease_in_cubic
+        if type == TweenEaseType.EASE_OUT_CUBIC: return self.ease_out_cubic
+        if type == TweenEaseType.EASE_IN_OUT_CUBIC: return self.ease_in_out_cubic
+        return self.ease_cosine
 
     def is_done(self):
         return self.done
