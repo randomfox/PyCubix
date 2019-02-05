@@ -14,6 +14,12 @@ class TweenEaseType(Enum):
     EASE_IN_CUBIC = 7
     EASE_OUT_CUBIC = 8
     EASE_IN_OUT_CUBIC = 9
+    EASE_IN_QUART = 10
+    EASE_OUT_QUART = 11
+    EASE_IN_OUT_QUART = 12
+    EASE_IN_QUINT = 13
+    EASE_OUT_QUINT = 14
+    EASE_IN_OUT_QUINT = 15
 
 class Tween:
     def __init__(self):
@@ -49,6 +55,12 @@ class Tween:
         if type == TweenEaseType.EASE_IN_CUBIC: return self.ease_in_cubic
         if type == TweenEaseType.EASE_OUT_CUBIC: return self.ease_out_cubic
         if type == TweenEaseType.EASE_IN_OUT_CUBIC: return self.ease_in_out_cubic
+        if type == TweenEaseType.EASE_IN_QUART: return self.ease_in_quart
+        if type == TweenEaseType.EASE_OUT_QUART: return self.ease_out_quart
+        if type == TweenEaseType.EASE_IN_OUT_QUART: return self.ease_in_out_quart
+        if type == TweenEaseType.EASE_IN_QUINT: return self.ease_in_quint
+        if type == TweenEaseType.EASE_OUT_QUINT: return self.ease_out_quint
+        if type == TweenEaseType.EASE_IN_OUT_QUINT: return self.ease_in_out_quint
         return self.ease_cosine
 
     def is_done(self):
@@ -100,7 +112,7 @@ class Tween:
         if value < 1.0:
             return change * 0.5 * value * value + begin
         value -= 1.0
-        return -change * 0.5 * (value * (value - 2.0) - 1.0) + begin;
+        return -change * 0.5 * (value * (value - 2.0) - 1.0) + begin
 
     def ease_in_cubic(self, begin, end, value):
         change = end - begin
@@ -109,15 +121,49 @@ class Tween:
     def ease_out_cubic(self, begin, end, value):
         change = end - begin
         value -= 1.0
-        return change * (value * value * value + 1.0) + begin;
+        return change * (value * value * value + 1.0) + begin
 
     def ease_in_out_cubic(self, begin, end, value):
         change = end - begin
         value /= 0.5
         if value < 1.0:
-            return change * 0.5 * value * value * value + begin;
-        value -= 2.0;
-        return change * 0.5 * (value * value * value + 2.0) + begin;
+            return change * 0.5 * value * value * value + begin
+        value -= 2.0
+        return change * 0.5 * (value * value * value + 2.0) + begin
+
+    def ease_in_quart(self, begin, end, value):
+        change = end - begin
+        return change * value * value * value * value + begin
+
+    def ease_out_quart(self, begin, end, value):
+        change = end - begin
+        value -= 1.0
+        return -change * (value * value * value * value - 1.0) + begin
+
+    def ease_in_out_quart(self, begin, end, value):
+        change = end - begin
+        value /= 0.5
+        if value < 1.0:
+            return change / 2.0 * value * value * value * value + begin
+        value -= 2.0
+        return -change / 2.0 * (value * value * value * value - 2.0) + begin
+
+    def ease_in_quint(self, begin, end, value):
+        change = end - begin
+        return change * value * value * value * value * value + begin
+
+    def ease_out_quint(self, begin, end, value):
+        change = end - begin
+        value -= 1.0
+        return change * (value * value * value * value * value + 1.0) + begin
+
+    def ease_in_out_quint(self, begin, end, value):
+        change = end - begin
+        value /= 0.5
+        if value < 1.0:
+            return change / 2.0 * value * value * value * value * value + begin
+        value -= 2.0
+        return change / 2.0 * (value * value * value * value * value + 2.0) + begin
 
     def ease_cosine(self, begin, end, value):
         t = (1.0 - cos(value * pi)) / 2.0

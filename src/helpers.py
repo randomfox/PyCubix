@@ -168,4 +168,10 @@ class LittleHelpers:
         if str == 'ease_in_cubic': return TweenEaseType.EASE_IN_CUBIC
         if str == 'ease_out_cubic': return TweenEaseType.EASE_OUT_CUBIC
         if str == 'ease_in_out_cubic': return TweenEaseType.EASE_IN_OUT_CUBIC
+        if str == 'ease_in_quart': return TweenEaseType.EASE_IN_QUART
+        if str == 'ease_out_quart': return TweenEaseType.EASE_OUT_QUART
+        if str == 'ease_in_out_quart': return TweenEaseType.EASE_IN_OUT_QUART
+        if str == 'ease_in_quint': return TweenEaseType.EASE_IN_QUINT
+        if str == 'ease_out_quint': return TweenEaseType.EASE_OUT_QUINT
+        if str == 'ease_in_out_quint': return TweenEaseType.EASE_IN_OUT_QUINT
         return TweenEaseType.EASE_COSINE
