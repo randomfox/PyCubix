@@ -152,6 +152,7 @@ Standalone commands:
 Commands with parameters:
 - `add_rotation_x = <float_value>`: Rotate the cube around the x axis. Example: `add_rotation_x = 0.11`
 - `add_rotation_y = <float_value>`: Rotate the cube around the y axis. Example: `add_rotation_y = 0.29`
+- `add_scale = <float_value>`: Scale the cube. Example: `add_scale = 0.73`
 - `rotate_face = <list_of_faces_to_be_rotated>`: Rotate one or more faces of the cube using the Rubik's cube notation. The cube is not reset before executing the moves. Example: `rotate_face = R U R' U'`
 - `set_color_orientation = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
 - `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube the faces are rotated INSTANTLY (within the same frame), meaning that the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`. To maintain a prior applied color orientation, you would do the follow to scramble the cube: `reset_cube;set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow;scramble = U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2`.
