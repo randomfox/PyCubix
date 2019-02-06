@@ -8,9 +8,12 @@ class Settings(Config):
         self.cube_draw_cubies = True
         self.cube_draw_sphere = True
         self.cube_draw_lines = False
-        self.cube_angular_drag = 0.3
         self.cube_padding = 0.3
         self.cube_line_width = 2.0
+        self.cube_angular_drag = 0.7
+        self.cube_scale_drag = 1.2
+        self.cube_min_scale = 0.3
+        self.cube_max_scale = 1.5
         self.cube_inner_color = [0.0, 0.0, 0.0]
         self.cube_sphere_color = [0.0, 0.0, 0.0]
         self.cube_colors = {
@@ -80,6 +83,9 @@ class Settings(Config):
             self.cube_inner_color = self.get_value(cube, ['inner_color'], self.cube_inner_color)
             self.cube_sphere_color = self.get_value(cube, ['sphere_color'], self.cube_sphere_color)
             self.cube_angular_drag = self.get_value(cube, ['angular_drag'], self.cube_angular_drag)
+            self.cube_scale_drag = self.get_value(cube, ['scale_drag'], self.cube_scale_drag)
+            self.cube_min_scale = self.get_value(cube, ['min_scale'], self.cube_min_scale)
+            self.cube_max_scale = self.get_value(cube, ['max_scale'], self.cube_max_scale)
             self.cube_face_rotation_tween_time = self.get_value(cube['tween'], ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
             self.cube_colors = self.get_value(cube, ['colors'], self.cube_colors)

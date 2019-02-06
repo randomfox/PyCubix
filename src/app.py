@@ -57,20 +57,8 @@ class App:
         glDepthFunc(GL_LESS)
 
     def init_cube(self):
-        # :TODO: un-uglify!
-        padding = self.settings.cube_padding
-        draw_cubies = self.settings.cube_draw_cubies
-        draw_sphere = self.settings.cube_draw_sphere
-        draw_lines = self.settings.cube_draw_lines
-        line_width = self.settings.cube_line_width
-        inner_color = self.settings.cube_inner_color
-        sphere_color = self.settings.cube_sphere_color
-
-        tween_time = self.settings.cube_face_rotation_tween_time
-        ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
-        angular_drag = self.settings.cube_angular_drag
-
-        self.cube = Cube(padding, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, tween_time, ease_type, angular_drag)
+        face_rotation_ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
+        self.cube = Cube(self.settings, face_rotation_ease_type)
         self.set_cube_color_orientation(self.settings.cube_color_mapping)
 
     def run(self):
@@ -140,13 +128,13 @@ class App:
         elif ch == 'x':
             self.test()
 
+        # scale cube:
         scale = None
-        if ch == '+':
-            scale = 1
-        elif ch == '-':
-            scale = -1
+        scale_value = 0.1
+        if ch == '+': scale = scale_value
+        elif ch == '-': scale = -scale_value
         if scale != None:
-            self.cube.inc_scale(scale * self.delta_time.elapsed())
+            self.cube.add_scale(scale * self.delta_time.elapsed())
 
         # translate move:
         move = None

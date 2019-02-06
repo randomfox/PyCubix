@@ -24,7 +24,10 @@
             "draw_lines": false,
             "padding": 0.3,
             "line_width": 4,
-            "angular_drag": 0.3,
+            "angular_drag": 0.7,
+            "scale_drag": 1.2,
+            "min_scale": 0.3,
+            "max_scale": 1.5,
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
             "tween": {

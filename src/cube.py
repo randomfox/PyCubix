@@ -14,30 +14,36 @@ from queue import Queue
 
 from enums import State, FaceRotation
 from geometry import Geometry
+from mathf import Mathf
 from quat import *
 from tween import *
 
 class Cube:
-    def __init__(self, initial_padding, draw_cubies, draw_sphere, draw_lines, line_width, inner_color, sphere_color, face_rotation_tween_time, face_rotation_ease_type, angular_drag, ):
-        self.padding = initial_padding
-        self.draw_cubies = draw_cubies
-        self.draw_sphere = draw_sphere
-        self.draw_lines = draw_lines
-        self.line_width = line_width
-        self.inner_color = inner_color
-        self.sphere_color = sphere_color
-        self.angular_drag = angular_drag
+    def __init__(self, settings, face_rotation_ease_type):
+        self.padding = settings.cube_padding
+        self.draw_cubies = settings.cube_draw_cubies
+        self.draw_sphere = settings.cube_draw_sphere
+        self.draw_lines = settings.cube_draw_lines
+        self.line_width = settings.cube_line_width
+        self.inner_color = settings.cube_inner_color
+        self.sphere_color = settings.cube_sphere_color
+        self.angular_drag = settings.cube_angular_drag
+        self.scale_drag = settings.cube_scale_drag
+        self.min_scale = settings.cube_min_scale
+        self.max_scale = settings.cube_max_scale
 
-        self.rot_x = 0
-        self.rot_y = 0
+        self.rot_x = 0.0
+        self.rot_y = 0.0
         self.accum = (1, 0, 0, 0)
-        self.scale = 1
+
+        self.scale = 1.0
+        self.scale_speed = 0.0
 
         self.sphere_radius = 3
         self.sphere_slices = 16
         self.sphere_stacks = 16
 
-        self.face_rotation_tween_time = face_rotation_tween_time
+        self.face_rotation_tween_time = settings.cube_face_rotation_tween_time
         self.face_rotation_ease_type = face_rotation_ease_type
 
         self.geometry = Geometry()
@@ -52,7 +58,6 @@ class Cube:
         self.reset()
 
     def reset(self):
-        # :HACK: keep colors
         self.geometry = Geometry()
 
         self.geometry.add_padding(self.padding)
@@ -70,6 +75,15 @@ class Cube:
 
         self.accum = q_mult(self.accum, rot_x)
         self.accum = q_mult(self.accum, rot_y)
+
+        self.scale_speed -= abs(self.scale_speed) * self.scale_drag * elapsed_time * np.sign(self.scale_speed)
+        self.scale += self.scale_speed
+        if self.scale < self.min_scale:
+            self.scale = self.min_scale
+            self.scale_speed = 0.0
+        elif self.scale > self.max_scale:
+            self.scale = self.max_scale
+            self.scale_speed = 0.0
 
         self.update_queue()
         self.update_tween(elapsed_time)
@@ -94,8 +108,8 @@ class Cube:
     def inc_rotate_y(self, value):
         self.rot_y += value
 
-    def inc_scale(self, value):
-        self.scale = max(self.scale + value, 0.1)
+    def add_scale(self, value):
+        self.scale_speed += value
 
     def reset_rotation(self):
         self.rot_x = 0
