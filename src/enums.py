@@ -21,7 +21,3 @@ class FaceRotation(Enum):
     UP_CCW = -5
     DOWN_CW = 6
     DOWN_CCW = -6
-
-class State(Enum):
-    IDLE = 0
-    TWEENING = 1

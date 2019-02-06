@@ -66,24 +66,6 @@ Some parts of the application are customizable with a config file in `cfg/settin
 ```
 {
     "settings": {
-        "subscriber": {
-            "start": true,
-            "broker": "127.0.0.1",
-            "port": 1883,
-            "topic": "pycubix"
-        },
-        "fps": {
-            "show": true,
-            "update_interval": 10
-        },
-        "window": {
-            "caption": "PyCubix",
-            "background_color": [0.235, 0.263, 0.306],
-            "size": {
-                "width": 600,
-                "height": 600
-            }
-        },
         "cube": {
             "draw_cubies": true,
             "draw_sphere": true,
@@ -92,10 +74,14 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "line_width": 4,
             "angular_drag": 0.7,
             "scale_drag": 1.2,
-            "min_scale": 0.3,
-            "max_scale": 1.5,
-            "initial_rotation_x_deg": -30,
-            "initial_rotation_y_deg": 25,
+            "scaling": {
+                "min": 0.3,
+                "max": 1.5
+            },
+            "initial_rotation": {
+                "x-axis": -25,
+                "y-axis": 30
+            },
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
             "tween": {
@@ -117,6 +103,27 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "right": "red",
                 "up": "yellow",
                 "down": "white"
+            }
+        },
+        "fps": {
+            "show": true,
+            "update_interval": 10
+        },
+        "mouse": {
+            "sensitivity": 5
+        },
+        "subscriber": {
+            "start": true,
+            "broker": "127.0.0.1",
+            "port": 1883,
+            "topic": "pycubix"
+        },
+        "window": {
+            "caption": "PyCubix",
+            "background_color": [0.235, 0.263, 0.306],
+            "size": {
+                "width": 600,
+                "height": 600
             }
         }
     }

@@ -1,3 +1,6 @@
+""" cube
+Originally written by Michael King (https://github.com/mtking2/PyCube)
+"""
 
 '''
     5____________6

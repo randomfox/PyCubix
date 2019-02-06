@@ -12,11 +12,15 @@ from math import *
 import numpy as np
 from queue import Queue
 
-from enums import State, FaceRotation
+from enums import FaceRotation
 from geometry import Geometry
 from mathf import Mathf
 from quat import *
 from tween import *
+
+class State(Enum):
+    IDLE = 0
+    TWEENING = 1
 
 class Cube:
     def __init__(self, settings, face_rotation_ease_type):
@@ -57,9 +61,10 @@ class Cube:
         ]
         self.reset()
 
-        rot_x = settings.cube_initial_rotation_x_deg * Mathf.DEG_TO_RAD
-        rot_y = settings.cube_initial_rotation_y_deg * Mathf.DEG_TO_RAD
-        self.apply_rotation(rot_x, rot_y)
+        rot_x = settings.cube_initial_rotation_x * Mathf.DEG_TO_RAD
+        self.apply_rotation(rot_x, 0)
+        rot_y = settings.cube_initial_rotation_y * Mathf.DEG_TO_RAD
+        self.apply_rotation(0, rot_y)
 
     def reset(self):
         self.geometry = Geometry()
@@ -75,7 +80,6 @@ class Cube:
         qy = normalize(axisangle_to_q((0.0, 1.0, 0.0), y))
         self.accum = q_mult(self.accum, qx)
         self.accum = q_mult(self.accum, qy)
-        # glLoadMatrixf(q_to_mat4(self.accum))
 
     def update(self, elapsed_time):
         self.rot_x -= abs(self.rot_x) * self.angular_drag * elapsed_time * np.sign(self.rot_x)

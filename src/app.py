@@ -12,6 +12,8 @@ from delta_time import DeltaTime
 from enums import *
 from fps import Fps
 from helpers import LittleHelpers
+from mathf import Mathf
+from mousedrag import MouseDrag
 
 class App:
     KEY_BACKSPACE = 8
@@ -24,6 +26,7 @@ class App:
 
         self.delta_time = DeltaTime()
         self.fps = Fps(self.settings.fps_update_interval)
+        self.mouse_drag = MouseDrag()
 
         self.command_delimiter = ';'
 
@@ -42,6 +45,8 @@ class App:
 
         glutReshapeFunc(self.on_reshape_window)
         glutKeyboardFunc(self.on_keyboard_input)
+        glutMouseFunc(self.on_mouse_input)
+        glutMotionFunc(self.on_mouse_move)
         glutSpecialFunc(self.on_special_input)
         glutVisibilityFunc(self.on_visibility_change)
         glutIdleFunc(self.on_update)
@@ -55,6 +60,8 @@ class App:
         glEnable(GL_DEPTH_TEST)
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
+
+        # print(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT))
 
     def init_cube(self):
         face_rotation_ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
@@ -152,6 +159,25 @@ class App:
         elif ch == 'R': move = "R'"
         if move != None:
             self.add_moves([move])
+
+    def on_mouse_input(self, button, state, x, y):
+        if button == GLUT_LEFT_BUTTON:
+            if state == GLUT_DOWN:
+                self.mouse_drag.begin(x, y)
+                self.cube.stop_rotation()
+            if state == GLUT_UP:
+                self.mouse_drag.end(x, y)
+
+    def on_mouse_move(self, x, y):
+        if self.mouse_drag.is_dragging:
+            sensitivity = Mathf.clamp(self.settings.mouse_sensitivity, 0.1, 10)
+            val = pi / 500 * sensitivity
+            self.mouse_drag.update(x, y)
+            dx, dy = self.mouse_drag.get_delta()
+            if dx != 0:
+                self.cube.add_rotate_x(-dy * val * self.delta_time.elapsed())
+            if dy != 0:
+                self.cube.add_rotate_y(-dx * val * self.delta_time.elapsed())
 
     def on_special_input(self, key, x, y):
         value = pi / 32 * self.delta_time.elapsed()
