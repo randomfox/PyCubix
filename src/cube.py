@@ -48,14 +48,18 @@ class Cube:
 
         self.geometry = Geometry()
         self.face_colors = [
-            (0.066, 0.490, 0.988),  # Front: Blue
-            (0.996, 0.549, 0.184),  # Left: Orange
-            (0.102, 0.878, 0.133),  # Back: Green
-            (0.855, 0.082, 0.102),  # Right: Red
-            (0.961, 1.000, 0.204),  # Up: Yellow
+            (0.066, 0.490, 0.988), # Front: Blue
+            (0.996, 0.549, 0.184), # Left: Orange
+            (0.102, 0.878, 0.133), # Back: Green
+            (0.855, 0.082, 0.102), # Right: Red
+            (0.961, 1.000, 0.204), # Up: Yellow
             (1.000, 1.000, 1.000)  # Down: White
         ]
         self.reset()
+
+        rot_x = settings.cube_initial_rotation_x_deg * Mathf.DEG_TO_RAD
+        rot_y = settings.cube_initial_rotation_y_deg * Mathf.DEG_TO_RAD
+        self.apply_rotation(rot_x, rot_y)
 
     def reset(self):
         self.geometry = Geometry()
@@ -66,15 +70,22 @@ class Cube:
         self.state = State.IDLE
         self.current_face_rotation = None
 
+    def apply_rotation(self, x, y):
+        qx = normalize(axisangle_to_q((1.0, 0.0, 0.0), x))
+        qy = normalize(axisangle_to_q((0.0, 1.0, 0.0), y))
+        self.accum = q_mult(self.accum, qx)
+        self.accum = q_mult(self.accum, qy)
+        # glLoadMatrixf(q_to_mat4(self.accum))
+
     def update(self, elapsed_time):
         self.rot_x -= abs(self.rot_x) * self.angular_drag * elapsed_time * np.sign(self.rot_x)
         self.rot_y -= abs(self.rot_y) * self.angular_drag * elapsed_time * np.sign(self.rot_y)
 
-        rot_x = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.rot_x))
-        rot_y = normalize(axisangle_to_q((0.0, 1.0, 0.0), self.rot_y))
+        qx = normalize(axisangle_to_q((1.0, 0.0, 0.0), self.rot_x))
+        qy = normalize(axisangle_to_q((0.0, 1.0, 0.0), self.rot_y))
 
-        self.accum = q_mult(self.accum, rot_x)
-        self.accum = q_mult(self.accum, rot_y)
+        self.accum = q_mult(self.accum, qx)
+        self.accum = q_mult(self.accum, qy)
 
         self.scale_speed -= abs(self.scale_speed) * self.scale_drag * elapsed_time * np.sign(self.scale_speed)
         self.scale += self.scale_speed
@@ -102,10 +113,10 @@ class Cube:
             self.render_lines()
         # glPopMatrix()
 
-    def inc_rotate_x(self, value):
+    def add_rotate_x(self, value):
         self.rot_x += value
 
-    def inc_rotate_y(self, value):
+    def add_rotate_y(self, value):
         self.rot_y += value
 
     def add_scale(self, value):

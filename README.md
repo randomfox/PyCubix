@@ -94,6 +94,8 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "scale_drag": 1.2,
             "min_scale": 0.3,
             "max_scale": 1.5,
+            "initial_rotation_x_deg": -30,
+            "initial_rotation_y_deg": 25,
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
             "tween": {

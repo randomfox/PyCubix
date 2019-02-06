@@ -157,13 +157,13 @@ class App:
         value = pi / 32 * self.delta_time.elapsed()
 
         if key == GLUT_KEY_UP:
-            self.cube.inc_rotate_x(value)
+            self.cube.add_rotate_x(value)
         if key == GLUT_KEY_DOWN:
-            self.cube.inc_rotate_x(-value)
+            self.cube.add_rotate_x(-value)
         if key == GLUT_KEY_LEFT:
-            self.cube.inc_rotate_y(value)
+            self.cube.add_rotate_y(value)
         if key == GLUT_KEY_RIGHT:
-            self.cube.inc_rotate_y(-value)
+            self.cube.add_rotate_y(-value)
 
     def on_update(self):
         self.delta_time.update()
@@ -275,13 +275,19 @@ class App:
             if num_parts == 2:
                 value = LittleHelpers.convert_str_to_float(parts[1])
                 if value:
-                    self.cube.inc_rotate_x(value * self.delta_time.elapsed())
+                    self.cube.add_rotate_x(value * self.delta_time.elapsed())
 
         elif cmd == 'add_rotation_y':
             if num_parts == 2:
                 value = LittleHelpers.convert_str_to_float(parts[1])
                 if value:
-                    self.cube.inc_rotate_y(value * self.delta_time.elapsed())
+                    self.cube.add_rotate_y(value * self.delta_time.elapsed())
+
+        elif cmd == 'add_scale':
+            if num_parts == 2:
+                value = LittleHelpers.convert_str_to_float(parts[1])
+                if value:
+                    self.cube.add_scale(value * self.delta_time.elapsed())
 
         elif cmd == 'rotate_face':
             moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))

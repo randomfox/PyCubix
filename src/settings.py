@@ -34,6 +34,8 @@ class Settings(Config):
         }
         self.cube_face_rotation_tween_time = 0.5
         self.cube_face_rotation_ease_type = "ease_cosine"
+        self.cube_initial_rotation_x_deg = -30
+        self.cube_initial_rotation_y_deg = 25
 
         # fps settings
         self.fps_update_interval = 10
@@ -86,6 +88,8 @@ class Settings(Config):
             self.cube_scale_drag = self.get_value(cube, ['scale_drag'], self.cube_scale_drag)
             self.cube_min_scale = self.get_value(cube, ['min_scale'], self.cube_min_scale)
             self.cube_max_scale = self.get_value(cube, ['max_scale'], self.cube_max_scale)
+            self.cube_initial_rotation_x_deg = self.get_value(cube, ['initial_rotation_x_deg'], self.cube_initial_rotation_x_deg)
+            self.cube_initial_rotation_y_deg = self.get_value(cube, ['initial_rotation_y_deg'], self.cube_initial_rotation_y_deg)
             self.cube_face_rotation_tween_time = self.get_value(cube['tween'], ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
             self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
             self.cube_colors = self.get_value(cube, ['colors'], self.cube_colors)

@@ -1,6 +1,9 @@
 from math import *
 
 class Mathf:
+    DEG_TO_RAD = pi * 2.0 / 360
+    RAD_TO_DEG = 1.0 / (pi * 2.0 / 360)
+
     @staticmethod
     def clamp01(value):
         if value < 0.0: return 0.0
