@@ -73,14 +73,14 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "padding": 0.3,
             "line_width": 4,
             "angular_drag": 0.7,
-            "scale_drag": 1.2,
+            "scale_drag": 4.2,
             "scaling": {
                 "min": 0.3,
                 "max": 1.5
             },
             "initial_rotation": {
-                "x-axis": -25,
-                "y-axis": 30
+                "x_angle": 0,
+                "y_angle": 0
             },
             "inner_color": [0.0, 0.0, 0.0],
             "sphere_color": [0.0, 0.0, 0.0],
@@ -103,6 +103,24 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "right": "red",
                 "up": "yellow",
                 "down": "white"
+            },
+            "auto_rotation": {
+                "x_axis": {
+                    "enabled": true,
+                    "begin_angle": -30,
+                    "end_angle": 30,
+                    "time": 8,
+                    "ease_type": "ease_cosine",
+                    "jump_start": 0.5
+                },
+                "y_axis": {
+                    "enabled": true,
+                    "begin_angle": 135,
+                    "end_angle": -135,
+                    "time": 16,
+                    "ease_type": "ease_cosine",
+                    "jump_start": 0.5
+                }
             }
         },
         "fps": {
