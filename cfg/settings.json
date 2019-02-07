@@ -41,7 +41,7 @@
             },
             "auto_rotation": {
                 "x_axis": {
-                    "enabled": true,
+                    "enabled": false,
                     "begin_angle": -30,
                     "end_angle": 30,
                     "time": 8,
@@ -49,7 +49,7 @@
                     "jump_start": 0.5
                 },
                 "y_axis": {
-                    "enabled": true,
+                    "enabled": false,
                     "begin_angle": 135,
                     "end_angle": -135,
                     "time": 16,
