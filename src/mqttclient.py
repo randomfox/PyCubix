@@ -31,7 +31,7 @@ class MqttClient:
         self.client.loop_stop()
 
     def on_connect(self, client, userdata, flags, rc):
-        print('Mqtt client connected to topic {}'.format(self.topic))
+        print('Mqtt client connected. Subscribing to topic {}'.format(self.topic))
         self.client.subscribe(self.topic)
 
     def on_disconnect(self, client, userdata, rc=0):
