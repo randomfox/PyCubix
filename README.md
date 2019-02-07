@@ -56,8 +56,7 @@ Python 3.x: `$ pip3 install numpy pyopengl`
 - BACKSPACE resets the cube geometry
 - Use '1' to instantly apply a random pattern
 - Use '2' to apply a random pattern (you should probably reset the cube geometry first if the cube is already scrambled)
-- Use '0' to reorient the colors (in this test case, white is applied to the UP face and so forth)
-- Mouse support isn't implemented yet
+- Use the mouse to rotate the cube around the x- and the y-axis
 
 ## Customization
 
@@ -169,10 +168,12 @@ Using `iot.eclipse.org` for instance also works fine as a host.
 
 Standalone commands:
 - `reset_cube`: Reset the cube (geometry and color orientation)
-- `reset_cube_rotation`: Reset the cube's rotation
-- `reset_cube_scale`: Reset the cube's scale
-- `stop_cube_rotation`: Stop the cube's rotation
+- `reset_rotation`: Reset the cube's rotation
+- `reset_scale`: Reset the cube's scale
+- `reset_color_mapping`: Reset the cube's color mapping
+- `stop_rotation`: Stop the cube's rotation
 - `apply_random_pattern`: Apply a random pattern from the pattern database (***)
+- `apply_random_scramble`: Apply a random scramble
 - `quit` or `exit`: Quit/exit application
 
 Commands with parameters:
@@ -180,10 +181,12 @@ Commands with parameters:
 - `add_rotation_y = <float_value>`: Rotate the cube around the y axis. Example: `add_rotation_y = 0.29`
 - `add_scale = <float_value>`: Scale the cube. Example: `add_scale = 0.73`
 - `rotate_face = <list_of_faces_to_be_rotated>`: Rotate one or more faces of the cube using the Rubik's cube notation. The cube is not reset before executing the moves. Example: `rotate_face = R U R' U'`
-- `set_color_orientation = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
+- `map_colors = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `map_colors = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
 - `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube the faces are rotated INSTANTLY (within the same frame), meaning that the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`. To maintain a prior applied color orientation, you would do the follow to scramble the cube: `reset_cube;set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow;scramble = U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2`.
+- `add_padding = <float_value>`: Modify the padding between the cubies. Example: `add_padding = 0.5`. (NOTE: This method has a bug and does only work correctly when the padding is applied BEFORE the first face rotation.)
+- `set_window_background_color = <float_value_red>, <float_value_green>, <float_value_blue>`: Set the windows's background color. Example: `set_window_background_color = 0.3, 0.3, 0.3`
 
-It's also possible to put more than one command in a single message. The commands need to be separated by a semicolon though. Example: `reset_cube;apply_random_pattern`
+It's also possible more than one command in a single message. The commands need to be separated by a semicolon though. Example: `reset_cube;apply_random_pattern`
 
 ## What else is there?
 

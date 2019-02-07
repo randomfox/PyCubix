@@ -75,6 +75,7 @@ class App:
 
     def init_command_handler_map(self):
         self.cmd_handler_map = {
+            # standalone commands
             'exit': self.handle_exit_command,
             'quit': self.handle_exit_command,
 
@@ -89,9 +90,13 @@ class App:
             'stop_rotation': self.handle_stop_rotation_command,
             'stop_cube_rotation': self.handle_stop_rotation_command, # obsolete
 
+            'reset_color_mapping': self.handle_reset_color_mapping_command,
+            'apply_random_pattern': self.handle_apply_random_pattern_command,
+            'apply_random_scramble': self.handle_apply_random_scramble_command,
+
+            # commands with parameters
             'map_colors': self.handle_map_colors_command,
             'set_color_orientation': self.handle_map_colors_command, # obsolete
-            'reset_color_mapping': self.handle_reset_color_mapping_command,
 
             'add_rotation_x': self.handle_add_rotation_x_command,
             'add_rotation_y': self.handle_add_rotation_y_command,
@@ -99,8 +104,6 @@ class App:
             'rotate_face': self.handle_rotate_face_command,
 
             'scramble': self.handle_scramble_command,
-            'apply_random_pattern': self.handle_apply_random_pattern_command,
-            'apply_random_scramble': self.handle_apply_random_scramble_command,
             'add_padding': self.handle_add_padding_command,
 
             'set_window_background_color': self.handle_set_window_background_color,
