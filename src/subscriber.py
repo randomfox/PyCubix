@@ -17,23 +17,24 @@ class Subscriber:
         self.client.on_message = self.on_message
 
     def start(self):
-        print('Starting subscriber. Trying to connect to broker: {}:{}'.format(self.broker, self.port))
+        print('Starting subscriber')
+        print('Connecting to broker {}:{}'.format(self.broker, self.port))
         try:
             self.client.connect(self.broker, self.port)
-            self.client.loop_start()
         except:
             print('Big nope. Unable to connect to broker {}:{}'.format(self.broker, self.port))
+        self.client.loop_start()
 
     def stop(self):
         print('Stopping subscriber')
         self.client.loop_stop()
 
     def on_connect(self, client, userdata, flags, rc):
-        print('Subscriber connected. Topic:{} Code:{}'.format(topic, rc))
+        print('Subscriber connected to topic {}'.format(self.topic))
         self.client.subscribe(self.topic)
 
     def on_disconnect(self, client, userdata, rc=0):
-        print('Subscriber disconnected. Code: {}'.format(rc))
+        print('Subscriber disconnected')
         self.client.loop_stop()
 
     def on_message(self, client, userdata, message):
