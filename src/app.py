@@ -61,8 +61,6 @@ class App:
         glShadeModel(GL_FLAT)
         glDepthFunc(GL_LESS)
 
-        # print(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT))
-
     def init_cube(self):
         face_rotation_ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
         self.cube = Cube(self.settings, face_rotation_ease_type)
