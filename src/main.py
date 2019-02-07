@@ -2,7 +2,7 @@ import argparse
 
 from app import App
 from settings import Settings
-from subscriber import *
+from mqttclient import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--settings', help='Path to settings file', required=False)
@@ -15,13 +15,13 @@ if args.settings != None:
 settings = Settings()
 settings.load(filename)
 
-if settings.subscriber_start:
-	broker = settings.subscriber_broker
-	port = settings.subscriber_port
-	topic = settings.subscriber_topic
-	subscriber = Subscriber(broker, port, topic)
-	subscriber.start()
+if settings.mqtt_client_start:
+	broker = settings.mqtt_client_broker
+	port = settings.mqtt_client_port
+	topic = settings.mqtt_client_subscribe_topic
+	client = MqttClient(broker, port, topic)
+	client.start()
 
 glinfo = args.glinfo
-app = App(settings, subscriber, glinfo)
+app = App(settings, client, glinfo)
 app.run()

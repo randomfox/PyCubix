@@ -65,11 +65,12 @@
         "mouse": {
             "sensitivity": 5
         },
-        "subscriber": {
+        "mqtt_client": {
             "start": true,
             "broker": "127.0.0.1",
             "port": 1883,
-            "topic": "pycubix"
+            "subscribe_topic": "pycubix",
+            "publish_topic": "pycubix_out"
         },
         "window": {
             "caption": "PyCubix",

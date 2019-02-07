@@ -23,9 +23,9 @@ class App:
     KEY_ESCAPE = 27
     KEY_DELETE = 127 # 'backspace' on mac is 7f/127
 
-    def __init__(self, settings, subscriber, glinfo):
+    def __init__(self, settings, client, glinfo):
         self.settings = settings
-        self.subscriber = subscriber
+        self.client = client
 
         self.delta_time = DeltaTime()
         self.fps = Fps(self.settings.fps_update_interval)
@@ -116,7 +116,7 @@ class App:
         print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
 
     def prepare_exit(self):
-        self.subscriber.stop()
+        self.client.stop()
 
     def on_exit(self):
         self.prepare_exit()
@@ -292,8 +292,8 @@ class App:
         self.cube.reset()
 
     def check_message_queue(self):
-        if self.subscriber.has_pending_messages():
-            message = self.subscriber.get_message()
+        if self.client and self.client.has_pending_messages():
+            message = self.client.get_next_message()
             if message == None:
                 return
             commands = message.strip().split(self.command_delimiter)
@@ -301,6 +301,7 @@ class App:
                 self.handle_command(command)
 
     def test_debug(self):
+        self.client.publish("test", "yo!")
         pass
 
     # :TODO: clean up this mess

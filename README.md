@@ -106,7 +106,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
             },
             "auto_rotation": {
                 "x_axis": {
-                    "enabled": true,
+                    "enabled": false,
                     "begin_angle": -30,
                     "end_angle": 30,
                     "time": 8,
@@ -114,7 +114,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
                     "jump_start": 0.5
                 },
                 "y_axis": {
-                    "enabled": true,
+                    "enabled": false,
                     "begin_angle": 135,
                     "end_angle": -135,
                     "time": 16,
@@ -125,20 +125,21 @@ Some parts of the application are customizable with a config file in `cfg/settin
         },
         "fps": {
             "show": true,
-            "update_interval": 10
+            "update_interval": 30
         },
         "mouse": {
             "sensitivity": 5
         },
-        "subscriber": {
+        "mqtt_client": {
             "start": true,
             "broker": "127.0.0.1",
             "port": 1883,
-            "topic": "pycubix"
+            "subscribe_topic": "pycubix",
+            "publish_topic": "pycubix_out"
         },
         "window": {
             "caption": "PyCubix",
-            "background_color": [0.235, 0.263, 0.306],
+            "background_color": [0.203, 0.239, 0.274],
             "size": {
                 "width": 600,
                 "height": 600

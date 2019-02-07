@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 # broker = 'iot.eclipse.org'
 # topic = '$SYS/#'
 
-class Subscriber:
+class MqttClient:
     def __init__(self, broker, port, topic):
         self.broker = broker
         self.port = port
@@ -15,9 +15,10 @@ class Subscriber:
         self.client.on_connect = self.on_connect
         self.client.on_disconnect = self.on_disconnect
         self.client.on_message = self.on_message
+        self.client.on_publish = self.on_publish
 
     def start(self):
-        print('Starting subscriber')
+        print('Starting mqtt client')
         print('Connecting to broker {}:{}'.format(self.broker, self.port))
         try:
             self.client.connect(self.broker, self.port)
@@ -26,15 +27,15 @@ class Subscriber:
         self.client.loop_start()
 
     def stop(self):
-        print('Stopping subscriber')
+        print('Stopping mqtt client')
         self.client.loop_stop()
 
     def on_connect(self, client, userdata, flags, rc):
-        print('Subscriber connected to topic {}'.format(self.topic))
+        print('Mqtt client connected to topic {}'.format(self.topic))
         self.client.subscribe(self.topic)
 
     def on_disconnect(self, client, userdata, rc=0):
-        print('Subscriber disconnected')
+        print('Mqtt client disconnected')
         self.client.loop_stop()
 
     def on_message(self, client, userdata, message):
@@ -44,12 +45,18 @@ class Subscriber:
         if topic == self.topic:
             self.message_queue.put_nowait(payload)
 
+    def on_publish(client, userdata, result):
+        print("Data published", userdata)
+
     def has_pending_messages(self):
         return self.message_queue.empty() == False
 
-    def get_message(self):
+    def get_next_message(self):
         try:
             return self.message_queue.get_nowait()
         except:
             pass
         return None
+
+    def publish(self, topic, message):
+        ret = self.client.publish(topic, message)

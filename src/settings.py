@@ -59,10 +59,11 @@ class Settings(Config):
         self.mouse_sensitivity = 5
 
         # subscriber settings
-        self.subscriber_start = True
-        self.subscriber_broker = '127.0.0.1'
-        self.subscriber_port = 1883
-        self.subscriber_topic = 'pycubix'
+        self.mqtt_client_start = True
+        self.mqtt_client_broker = '127.0.0.1'
+        self.mqtt_client_port = 1883
+        self.mqtt_client_subscribe_topic = 'pycubix'
+        self.mqtt_client_publish_topic = 'pycubix_out'
 
         # window settings
         self.window_caption = "PyCubix"
@@ -86,7 +87,7 @@ class Settings(Config):
         prop_cube = 'cube'
         prop_fps = 'fps'
         prop_mouse = 'mouse'
-        prop_subscriber = 'subscriber'
+        prop_mqtt_client = 'mqtt_client'
         prop_window = 'window'
 
         if not config or prop_settings not in config:
@@ -139,12 +140,13 @@ class Settings(Config):
                 mouse = settings[prop_mouse]
                 self.mouse_sensitivity = self.get_value(mouse, ['sensitivity'], self.mouse_sensitivity)
 
-            if prop_subscriber in settings:
-                subscriber = settings[prop_subscriber]
-                self.subscriber_start = self.get_value(subscriber, ['start'], self.subscriber_start)
-                self.subscriber_broker = self.get_value(subscriber, ['broker'], self.subscriber_broker)
-                self.subscriber_port = self.get_value(subscriber, ['port'], self.subscriber_port)
-                self.subscriber_topic = self.get_value(subscriber, ['topic'], self.subscriber_topic)
+            if prop_mqtt_client in settings:
+                client = settings[prop_mqtt_client]
+                self.mqtt_client_start = self.get_value(client, ['start'], self.mqtt_client_start)
+                self.mqtt_client_broker = self.get_value(client, ['broker'], self.mqtt_client_broker)
+                self.mqtt_client_port = self.get_value(client, ['port'], self.mqtt_client_port)
+                self.mqtt_client_subscribe_topic = self.get_value(client, ['subscribe_topic'], self.mqtt_client_subscribe_topic)
+                self.mqtt_client_publish_topic = self.get_value(client, ['publish_topic'], self.mqtt_client_publish_topic)
 
             if prop_window in settings:
                 window = settings[prop_window]
