@@ -1,3 +1,4 @@
+import atexit
 import time
 import numpy as np
 
@@ -19,6 +20,7 @@ class App:
     KEY_BACKSPACE = 8
     KEY_RETURN = 13
     KEY_ESCAPE = 27
+    KEY_DELETE = 127 # 'backspace' on mac is 7f/127
 
     def __init__(self, settings, subscriber, glinfo):
         self.settings = settings
@@ -36,6 +38,8 @@ class App:
         if glinfo:
             self.show_gl_info()
 
+        atexit.register(self.on_exit)
+
     def init_opengl(self):
         glutInit()
         glutInitWindowPosition(0, 0)
@@ -51,7 +55,8 @@ class App:
         glutVisibilityFunc(self.on_visibility_change)
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
-        glutCloseFunc(self.on_close_window)
+        # glutCloseFunc(self.on_close_window)
+        # glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS)
 
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
@@ -78,7 +83,7 @@ class App:
     def prepare_exit(self):
         self.subscriber.stop()
 
-    def on_close_window(self):
+    def on_exit(self):
         self.prepare_exit()
 
     def on_reshape_window(self, w, h):
@@ -104,10 +109,9 @@ class App:
 
         # exit app on q or ESC:
         if ch == 'q' or ch == chr(self.KEY_ESCAPE):
-            self.prepare_exit()
             sys.exit()
         # reset cube:
-        elif ch == chr(self.KEY_BACKSPACE):
+        elif ch == chr(self.KEY_BACKSPACE) or ch == chr(self.KEY_DELETE):
             self.reset_cube()
         # reset scale and rotation:
         elif ch == chr(self.KEY_RETURN):
@@ -277,7 +281,6 @@ class App:
         cmd = parts[0]
 
         if cmd == 'quit' or cmd == 'exit':
-            self.prepare_exit()
             sys.exit()
 
         elif cmd == 'reset_cube':
