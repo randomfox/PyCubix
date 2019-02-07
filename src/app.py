@@ -15,6 +15,7 @@ from fps import Fps
 from helpers import LittleHelpers
 from mathf import Mathf
 from mousedrag import MouseDrag
+from tween import *
 
 class App:
     KEY_BACKSPACE = 8
@@ -67,7 +68,7 @@ class App:
         glDepthFunc(GL_LESS)
 
     def init_cube(self):
-        face_rotation_ease_type = LittleHelpers.get_ease_type_by_str(self.settings.cube_face_rotation_ease_type)
+        face_rotation_ease_type = Tween.get_ease_type_by_name(self.settings.cube_face_rotation_ease_type)
         self.cube = Cube(self.settings, face_rotation_ease_type)
         self.set_cube_color_orientation(self.settings.cube_color_mapping)
 

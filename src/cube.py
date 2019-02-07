@@ -14,6 +14,7 @@ from queue import Queue
 
 from enums import FaceRotation
 from geometry import Geometry
+from helpers import LittleHelpers
 from mathf import Mathf
 from quat import *
 from tween import *
@@ -61,14 +62,38 @@ class Cube:
         ]
         self.reset()
 
-        rot_x = settings.cube_initial_rotation_x * Mathf.DEG_TO_RAD
-        self.apply_rotation(rot_x, 0)
-        rot_y = settings.cube_initial_rotation_y * Mathf.DEG_TO_RAD
-        self.apply_rotation(0, rot_y)
+        rx = settings.cube_initial_rotation_x * Mathf.DEG_TO_RAD
+        ry = settings.cube_initial_rotation_y * Mathf.DEG_TO_RAD
+        self.apply_rotation(rx, ry)
+
+        # auto-rotation:
+        repeat = True
+        repetition_count = -1
+
+        if settings.cube_auto_rot_x_enabled:
+            begin = settings.cube_auto_rot_x_begin
+            end = settings.cube_auto_rot_x_end
+            time = settings.cube_auto_rot_x_time
+            jump_start = settings.cube_auto_rot_x_jump_start
+            ease = Tween.get_ease_type_by_name(settings.cube_auto_rot_x_ease_type)
+            self.auto_rot_x = Tween()
+            self.auto_rot_x.tween(begin, end, time, ease, repeat, repetition_count, jump_start)
+        else:
+            self.auto_rot_x = None
+
+        if settings.cube_auto_rot_y_enabled:
+            begin = settings.cube_auto_rot_y_begin
+            end = settings.cube_auto_rot_y_end
+            time = settings.cube_auto_rot_y_time
+            jump_start = settings.cube_auto_rot_y_jump_start
+            ease = Tween.get_ease_type_by_name(settings.cube_auto_rot_y_ease_type)
+            self.auto_rot_y = Tween()
+            self.auto_rot_y.tween(begin, end, time, ease, repeat, repetition_count, jump_start)
+        else:
+            self.auto_rot_y = None
 
     def reset(self):
         self.geometry = Geometry()
-
         self.geometry.add_padding(self.padding)
         self.queued_face_rotations = Queue(0)
         self.tween = Tween()
@@ -104,10 +129,23 @@ class Cube:
         self.update_tween(elapsed_time)
         self.update_face_tweening()
 
+        if self.auto_rot_x:
+            self.auto_rot_x.update(elapsed_time)
+
+        if self.auto_rot_y:
+            self.auto_rot_y.update(elapsed_time)
+
     def render(self):
         # glPushMatrix()
         glLoadMatrixf(q_to_mat4(self.accum))
         glScalef(self.scale, self.scale, self.scale)
+
+        if self.auto_rot_x:
+            rot_x = self.auto_rot_x.get_current()
+            glRotatef(rot_x, 1, 0, 0)
+        if self.auto_rot_y:
+            rot_y = self.auto_rot_y.get_current()
+            glRotatef(rot_y, 0, 1, 0)
 
         if self.draw_sphere:
             self.render_sphere()

@@ -37,6 +37,20 @@ class Settings(Config):
         self.cube_initial_rotation_x = 0
         self.cube_initial_rotation_y = 0
 
+        self.cube_auto_rot_x_enabled = True
+        self.cube_auto_rot_x_begin = -25
+        self.cube_auto_rot_x_end = 25
+        self.cube_auto_rot_x_time = 8
+        self.cube_auto_rot_x_jump_start = 0.5
+        self.cube_auto_rot_x_ease_type = "ease_cosine"
+
+        self.cube_auto_rot_y_enabled = True
+        self.cube_auto_rot_y_begin = 135
+        self.cube_auto_rot_y_end = -135
+        self.cube_auto_rot_y_time = 16
+        self.cube_auto_rot_y_jump_start = 0.5
+        self.cube_auto_rot_y_ease_type = "ease_cosine"
+
         # fps settings
         self.fps_update_interval = 10
         self.fps_show = True
@@ -93,12 +107,28 @@ class Settings(Config):
                 self.cube_scale_drag = self.get_value(cube, ['scale_drag'], self.cube_scale_drag)
                 self.cube_min_scale = self.get_value(cube['scaling'], ['min'], self.cube_min_scale)
                 self.cube_max_scale = self.get_value(cube['scaling'], ['max'], self.cube_max_scale)
-                self.cube_initial_rotation_x = self.get_value(cube['initial_rotation'], ['x-axis'], self.cube_initial_rotation_x)
-                self.cube_initial_rotation_y = self.get_value(cube['initial_rotation'], ['y-axis'], self.cube_initial_rotation_y)
+                self.cube_initial_rotation_x = self.get_value(cube['initial_rotation'], ['x_angle'], self.cube_initial_rotation_x)
+                self.cube_initial_rotation_y = self.get_value(cube['initial_rotation'], ['y_angle'], self.cube_initial_rotation_y)
                 self.cube_face_rotation_tween_time = self.get_value(cube['tween'], ['face_rotation_tween_time'], self.cube_face_rotation_tween_time)
                 self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
                 self.cube_colors = self.get_value(cube, ['colors'], self.cube_colors)
                 self.cube_color_mapping = self.get_value(cube, ['color_mapping'], self.cube_color_mapping)
+
+                cube_auto_rotation_x = cube['auto_rotation']['x_axis']
+                self.cube_auto_rot_x_enabled = self.get_value(cube_auto_rotation_x, ['enabled'], self.cube_auto_rot_x_enabled)
+                self.cube_auto_rot_x_begin = self.get_value(cube_auto_rotation_x, ['begin_angle'], self.cube_auto_rot_x_begin)
+                self.cube_auto_rot_x_end = self.get_value(cube_auto_rotation_x, ['end_angle'], self.cube_auto_rot_x_end)
+                self.cube_auto_rot_x_time = self.get_value(cube_auto_rotation_x, ['time'], self.cube_auto_rot_x_time)
+                self.cube_auto_rot_x_jump_start = self.get_value(cube_auto_rotation_x, ['jump_start'], self.cube_auto_rot_x_jump_start)
+                self.cube_auto_rot_x_ease_type = self.get_value(cube_auto_rotation_x, ['ease_type'], self.cube_auto_rot_x_ease_type)
+
+                cube_auto_rotation_y = cube['auto_rotation']['y_axis']
+                self.cube_auto_rot_y_enabled = self.get_value(cube_auto_rotation_y, ['enabled'], self.cube_auto_rot_y_enabled)
+                self.cube_auto_rot_y_begin = self.get_value(cube_auto_rotation_y, ['begin_angle'], self.cube_auto_rot_y_begin)
+                self.cube_auto_rot_y_end = self.get_value(cube_auto_rotation_y, ['end_angle'], self.cube_auto_rot_y_end)
+                self.cube_auto_rot_y_time = self.get_value(cube_auto_rotation_y, ['time'], self.cube_auto_rot_y_time)
+                self.cube_auto_rot_y_jump_start = self.get_value(cube_auto_rotation_y, ['jump_start'], self.cube_auto_rot_y_jump_start)
+                self.cube_auto_rot_y_ease_type = self.get_value(cube_auto_rotation_y, ['ease_type'], self.cube_auto_rot_y_ease_type)
 
             if prop_fps in settings:
                 fps = settings[prop_fps]
