@@ -301,7 +301,6 @@ class App:
                 self.handle_command(command)
 
     def test_debug(self):
-        self.client.publish("test", "yo!")
         pass
 
     # :TODO: clean up this mess
