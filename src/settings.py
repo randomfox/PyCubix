@@ -82,7 +82,7 @@ class Settings(Config):
         i_feel_pretty.pprint(config)
 
     def assign(self, config):
-        print('# Settings')
+        print('Reading configuration')
         prop_settings = 'settings'
         prop_cube = 'cube'
         prop_fps = 'fps'
