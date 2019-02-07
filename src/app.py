@@ -267,6 +267,7 @@ class App:
     # :TODO: clean up this mess
     def handle_command(self, command):
         # print('Message handler |{}|'.format(command))
+        print('handle_command: {}'.format(command))
         if not command:
             return
 

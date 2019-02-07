@@ -17,26 +17,29 @@ class Subscriber:
         self.client.on_message = self.on_message
 
     def start(self):
-        print('Starting subscriber {}:{}'.format(self.broker, self.port))
-        self.client.connect(self.broker, self.port)
-        self.client.loop_start()
+        print('Starting subscriber. Trying to connect to broker: {}:{}'.format(self.broker, self.port))
+        try:
+            self.client.connect(self.broker, self.port)
+            self.client.loop_start()
+        except:
+            print('Big nope. Unable to connect to broker {}:{}'.format(self.broker, self.port))
 
     def stop(self):
         print('Stopping subscriber')
         self.client.loop_stop()
 
     def on_connect(self, client, userdata, flags, rc):
-        print('Subscriber connected {} ({})'.format(self.topic, str(rc)))
+        print('Subscriber connected. Topic:{} Code:{}'.format(topic, rc))
         self.client.subscribe(self.topic)
 
     def on_disconnect(self, client, userdata, rc=0):
-        print('Subscriber disconnected', str(rc))
+        print('Subscriber disconnected. Code: {}'.format(rc))
         self.client.loop_stop()
 
     def on_message(self, client, userdata, message):
         payload = str(message.payload.decode('utf-8'))
         topic = message.topic
-        print('message topic:{} payload:{}'.format(topic, payload))
+        # print('message topic:{} payload:{}'.format(topic, payload))
         if topic == self.topic:
             self.message_queue.put_nowait(payload)
 
