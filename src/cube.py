@@ -185,7 +185,7 @@ class Cube:
         for face in face_rotations:
             self.rotate_face(face, theta)
 
-    def set_color_orientation(self, front_color, back_color, left_color, right_color, up_color, down_color):
+    def map_colors(self, front_color, back_color, left_color, right_color, up_color, down_color):
         colors = [front_color, left_color, back_color, right_color, up_color, down_color]
         self.face_colors = colors
 

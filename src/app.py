@@ -35,6 +35,7 @@ class App:
 
         self.init_opengl()
         self.init_cube()
+        self.init_command_handler_map()
 
         if glinfo:
             self.show_gl_info()
@@ -70,7 +71,40 @@ class App:
     def init_cube(self):
         face_rotation_ease_type = Tween.get_ease_type_by_name(self.settings.cube_face_rotation_ease_type)
         self.cube = Cube(self.settings, face_rotation_ease_type)
-        self.set_cube_color_orientation(self.settings.cube_color_mapping)
+        self.map_cube_colors(self.settings.cube_color_mapping)
+
+    def init_command_handler_map(self):
+        self.cmd_handler_map = {
+            'exit': self.handle_exit_command,
+            'quit': self.handle_exit_command,
+
+            'reset_cube': self.handle_reset_cube_command,
+
+            'reset_rotation': self.handle_reset_rotation_command,
+            'reset_cube_rotation': self.handle_reset_rotation_command, # obsolete
+
+            'reset_scale': self.handle_reset_scale_command,
+            'reset_cube_scale': self.handle_reset_scale_command, # obsolete
+
+            'stop_rotation': self.handle_stop_rotation_command,
+            'stop_cube_rotation': self.handle_stop_rotation_command, # obsolete
+
+            'map_colors': self.handle_map_colors_command,
+            'set_color_orientation': self.handle_map_colors_command, # obsolete
+            'reset_color_mapping': self.handle_reset_color_mapping_command,
+
+            'add_rotation_x': self.handle_add_rotation_x_command,
+            'add_rotation_y': self.handle_add_rotation_y_command,
+            'add_scale': self.handle_add_scale_command,
+            'rotate_face': self.handle_rotate_face_command,
+
+            'scramble': self.handle_scramble_command,
+            'apply_random_pattern': self.handle_apply_random_pattern_command,
+            'apply_random_scramble': self.handle_apply_random_scramble_command,
+            'add_padding': self.handle_add_padding_command,
+
+            'set_window_background_color': self.handle_set_window_background_color,
+        }
 
     def run(self):
         glutMainLoop()
@@ -123,20 +157,13 @@ class App:
             self.cube.stop_rotation()
         # scramble with random pattern:
         elif ch == '1':
-            pattern = LittleHelpers.get_random_pattern()
-            self.reset_cube()
-            self.scramble_cube(pattern)
+            self.apply_random_scramble()
         # apply random pattern:
         elif ch == '2':
             self.apply_random_pattern()
-        # switch white and yellow:
-        elif ch == '0':
-            str = "front:blue, back:green, left:red, right:orange, up:white, down:yellow"
-            color_mapping = LittleHelpers.make_color_mapping_from_string(str)
-            self.set_cube_color_orientation(color_mapping)
         # debug test case:
         elif ch == 'x':
-            self.test()
+            self.test_debug()
 
         # scale cube:
         scale = None
@@ -225,7 +252,7 @@ class App:
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
 
-    def set_cube_color_orientation(self, color_mapping):
+    def map_cube_colors(self, color_mapping):
         front_color = Constants.FALLBACK_COLOR
         back_color = Constants.FALLBACK_COLOR
         left_color = Constants.FALLBACK_COLOR
@@ -243,7 +270,10 @@ class App:
             down_color = LittleHelpers.get_mapped_color(Face.DOWN, color_mapping, colors)
         except:
             pass
-        self.cube.set_color_orientation(front_color, back_color, left_color, right_color, up_color, down_color)
+        self.cube.map_colors(front_color, back_color, left_color, right_color, up_color, down_color)
+
+    def reset_cube_color_mapping(self):
+        self.map_cube_colors(self.settings.cube_color_mapping)
 
     def apply_random_pattern(self):
         pattern = LittleHelpers.get_random_pattern()
@@ -251,6 +281,12 @@ class App:
         moves = LittleHelpers.expand_notations(pattern.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
+
+    def apply_random_scramble(self):
+        pattern = LittleHelpers.get_random_pattern()
+        print('apply_random_scramble', pattern)
+        self.reset_cube()
+        self.scramble_cube(pattern)
 
     def reset_cube(self):
         self.cube.reset()
@@ -264,78 +300,98 @@ class App:
             for command in commands:
                 self.handle_command(command)
 
+    def test_debug(self):
+        pass
+
     # :TODO: clean up this mess
     def handle_command(self, command):
-        print('handle_command: {}'.format(command))
         if not command:
             return
 
+        print('handle_command: {}'.format(command))
+
         parts = command.split('=')
+        cmd = parts[0].strip()
+        params = ''
+        if len(parts) >= 2:
+            params = parts[1].strip()
 
-        num_parts = len(parts)
-        if num_parts == 0:
+        # print('cmd', cmd, 'params', params)
+
+        handler = self.cmd_handler_map.get(cmd)
+        if handler == None:
+            print('command_not_found:', cmd)
             return
+        handler(cmd, params)
 
-        for index, part in enumerate(parts):
-            parts[index] = part.strip()
+    def handle_exit_command(self, cmd, params):
+        sys.exit()
 
-        cmd = parts[0]
+    def handle_reset_cube_command(self, cmd, params):
+        self.reset_cube()
 
-        if cmd == 'quit' or cmd == 'exit':
-            sys.exit()
+    def handle_reset_rotation_command(self, cmd, params):
+        self.cube.reset_rotation()
 
-        elif cmd == 'reset_cube':
-            self.reset_cube()
+    def handle_reset_scale_command(self, cmd, params):
+        self.cube.reset_scale()
 
-        elif cmd == 'reset_cube_rotation':
-            self.cube.reset_rotation()
+    def handle_stop_rotation_command(self, cmd, params):
+        self.cube.stop_rotation()
 
-        elif cmd == 'reset_cube_scale':
-            self.cube.reset_scale()
+    def handle_add_rotation_x_command(self, cmd, params):
+        if params:
+            value = LittleHelpers.convert_str_to_float(params)
+            if value != None:
+                self.cube.add_rotate_x(value * self.delta_time.elapsed())
 
-        elif cmd == 'stop_cube_rotation':
-            self.cube.stop_rotation()
+    def handle_add_rotation_y_command(self, cmd, params):
+        if params:
+            value = LittleHelpers.convert_str_to_float(params)
+            if value != None:
+                self.cube.add_rotate_y(value * self.delta_time.elapsed())
 
-        elif cmd == 'apply_random_pattern':
-            self.apply_random_pattern()
+    def handle_add_scale_command(self, cmd, params):
+        if params:
+            value = LittleHelpers.convert_str_to_float(params)
+            if value != None:
+                self.cube.add_scale(value * self.delta_time.elapsed())
 
-        elif cmd == 'add_rotation_x':
-            if num_parts == 2:
-                value = LittleHelpers.convert_str_to_float(parts[1])
-                if value:
-                    self.cube.add_rotate_x(value * self.delta_time.elapsed())
-
-        elif cmd == 'add_rotation_y':
-            if num_parts == 2:
-                value = LittleHelpers.convert_str_to_float(parts[1])
-                if value:
-                    self.cube.add_rotate_y(value * self.delta_time.elapsed())
-
-        elif cmd == 'add_scale':
-            if num_parts == 2:
-                value = LittleHelpers.convert_str_to_float(parts[1])
-                if value:
-                    self.cube.add_scale(value * self.delta_time.elapsed())
-
-        elif cmd == 'rotate_face':
-            moves = LittleHelpers.expand_notations(parts[1].upper().split(' '))
+    def handle_rotate_face_command(self, cmd, params):
+        if params:
+            moves = LittleHelpers.expand_notations(params.upper().split(' '))
             self.add_moves(moves)
 
-        elif cmd == 'scramble':
-            moves = parts[1].upper()
-            self.scramble_cube(moves)
+    def handle_apply_random_pattern_command(self, cmd, params):
+        self.apply_random_pattern()
 
-        elif cmd == 'set_color_orientation':
-            color_mapping = LittleHelpers.make_color_mapping_from_string(parts[1])
-            self.set_cube_color_orientation(color_mapping)
+    def handle_scramble_command(self, cmd, params):
+        moves = params.upper()
+        self.scramble_cube(moves)
 
-        elif cmd == 'set_padding':
-            value = LittleHelpers.convert_str_to_float(parts[1])
-            if value:
-                self.cube.geometry.set_padding(value)
+    def handle_apply_random_scramble_command(self, cmd, params):
+        self.apply_random_scramble()
 
-        else:
-            print('Unknown command:', cmd)
+    def handle_map_colors_command(self, cmd, params):
+        color_mapping = LittleHelpers.make_color_mapping_from_string(params)
+        self.map_cube_colors(color_mapping)
 
-    def test(self):
-        pass
+    def handle_reset_color_mapping_command(self, cmd, params):
+        self.reset_cube_color_mapping()
+
+    def handle_add_padding_command(self, cmd, params):
+        if params:
+            value = LittleHelpers.convert_str_to_float(params)
+            if value != None:
+                self.cube.geometry.add_padding(value)
+
+    def handle_set_window_background_color(self, cmd, params):
+        if params:
+            parts = params.split(',')
+            count = len(parts)
+            if count == 3:
+                r = LittleHelpers.convert_str_to_float(parts[0])
+                g = LittleHelpers.convert_str_to_float(parts[1])
+                b = LittleHelpers.convert_str_to_float(parts[2])
+                if r != None and g != None and b != None:
+                    glClearColor(r, g, b, 1)
