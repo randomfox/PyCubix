@@ -106,7 +106,7 @@ class App:
             'scramble': self.handle_scramble_command,
             'add_padding': self.handle_add_padding_command,
 
-            'set_window_background_color': self.handle_set_window_background_color,
+            'set_background_color': self.handle_set_background_color,
         }
 
     def run(self):
@@ -388,7 +388,7 @@ class App:
             if value != None:
                 self.cube.geometry.add_padding(value)
 
-    def handle_set_window_background_color(self, cmd, params):
+    def handle_set_background_color(self, cmd, params):
         if params:
             parts = params.split(',')
             count = len(parts)
