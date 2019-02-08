@@ -57,16 +57,13 @@ class App:
         glutVisibilityFunc(self.on_visibility_change)
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
-        # glutCloseFunc(self.on_close_window)
-        # glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS)
 
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
-        glShadeModel(GL_FLAT)
-        glDepthFunc(GL_LESS)
+        glShadeModel(GL_SMOOTH)
 
     def init_cube(self):
         face_rotation_ease_type = Tween.get_ease_type_by_name(self.settings.cube_face_rotation_ease_type)

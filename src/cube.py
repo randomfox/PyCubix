@@ -153,8 +153,6 @@ class Cube:
             self.render_cubies()
         if self.draw_lines:
             self.render_lines()
-
-#       self.render_axes()
         # glPopMatrix()
 
     def add_rotate_x(self, value):
