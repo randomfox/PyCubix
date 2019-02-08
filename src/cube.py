@@ -153,6 +153,8 @@ class Cube:
             self.render_cubies()
         if self.draw_lines:
             self.render_lines()
+
+#       self.render_axes()
         # glPopMatrix()
 
     def add_rotate_x(self, value):
@@ -443,12 +445,12 @@ class Cube:
                     glVertex3f(v[0], v[1], v[2])
         glEnd()
 
-    def render_axis(self):
+    def render_axes(self):
         glLineWidth(1.0)
         glBegin(GL_LINES)
         for color, axis in zip(self.geometry.axis_colors, self.geometry.axes):
             glColor3f(color[0], color[1], color[2])
             for point in axis:
-                p = axis_verts[point]
+                p = self.geometry.axis_verts[point]
                 glVertex3f(p[0], p[1], p[2])
         glEnd()
