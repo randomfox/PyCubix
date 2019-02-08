@@ -23,7 +23,8 @@ class MqttClient:
         try:
             self.client.connect(self.broker, self.port)
         except:
-            print('Big nope. Unable to connect to broker {}:{}'.format(self.broker, self.port))
+            print('NOPE! Unable to connect to broker {}:{}'.format(self.broker, self.port))
+            print(sys.exc_info())
         self.client.loop_start()
 
     def stop(self):

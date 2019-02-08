@@ -82,21 +82,21 @@ class App:
             'reset_cube': self.handle_reset_cube_command,
 
             'reset_rotation': self.handle_reset_rotation_command,
-            'reset_cube_rotation': self.handle_reset_rotation_command, # obsolete
+            'reset_cube_rotation': self.handle_reset_rotation_command, # obsolete command
 
             'reset_scale': self.handle_reset_scale_command,
-            'reset_cube_scale': self.handle_reset_scale_command, # obsolete
+            'reset_cube_scale': self.handle_reset_scale_command, # obsolete command
 
             'stop_rotation': self.handle_stop_rotation_command,
-            'stop_cube_rotation': self.handle_stop_rotation_command, # obsolete
+            'stop_cube_rotation': self.handle_stop_rotation_command, # obsolete command
 
             'reset_color_mapping': self.handle_reset_color_mapping_command,
             'apply_random_pattern': self.handle_apply_random_pattern_command,
             'apply_random_scramble': self.handle_apply_random_scramble_command,
 
-            # commands with parameters
+            # commands with one and more parameters
             'map_colors': self.handle_map_colors_command,
-            'set_color_orientation': self.handle_map_colors_command, # obsolete
+            'set_color_orientation': self.handle_map_colors_command, # obsolete command
 
             'add_rotation_x': self.handle_add_rotation_x_command,
             'add_rotation_y': self.handle_add_rotation_y_command,
@@ -239,7 +239,7 @@ class App:
             self.fps.update()
 
     def add_moves(self, moves):
-        print('add_moves', moves)
+        # print('add_moves', moves)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         if face_rotations:
             self.append_face_rotations(face_rotations)
@@ -250,7 +250,7 @@ class App:
 
     # moves: array
     def scramble_cube(self, moves):
-        print('scramble_cube', moves)
+        # print('Scrambling cube:', moves)
         moves = LittleHelpers.expand_notations(moves.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
@@ -280,14 +280,14 @@ class App:
 
     def apply_random_pattern(self):
         pattern = LittleHelpers.get_random_pattern()
-        print('apply_random_pattern', pattern)
+        # print('Applying random pattern:', pattern)
         moves = LittleHelpers.expand_notations(pattern.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
 
     def apply_random_scramble(self):
         pattern = LittleHelpers.get_random_pattern()
-        print('apply_random_scramble', pattern)
+        # print('Applying random scramble:', pattern)
         self.reset_cube()
         self.scramble_cube(pattern)
 
@@ -311,8 +311,6 @@ class App:
         if not command:
             return
 
-        print('handle_command: {}'.format(command))
-
         parts = command.split('=')
         cmd = parts[0].strip()
         params = ''
@@ -323,72 +321,78 @@ class App:
 
         handler = self.cmd_handler_map.get(cmd)
         if handler == None:
-            print('command_not_found:', cmd)
+            print('Unknown command:', cmd)
             return
-        handler(cmd, params)
 
-    def handle_exit_command(self, cmd, params):
+        str = 'Processing command: ' + cmd
+        if params:
+            str += '=' + params
+        print(str)
+        handler(params)
+
+    def handle_exit_command(self, params):
         sys.exit()
 
-    def handle_reset_cube_command(self, cmd, params):
+    def handle_reset_cube_command(self, params):
         self.reset_cube()
 
-    def handle_reset_rotation_command(self, cmd, params):
+    def handle_reset_rotation_command(self, params):
         self.cube.reset_rotation()
 
-    def handle_reset_scale_command(self, cmd, params):
+    def handle_reset_scale_command(self, params):
         self.cube.reset_scale()
 
-    def handle_stop_rotation_command(self, cmd, params):
+    def handle_stop_rotation_command(self, params):
         self.cube.stop_rotation()
 
-    def handle_add_rotation_x_command(self, cmd, params):
+    def handle_add_rotation_x_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
             if value != None:
                 self.cube.add_rotate_x(value * self.delta_time.elapsed())
 
-    def handle_add_rotation_y_command(self, cmd, params):
+    def handle_add_rotation_y_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
             if value != None:
                 self.cube.add_rotate_y(value * self.delta_time.elapsed())
 
-    def handle_add_scale_command(self, cmd, params):
+    def handle_add_scale_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
             if value != None:
                 self.cube.add_scale(value * self.delta_time.elapsed())
 
-    def handle_rotate_face_command(self, cmd, params):
+    def handle_rotate_face_command(self, params):
         if params:
             moves = LittleHelpers.expand_notations(params.upper().split(' '))
-            self.add_moves(moves)
+            if len(moves) > 0:
+                self.add_moves(moves)
 
-    def handle_apply_random_pattern_command(self, cmd, params):
+    def handle_apply_random_pattern_command(self, params):
         self.apply_random_pattern()
 
-    def handle_scramble_command(self, cmd, params):
+    def handle_scramble_command(self, params):
         moves = params.upper()
         self.scramble_cube(moves)
 
-    def handle_apply_random_scramble_command(self, cmd, params):
+    def handle_apply_random_scramble_command(self, params):
         self.apply_random_scramble()
 
-    def handle_map_colors_command(self, cmd, params):
+    def handle_map_colors_command(self, params):
         color_mapping = LittleHelpers.make_color_mapping_from_string(params)
         self.map_cube_colors(color_mapping)
 
-    def handle_reset_color_mapping_command(self, cmd, params):
+    def handle_reset_color_mapping_command(self, params):
         self.reset_cube_color_mapping()
 
-    def handle_add_padding_command(self, cmd, params):
+    def handle_add_padding_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
             if value != None:
                 self.cube.geometry.add_padding(value)
 
-    def handle_set_background_color(self, cmd, params):
+    def handle_set_background_color(self, params):
         if params:
             parts = params.split(',')
             count = len(parts)

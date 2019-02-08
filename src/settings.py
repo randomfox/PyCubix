@@ -155,7 +155,8 @@ class Settings(Config):
                 self.window_height = self.get_value(window['size'], ['height'], self.window_height)
                 self.window_background_color = self.get_value(window, ['background_color'], self.window_background_color)
         except:
-            print('Big nope.')
+            print('NOPE! An error occurred while trying to retrieve the settings.')
+            print(sys.exc_info())
 
     def get_value(self, property, keys, default=None):
         t = property

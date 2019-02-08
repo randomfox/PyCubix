@@ -13,6 +13,6 @@ class Fps:
         delta = now - self.last_time
         if delta >= self.update_interval:
             self.fps = self.frame_count / delta
-            print("{:.0f} frames in {:3.1f} seconds = {:6.3f} FPS".format(self.frame_count, delta, self.fps))
+            print("Counted {:.0f} frames in {:3.1f} seconds: {:6.3f} FPS".format(self.frame_count, delta, self.fps))
             self.last_time = now
             self.frame_count = 0
