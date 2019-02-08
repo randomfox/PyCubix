@@ -37,12 +37,12 @@
                 "dark_gray": [0.101, 0.101, 0.101]
             },
             "color_mapping": {
-                "front": "dark_blue",
-                "back": "dark_green",
+                "front": "dark_green",
+                "back": "dark_blue",
                 "left": "dark_orange",
                 "right": "dark_red",
-                "up": "dark_yellow",
-                "down": "dark_gray"
+                "up": "dark_gray",
+                "down": "dark_yellow"
             },
             "auto_rotation": {
                 "x_axis": {

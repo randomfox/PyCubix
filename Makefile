@@ -4,6 +4,9 @@ run:
 runbrick:
 	python src/main.py --settings cfg/brickuber.json
 
+runnotouch:
+	python src/main.py --settings cfg/no-touch.json
+
 runnoargs:
 	python src/main.py
 

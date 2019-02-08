@@ -32,12 +32,12 @@
                 "gray": [0.100, 0.100, 0.100]
             },
             "color_mapping": {
-                "front": "blue",
-                "back": "green",
+                "front": "green",
+                "back": "blue",
                 "left": "orange",
                 "right": "red",
-                "up": "yellow",
-                "down": "white"
+                "up": "white",
+                "down": "yellow"
             },
             "auto_rotation": {
                 "x_axis": {

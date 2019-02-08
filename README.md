@@ -96,12 +96,12 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "white": [1.000, 1.000, 1.000]
             },
             "color_mapping": {
-                "front": "blue",
-                "back": "green",
+                "front": "green",
+                "back": "blue",
                 "left": "orange",
                 "right": "red",
-                "up": "yellow",
-                "down": "white"
+                "up": "white",
+                "down": "yellow"
             },
             "auto_rotation": {
                 "x_axis": {
