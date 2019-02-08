@@ -1,8 +1,8 @@
 import sys
 import pprint
-from config import Config
+from jsonconfig import *
 
-class Settings(Config):
+class Settings(JsonConfig):
     def __init__(self):
         pass
         # cube settings
