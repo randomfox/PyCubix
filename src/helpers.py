@@ -1,7 +1,9 @@
+import sys
+import random
+
 from constants import Constants
 from tween import TweenEaseType
 from enums import *
-import random
 
 class LittleHelpers:
     @staticmethod

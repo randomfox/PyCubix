@@ -1,5 +1,6 @@
 import atexit
 import time
+import sys
 import numpy as np
 
 from OpenGL.GLUT import *

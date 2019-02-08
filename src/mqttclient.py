@@ -1,5 +1,6 @@
-from queue import Queue
+import sys
 import paho.mqtt.client as mqtt
+from queue import Queue
 
 # broker = 'iot.eclipse.org'
 # topic = '$SYS/#'
