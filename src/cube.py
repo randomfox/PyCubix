@@ -14,7 +14,6 @@ from queue import Queue
 
 from enums import FaceRotation
 from geometry import Geometry
-from helpers import LittleHelpers
 from mathf import Mathf
 from quat import *
 from tween import *
@@ -52,14 +51,14 @@ class Cube:
         self.face_rotation_ease_type = face_rotation_ease_type
 
         self.geometry = Geometry()
-        self.face_colors = [
-            (0.066, 0.490, 0.988), # Front: Blue
-            (0.996, 0.549, 0.184), # Left: Orange
-            (0.102, 0.878, 0.133), # Back: Green
-            (0.855, 0.082, 0.102), # Right: Red
-            (0.961, 1.000, 0.204), # Up: Yellow
-            (1.000, 1.000, 1.000)  # Down: White
-        ]
+        self.face_colors = (
+            (  0/255, 154/255,  74/255), # Front: Green
+            (255/255,  86/255,  35/255), # Left: Orange
+            (  0/255,  75/255, 171/255), # Back: Blue
+            (190/255,  15/255,  56/255), # Right: Red
+            (255/255, 255/255, 255/255), # Up: White
+            (255/255, 210/255,  44/255)  # Up: Yellow
+        )
         self.reset()
 
         rx = settings.cube_initial_rotation_x * Mathf.DEG_TO_RAD
@@ -186,7 +185,7 @@ class Cube:
             self.rotate_face(face, theta)
 
     def map_colors(self, front_color, back_color, left_color, right_color, up_color, down_color):
-        colors = [front_color, left_color, back_color, right_color, up_color, down_color]
+        colors = (front_color, left_color, back_color, right_color, up_color, down_color)
         self.face_colors = colors
 
     def update_queue(self):
