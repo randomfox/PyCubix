@@ -162,6 +162,7 @@ Some parts of the application are customizable and can be set in `cfg/settings.j
         }
     }
 }
+```
 
 ### Pimp my colors
 
