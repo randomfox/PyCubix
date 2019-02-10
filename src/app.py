@@ -1,7 +1,6 @@
 import atexit
 import time
 import sys
-import numpy as np
 
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
@@ -40,6 +39,11 @@ class App:
 
         self.init_colors()
         self.init_opengl()
+
+        self.textures = {}
+        if self.settings.texture_mapping_enabled:
+            self.create_textures(self.settings.image_resources)
+
         self.init_cube()
         self.init_command_handler_map()
         self.init_mqtt_client()
@@ -101,13 +105,26 @@ class App:
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
-        glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LESS)#GL_LESS
         glShadeModel(GL_SMOOTH)
+        glDisable(GL_LIGHTING)
+
+        if self.settings.texture_mapping_enabled:
+            glEnable(GL_TEXTURE_2D)
+        else:
+            glDisable(GL_TEXTURE_2D)
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
 
     def init_cube(self):
         face_rotation_ease_type = Tween.get_ease_type_by_name(self.settings.cube_face_rotation_ease_type)
-        self.cube = Cube(self.settings, face_rotation_ease_type)
+        texture_id = self.textures.get(self.settings.texture_mapping_active_texture)
+        if texture_id == None:
+            texture_id = 0
+        self.cube = Cube(self.settings, face_rotation_ease_type, texture_id)
         self.map_cube_colors(self.settings.cube_color_mapping)
 
     def init_command_handler_map(self):
@@ -272,6 +289,27 @@ class App:
         if self.settings.fps_show:
             self.fps.update()
 
+    def create_opengl_texture(self, image_size, image_data):
+        texture_id = glGenTextures(1)
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glBindTexture(GL_TEXTURE_2D, texture_id)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, image_size[0], image_size[1], 0, GL_RGB, GL_UNSIGNED_BYTE, image_data)
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        return texture_id
+
+    def create_textures(self, image_files):
+        for name, filename in image_files.items():
+            success, image_size, image_data = LittleHelpers.load_image(filename)
+            print('Loaded image:', filename, image_size, success)
+            if success:
+                texture_id = self.create_opengl_texture(image_size, image_data)
+                self.textures[name] = texture_id
+        for name, id in self.textures.items():
+            print('Created texture:', name, 'with id', id)
+
     def add_moves(self, moves):
         # print('add_moves', moves)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
@@ -282,9 +320,9 @@ class App:
         for face_rotation in face_rotations:
             self.cube.append_face_rotation(face_rotation)
 
-    # moves: array
     def scramble_cube(self, moves):
-        # print('Scrambling cube:', moves)
+        if type(moves) != str:
+            return
         moves = LittleHelpers.expand_notations(moves.split(' '))
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)

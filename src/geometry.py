@@ -82,10 +82,9 @@ class Geometry:
              [1, 1, -1],
              [3, 1, -1],
              [3, -1, -1],
-
              ],
 
-            # Up 3
+            # Up 4
             [[-1, 1, 1],
              [-1, 3, 1],
              [1, 3, 1],
@@ -95,7 +94,7 @@ class Geometry:
              [1, 3, -1],
              [1, 1, -1]],
 
-            # Down 4
+            # Down 5
             [[-1, -3, 1],
              [-1, -1, 1],
              [1, -1, 1],
@@ -456,6 +455,14 @@ class Geometry:
             [0, 1, 5],  # 6
             [0, 1, 4],  # 7
         ]
+
+        self.tex_coords = [
+            (0, 0),
+            (1, 0),
+            (1, 1),
+            (0, 1)
+        ]
+
 
     def add_padding(self, value):
         for vertex in self.center_pieces[0]:

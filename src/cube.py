@@ -23,7 +23,7 @@ class State(Enum):
     TWEENING = 1
 
 class Cube:
-    def __init__(self, settings, face_rotation_ease_type):
+    def __init__(self, settings, face_rotation_ease_type, sticker_texture_id):
         self.padding = settings.cube_padding
         self.draw_cubies = settings.cube_draw_cubies
         self.draw_sphere = settings.cube_draw_sphere
@@ -49,6 +49,10 @@ class Cube:
 
         self.face_rotation_tween_time = settings.cube_face_rotation_tween_time
         self.face_rotation_ease_type = face_rotation_ease_type
+
+        self.texture_mapping_enabled = settings.texture_mapping_enabled
+        self.sticker_texture_id = sticker_texture_id
+        self.debug = 1
 
         self.geometry = Geometry()
         self.face_colors = (
@@ -149,7 +153,10 @@ class Cube:
         if self.draw_sphere:
             self.render_sphere()
         if self.draw_cubies:
-            self.render_cubies()
+            if self.texture_mapping_enabled:
+                self.render_cubies_with_textures()
+            else:
+                self.render_cubies()
         if self.draw_lines:
             self.render_lines()
         # glPopMatrix()
@@ -371,6 +378,16 @@ class Cube:
         glColor3f(self.sphere_color[0], self.sphere_color[1], self.sphere_color[2])
         glutSolidSphere(self.sphere_radius, self.sphere_slices, self.sphere_stacks)
 
+    def render_axes(self):
+        glLineWidth(1.0)
+        glBegin(GL_LINES)
+        for color, axis in zip(self.geometry.axis_colors, self.geometry.axes):
+            glColor3f(color[0], color[1], color[2])
+            for point in axis:
+                p = self.geometry.axis_verts[point]
+                glVertex3f(p[0], p[1], p[2])
+        glEnd()
+
     def render_lines(self):
         glLineWidth(self.line_width)
         glColor3f(0, 0, 0)
@@ -397,6 +414,8 @@ class Cube:
         inner_color = self.inner_color
 
         glBegin(GL_QUADS)
+
+        # render center pieces
         i = 0
         for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
             glColor3f(color[0], color[1], color[2])
@@ -412,13 +431,13 @@ class Cube:
                 j += 1
             i += 1
 
+        # render edge pieces
         for color, surface, face in zip(self.face_colors, self.geometry.cube_surfaces, self.geometry.edges):
             glColor3f(color[0], color[1], color[2])
             for piece in face:
                 for vertex in surface:
                     p = self.geometry.edge_pieces[piece[0]][piece[1]][vertex]
                     glVertex3f(p[0], p[1], p[2])
-
         glColor3f(inner_color[0], inner_color[1], inner_color[2])
         for i in range(len(self.geometry.edge_black_pat)):
             for face in self.geometry.edge_black_pat[i]:
@@ -427,6 +446,7 @@ class Cube:
                         v = piece[vertex]
                         glVertex3f(v[0], v[1], v[2])
 
+        # render corner pieces
         for i in range(len(self.geometry.corner_color_pat)):
             for face in self.geometry.corner_color_pat[i]:
                 color = self.face_colors[face]
@@ -441,13 +461,80 @@ class Cube:
                     v = self.geometry.corner_pieces[i][vertex]
                     glVertex3f(v[0], v[1], v[2])
         glEnd()
+        # self.debug = 0
 
-    def render_axes(self):
-        glLineWidth(1.0)
-        glBegin(GL_LINES)
-        for color, axis in zip(self.geometry.axis_colors, self.geometry.axes):
+    def render_cubies_with_textures(self):
+        tex_coords = self.geometry.tex_coords
+        inner_color = self.inner_color
+
+        glBindTexture(GL_TEXTURE_2D, self.sticker_texture_id)
+
+        glBegin(GL_QUADS)
+        # render center pieces
+        i = 0
+        for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
             glColor3f(color[0], color[1], color[2])
-            for point in axis:
-                p = self.geometry.axis_verts[point]
-                glVertex3f(p[0], p[1], p[2])
+            ti = 0
+            for vertex in surface:
+                v = self.geometry.center_pieces[i][vertex]
+                glVertex3f(v[0], v[1], v[2])
+                glTexCoord2f(tex_coords[ti][0], tex_coords[ti][1])
+                ti += 1
+            i += 1
+
+        # render edge pieces
+        for color, surface, face in zip(self.face_colors, self.geometry.cube_surfaces, self.geometry.edges):
+            glColor3f(color[0], color[1], color[2])
+            for piece in face:
+                ti = 0
+                for vertex in surface:
+                    p = self.geometry.edge_pieces[piece[0]][piece[1]][vertex]
+                    glVertex3f(p[0], p[1], p[2])
+                    glTexCoord2f(tex_coords[ti][0], tex_coords[ti][1])
+                    ti += 1
+
+        # render corner pieces
+        for i in range(len(self.geometry.corner_color_pat)):
+            for face in self.geometry.corner_color_pat[i]:
+                color = self.face_colors[face]
+                glColor3f(color[0], color[1], color[2])
+                ti = 0
+                for vertex in self.geometry.cube_surfaces[face]:
+                    v = self.geometry.corner_pieces[i][vertex]
+                    glVertex3f(v[0], v[1], v[2])
+                    glTexCoord2f(tex_coords[ti][0], tex_coords[ti][1])
+                    ti += 1
+        glEnd()
+
+
+        glBindTexture(GL_TEXTURE_2D, 0)
+        glBegin(GL_QUADS)
+        # render center pieces
+        i = 0
+        for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
+            j = 0
+            for piece in self.geometry.center_pieces:
+                glColor3f(inner_color[0], inner_color[1], inner_color[2])
+                for vertex in surface:
+                    v = self.geometry.center_pieces[j][vertex]
+                    glVertex3f(v[0], v[1], v[2])
+                j += 1
+            i += 1
+
+        # render edge pieces
+        glColor3f(inner_color[0], inner_color[1], inner_color[2])
+        for i in range(len(self.geometry.edge_black_pat)):
+            for face in self.geometry.edge_black_pat[i]:
+                for piece in self.geometry.edge_pieces[i]:
+                    for vertex in self.geometry.cube_surfaces[face]:
+                        v = piece[vertex]
+                        glVertex3f(v[0], v[1], v[2])
+
+        # render corner pieces
+        glColor3f(inner_color[0], inner_color[1], inner_color[2])
+        for i in range(len(self.geometry.corner_black_pat)):
+            for face in self.geometry.corner_black_pat[i]:
+                for vertex in self.geometry.cube_surfaces[face]:
+                    v = self.geometry.corner_pieces[i][vertex]
+                    glVertex3f(v[0], v[1], v[2])
         glEnd()

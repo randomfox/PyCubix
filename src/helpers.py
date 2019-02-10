@@ -1,5 +1,8 @@
 import sys
 import random
+import numpy as np
+
+from PIL import Image
 
 from constants import Constants
 from tween import TweenEaseType
@@ -183,3 +186,15 @@ class LittleHelpers:
             print('MEH! Cannot convert hex color #{} to a float color. Returning default.'.format(hex))
             print(sys.exc_info())
         return default
+
+    @staticmethod
+    def load_image(filename):
+        try:
+            image = Image.open(filename)
+        except:
+            print('MEH! Could not load image', filename)
+            return False, None, None
+        image_data = np.array(list(image.getdata()), np.uint8)
+        image_size = (image.size[0], image.size[1])
+        image.close()
+        return True, image_size, image_data

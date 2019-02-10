@@ -68,6 +68,11 @@ class Settings(JsonConfig):
         self.mqtt_client_subscribe_topic = 'pycubix'
         self.mqtt_client_publish_topic = 'pycubix_out'
 
+        self.image_resources = {}
+
+        self.texture_mapping_enabled = True
+        self.texture_mapping_active_texture = None
+
         # window settings
         self.window_caption = 'PyCubix'
         self.window_width = 600
@@ -90,6 +95,8 @@ class Settings(JsonConfig):
         prop_fps = 'fps'
         prop_mouse = 'mouse'
         prop_mqtt_client = 'mqtt_client'
+        prop_resources = 'resources'
+        prop_texture_mapping = 'texture_mapping'
         prop_window = 'window'
 
         if not config or prop_root not in config:
@@ -150,6 +157,15 @@ class Settings(JsonConfig):
                 self.mqtt_client_port = self.get_value(client, ['port'], self.mqtt_client_port)
                 self.mqtt_client_subscribe_topic = self.get_value(client, ['subscribe_topic'], self.mqtt_client_subscribe_topic)
                 self.mqtt_client_publish_topic = self.get_value(client, ['publish_topic'], self.mqtt_client_publish_topic)
+
+            if prop_resources in settings:
+                resources = settings[prop_resources]
+                self.image_resources = self.get_value(resources, ['images'], self.image_resources)
+
+            if prop_texture_mapping in settings:
+                texture_mapping = settings[prop_texture_mapping]
+                self.texture_mapping_enabled = self.get_value(texture_mapping, ['enabled'], self.texture_mapping_enabled)
+                self.texture_mapping_active_texture = self.get_value(texture_mapping, ['active_texture'], self.texture_mapping_active_texture)
 
             if prop_window in settings:
                 window = settings[prop_window]
