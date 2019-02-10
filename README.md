@@ -24,7 +24,7 @@ The following Python modules are needed to run this program:
 
 ### Install using pip
 
-Python 3.x: `$ pip3 install numpy pyopengl`
+Python 3.x: `$ pip3 install numpy paho-mqtt pillow pyopengl`
 
 ### Install using Virtualenv and make
 
