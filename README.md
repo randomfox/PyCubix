@@ -16,8 +16,9 @@ Paho MQTT:
 
 The following Python modules are needed to run this program:
 - [NumPy](http://www.numpy.org/)
-- [PyOpenGL](pyopengl.sourceforge.net/), see also [OpenGL](https://www.opengl.org/)
 - [Paho MQTT](https://pypi.org/project/paho-mqtt/), see also [Eclipse Paho](https://www.eclipse.org/paho/)
+- [Pillow](https://pypi.org/project/Pillow/), see also [Pillow homepage](https://python-pillow.org/)
+- [PyOpenGL](pyopengl.sourceforge.net/), see also [OpenGL](https://www.opengl.org/)
 
 ## Installation
 
