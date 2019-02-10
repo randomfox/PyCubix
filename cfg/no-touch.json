@@ -22,13 +22,14 @@
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
+            "color_group": "default",
             "colors": {
-                "blue": [0.066, 0.490, 0.988],
-                "orange": [0.996, 0.549, 0.184],
-                "green": [0.102, 0.878, 0.133],
-                "red": [0.855, 0.082, 0.102],
-                "yellow": [0.961, 1.000, 0.204],
-                "white": [1.000, 1.000, 1.000]
+                "blue": "#004BAB",
+                "orange": "#FF5623",
+                "yellow": "FFD22C",
+                "green": "#009A4A",
+                "red": "#BE0F38",
+                "white": "#FFFFFF"
             },
             "color_mapping": {
                 "front": "green",

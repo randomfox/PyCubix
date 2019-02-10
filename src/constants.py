@@ -2,6 +2,7 @@ from enums import *
 
 class Constants:
     PRIME = '\''
+    FALLBACK_COLOR = (1, 0, 1)
 
     KNOWN_NOTATIONS = [
         "F", "F'", "F2", "F2'",
@@ -106,5 +107,3 @@ class Constants:
     UNION_JACK_PATTERN = "U F B' L2 U2 L2 F' B U2 L2 U"
     VERTICAL_STRIPES_PATTERN = "F U F R L2 B D' R D2 L D' B R2 L F U F"
     WIRE_PATTERN = "R L F B R L F B R L F B R2 B2 L2 R2 B2 L2"
-
-    FALLBACK_COLOR = (1, 0, 1)

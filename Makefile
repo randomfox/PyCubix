@@ -1,11 +1,8 @@
 run:
-	python src/main.py --settings cfg/settings.json
+	python src/main.py --settings cfg/settings.json --colors cfg/colors.json
 
 runbrick:
-	python src/main.py --settings cfg/brickuber.json
-
-runnotouch:
-	python src/main.py --settings cfg/no-touch.json
+	python src/main.py --settings cfg/brickuber.json --colors cfg/colors.json
 
 runnoargs:
 	python src/main.py

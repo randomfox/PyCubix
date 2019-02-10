@@ -1,0 +1,50 @@
+{
+    "colors": {
+        "default": {
+            "blue": "#004BAB",
+            "orange": "#FF5623",
+            "yellow": "FFD22C",
+            "green": "#009A4A",
+            "red": "#BE0F38",
+            "white": "#FFFFFF"
+        },
+        "six_shades_of_purple": {
+            "blue": "#BA55D3",
+            "orange": "#EE82EE",
+            "yellow": "8B008B",
+            "green": "#FF00FF",
+            "red": "#DA70D6",
+            "white": "#DDA0DD"
+        },
+        "ganx": {
+            "blue": "#0083FC",
+            "orange": "#FF872F",
+            "yellow": "#EEF32E",
+            "green": "#00DE21",
+            "red": "#E4001C",
+            "white": "#FFFFFF"
+        },
+        "moywei": {
+            "blue": "#00A0D1",
+            "orange": "#FF8C2A",
+            "yellow": "#EDEE36",
+            "green": "#00C720",
+            "red": "#FF3344",
+            "white": "#FFFFFF"
+        },
+        "digitaltwin": {
+            "blue": "#000099",
+            "orange": "#FF6600",
+            "yellow": "#FFCC00",
+            "green": "#006600",
+            "red": "#CC0000",
+            "white": "#FFFFFF",
+            "dim_blue": "#000033",
+            "dim_orange": "#331400",
+            "dim_yellow": "#332900",
+            "dim_green": "#003300",
+            "dim_red": "#330000",
+            "dim_white": "#1A1A1A"
+        }
+    }
+}

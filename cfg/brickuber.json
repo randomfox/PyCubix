@@ -22,27 +22,14 @@
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
-            "colors": {
-                "blue": [0.0, 0.0, 0.6],
-                "orange": [1.0, 0.4, 0.0],
-                "green": [0.0, 0.4, 0.0],
-                "red": [0.8, 0.0, 0.0],
-                "yellow": [1.0, 0.8, 0.0],
-                "white": [1.0, 1.0, 1.0],
-                "dark_blue": [0.0, 0.0, 0.2],
-                "dark_orange": [0.2, 0.078, 0.0],
-                "dark_green": [0.0, 0.2, 0.0],
-                "dark_red": [0.2, 0.0, 0.0],
-                "dark_yellow": [0.2, 0.16, 0.0],
-                "dark_gray": [0.101, 0.101, 0.101]
-            },
+            "color_group": "digitaltwin",
             "color_mapping": {
-                "front": "dark_green",
-                "back": "dark_blue",
-                "left": "dark_orange",
-                "right": "dark_red",
-                "up": "dark_gray",
-                "down": "dark_yellow"
+                "front": "dim_green",
+                "back": "dim_blue",
+                "left": "dim_orange",
+                "right": "dim_red",
+                "up": "dim_white",
+                "down": "dim_yellow"
             },
             "auto_rotation": {
                 "x_axis": {

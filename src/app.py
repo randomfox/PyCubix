@@ -15,6 +15,7 @@ from enums import *
 from fps import Fps
 from helpers import LittleHelpers
 from mathf import Mathf
+from mqttclient import *
 from mousedrag import MouseDrag
 from tween import *
 
@@ -22,11 +23,13 @@ class App:
     KEY_BACKSPACE = 8
     KEY_RETURN = 13
     KEY_ESCAPE = 27
-    KEY_DELETE = 127 # 'backspace' on mac is 7f/127
+    KEY_DELETE = 127
 
-    def __init__(self, settings, client, glinfo):
+    def __init__(self, settings, color_manager, display_glinfo):
         self.settings = settings
-        self.client = client
+        self.color_manager = color_manager
+        self.client = None
+        self.colors = None
 
         self.delta_time = DeltaTime()
         self.fps = Fps(self.settings.fps_update_interval)
@@ -34,14 +37,39 @@ class App:
 
         self.command_delimiter = ';'
 
+        self.init_colors()
         self.init_opengl()
         self.init_cube()
         self.init_command_handler_map()
+        self.init_mqtt_client()
 
-        if glinfo:
+        if display_glinfo:
             self.show_gl_info()
 
         atexit.register(self.on_exit)
+
+    def init_colors(self):
+        self.colors = self.settings.cube_default_colors
+
+        group_name = self.settings.cube_color_group
+        group = self.color_manager.get_color_group(group_name)
+        if group != None:
+            self.colors.update(group)
+
+        self.colors.update(self.settings.cube_colors)
+        print('Color palette:', self.colors)
+
+        default_color = Constants.FALLBACK_COLOR
+        for key, value in self.colors.items():
+            self.colors[key] = LittleHelpers.convert_hex_color_to_floats(value, default_color)
+
+    def init_mqtt_client(self):
+        if self.settings.mqtt_client_start:
+            broker = self.settings.mqtt_client_broker
+            port = self.settings.mqtt_client_port
+            topic = self.settings.mqtt_client_subscribe_topic
+            self.client = MqttClient(broker, port, topic)
+            self.client.start()
 
     def init_opengl(self):
         glutInit()
@@ -111,10 +139,10 @@ class App:
         glutMainLoop()
 
     def show_gl_info(self):
-        print("* GL_RENDERER   : ", glGetString(GL_RENDERER))
-        print("* GL_VERSION    : ", glGetString(GL_VERSION))
-        print("* GL_VENDOR     : ", glGetString(GL_VENDOR))
-        print("* GL_EXTENSIONS : ", glGetString(GL_EXTENSIONS))
+        print('* GL_RENDERER   : ', glGetString(GL_RENDERER))
+        print('* GL_VERSION    : ', glGetString(GL_VERSION))
+        print('* GL_VENDOR     : ', glGetString(GL_VENDOR))
+        print('* GL_EXTENSIONS : ', glGetString(GL_EXTENSIONS))
 
     def prepare_exit(self):
         self.client.stop()
@@ -141,7 +169,7 @@ class App:
             glutIdleFunc(None)
 
     def on_keyboard_input(self, key, x, y):
-        ch = key.decode("utf-8")
+        ch = key.decode('utf-8')
 
         # exit app on q or ESC:
         if ch == 'q' or ch == chr(self.KEY_ESCAPE):
@@ -164,7 +192,7 @@ class App:
             self.apply_random_pattern()
         # debug test case:
         elif ch == 'x':
-            self.test_debug()
+            self.debug_test()
 
         # scale cube:
         scale = None
@@ -254,23 +282,14 @@ class App:
         self.cube.scramble(face_rotations)
 
     def map_cube_colors(self, color_mapping):
-        front_color = Constants.FALLBACK_COLOR
-        back_color = Constants.FALLBACK_COLOR
-        left_color = Constants.FALLBACK_COLOR
-        right_color = Constants.FALLBACK_COLOR
-        up_color = Constants.FALLBACK_COLOR
-        down_color = Constants.FALLBACK_COLOR
-
-        colors = self.settings.cube_colors
-        try:
-            front_color = LittleHelpers.get_mapped_color(Face.FRONT, color_mapping, colors)
-            back_color = LittleHelpers.get_mapped_color(Face.BACK, color_mapping, colors)
-            left_color = LittleHelpers.get_mapped_color(Face.LEFT, color_mapping, colors)
-            right_color = LittleHelpers.get_mapped_color(Face.RIGHT, color_mapping, colors)
-            up_color = LittleHelpers.get_mapped_color(Face.UP, color_mapping, colors)
-            down_color = LittleHelpers.get_mapped_color(Face.DOWN, color_mapping, colors)
-        except:
-            pass
+        default_color = Constants.FALLBACK_COLOR
+        colors = self.colors
+        front_color = LittleHelpers.get_mapped_color(Face.FRONT, color_mapping, colors, default_color)
+        back_color = LittleHelpers.get_mapped_color(Face.BACK, color_mapping, colors, default_color)
+        left_color = LittleHelpers.get_mapped_color(Face.LEFT, color_mapping, colors, default_color)
+        right_color = LittleHelpers.get_mapped_color(Face.RIGHT, color_mapping, colors, default_color)
+        up_color = LittleHelpers.get_mapped_color(Face.UP, color_mapping, colors, default_color)
+        down_color = LittleHelpers.get_mapped_color(Face.DOWN, color_mapping, colors, default_color)
         self.cube.map_colors(front_color, back_color, left_color, right_color, up_color, down_color)
 
     def reset_cube_color_mapping(self):
@@ -301,7 +320,7 @@ class App:
             for command in commands:
                 self.handle_command(command)
 
-    def test_debug(self):
+    def debug_test(self):
         pass
 
     # :TODO: clean up this mess

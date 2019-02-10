@@ -4,7 +4,15 @@ from jsonconfig import *
 
 class Settings(JsonConfig):
     def __init__(self):
-        pass
+        self.cube_default_colors = {
+            'blue': '#BA55D3',
+            'orange': '#EE82EE',
+            'yellow': '8B008B',
+            'green': '#FF00FF',
+            'red': '#DA70D6',
+            'white': '#DDA0DD'
+        }
+
         # cube settings
         self.cube_draw_cubies = True
         self.cube_draw_sphere = True
@@ -17,24 +25,18 @@ class Settings(JsonConfig):
         self.cube_max_scale = 1.5
         self.cube_inner_color = (0.0, 0.0, 0.0)
         self.cube_sphere_color = (0.0, 0.0, 0.0)
-        self.cube_colors = {
-            "blue": (0.066, 0.490, 0.988),
-            "orange": (0.996, 0.549, 0.184),
-            "green": (0.102, 0.878, 0.133),
-            "red": (0.855, 0.082, 0.102),
-            "yellow": (0.961, 1.000, 0.204),
-            "white": (1.000, 1.000, 1.000)
-        }
+        self.cube_color_group = 'default'
+        self.cube_colors = {}
         self.cube_color_mapping = {
-            "front": "blue",
-            "back": "green",
-            "left": "orange",
-            "right": "red",
-            "up": "yellow",
-            "down": "white",
+            'front': 'blue',
+            'back': 'green',
+            'left': 'orange',
+            'right': 'red',
+            'up': 'yellow',
+            'down': 'white',
         }
         self.cube_face_rotation_tween_time = 0.5
-        self.cube_face_rotation_ease_type = "ease_cosine"
+        self.cube_face_rotation_ease_type = 'ease_cosine'
         self.cube_initial_rotation_x = 0
         self.cube_initial_rotation_y = 0
 
@@ -43,14 +45,14 @@ class Settings(JsonConfig):
         self.cube_auto_rot_x_end = 25
         self.cube_auto_rot_x_time = 8
         self.cube_auto_rot_x_jump_start = 0.5
-        self.cube_auto_rot_x_ease_type = "ease_cosine"
+        self.cube_auto_rot_x_ease_type = 'ease_cosine'
 
         self.cube_auto_rot_y_enabled = True
         self.cube_auto_rot_y_begin = 135
         self.cube_auto_rot_y_end = -135
         self.cube_auto_rot_y_time = 16
         self.cube_auto_rot_y_jump_start = 0.5
-        self.cube_auto_rot_y_ease_type = "ease_cosine"
+        self.cube_auto_rot_y_ease_type = 'ease_cosine'
 
         # fps settings
         self.fps_update_interval = 10
@@ -67,13 +69,13 @@ class Settings(JsonConfig):
         self.mqtt_client_publish_topic = 'pycubix_out'
 
         # window settings
-        self.window_caption = "PyCubix"
+        self.window_caption = 'PyCubix'
         self.window_width = 600
         self.window_height = 600
         self.window_background_color = (0.235, 0.263, 0.306)
 
     def load(self, filename):
-        print('load_settings', filename)
+        print('Load settings:', filename)
         config = self.load_json(filename)
         self.assign(config)
 
@@ -83,17 +85,16 @@ class Settings(JsonConfig):
         i_feel_pretty.pprint(config)
 
     def assign(self, config):
-        print('Reading configuration')
-        prop_settings = 'settings'
+        prop_root = 'settings'
         prop_cube = 'cube'
         prop_fps = 'fps'
         prop_mouse = 'mouse'
         prop_mqtt_client = 'mqtt_client'
         prop_window = 'window'
 
-        if not config or prop_settings not in config:
+        if not config or prop_root not in config:
             return
-        settings = config[prop_settings]
+        settings = config[prop_root]
 
         try:
             if prop_cube in settings:
@@ -115,6 +116,7 @@ class Settings(JsonConfig):
                 self.cube_face_rotation_ease_type = self.get_value(cube['tween'], ['face_rotation_ease_type'], self.cube_face_rotation_ease_type)
                 self.cube_colors = self.get_value(cube, ['colors'], self.cube_colors)
                 self.cube_color_mapping = self.get_value(cube, ['color_mapping'], self.cube_color_mapping)
+                self.cube_color_group = self.get_value(cube, ['color_group'], self.cube_color_group)
 
                 cube_auto_rotation_x = cube['auto_rotation']['x_axis']
                 self.cube_auto_rot_x_enabled = self.get_value(cube_auto_rotation_x, ['enabled'], self.cube_auto_rot_x_enabled)
@@ -156,7 +158,7 @@ class Settings(JsonConfig):
                 self.window_height = self.get_value(window['size'], ['height'], self.window_height)
                 self.window_background_color = self.get_value(window, ['background_color'], self.window_background_color)
         except:
-            print('NOPE! An error occurred while trying to retrieve the settings.')
+            print('MEH! An error occurred while trying to retrieve the settings.')
             print(sys.exc_info())
 
     def get_value(self, property, keys, default=None):

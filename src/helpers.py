@@ -94,21 +94,21 @@ class LittleHelpers:
     #         # format: "front:blue, back:green, right:red, left:orange, up:yellow, down:white"
     #         return '{0}:{1},{2}:{3},{4}:{5},{6}:{7},{8}:{9},{10}:{11}'.format(front, fname, back, bname, right, rname, left, lname, up, uname, down, dname)
     #     except:
-    #         print('NOPE! Something went wrong while trying to build the color map string.')
+    #         print('MEH! Something went wrong while trying to build the color map string.')
     #         print(sys.exc_info())
     #     return ''
 
     @staticmethod
-    def get_mapped_color(face_type, color_mapping, colors):
+    def get_mapped_color(face_type, color_mapping, colors, default_color):
         try:
             face_name = Constants.FACE_TO_NAME_MAP[face_type]
             color_name = color_mapping[face_name]
             color = colors[color_name]
             return color
         except:
-            print('NOPE! Cannot get mapped color for input {}/{}/{}'.format(face_type, color_mapping, colors))
+            print('MEH! Cannot get mapped color for input {}/{}/{}'.format(face_type, color_mapping, colors))
             print(sys.exc_info())
-        return Constants.FALLBACK_COLOR
+        return default_color
 
     @staticmethod
     def make_color_mapping_from_string(str):
@@ -125,7 +125,8 @@ class LittleHelpers:
                 color = face_and_color[1].strip().lower()
                 color_mapping[face] = color
         except:
-            pass
+            print('MEH! Cannot create color mapping from string', str)
+            print(sys.exc_info())
         return color_mapping
 
     @staticmethod
@@ -157,6 +158,28 @@ class LittleHelpers:
         try:
             return float(str)
         except ValueError:
-            print('NOPE! Cannot convert {} to a float. Returning default.'.format(str))
+            print('MEH! Cannot convert {} to a float. Returning default.'.format(str))
+            print(sys.exc_info())
+        return default
+
+    # hex to rgb color conversion nicked from:
+    # https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python
+    @staticmethod
+    def convert_hex_color_to_rgb(hex, default=None):
+        try:
+            hex = hex.lstrip('#')
+            return tuple(int(hex[i:i + 2], 16) for i in (0, 2 ,4))
+        except:
+            print('MEH! Cannot convert hex color #{} to a RGB color. Returning default.'.format(hex))
+            print(sys.exc_info())
+        return default
+
+    @staticmethod
+    def convert_hex_color_to_floats(hex, default=None):
+        try:
+            hex = hex.lstrip('#')
+            return tuple(int(hex[i:i + 2], 16)/255.0 for i in (0, 2 ,4))
+        except:
+            print('MEH! Cannot convert hex color #{} to a float color. Returning default.'.format(hex))
             print(sys.exc_info())
         return default
