@@ -88,6 +88,16 @@ class App:
         glutIdleFunc(self.on_update)
         glutDisplayFunc(self.on_display)
 
+        try:
+            if sys.platform == 'linux' or sys.platform == 'linux2':
+                glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS)
+            elif sys.platform == 'darwin':
+                pass
+            elif sys.platform == 'win32':
+                pass
+        except:
+            print('MEH! Something went wrong while setting platform specific code. Let\'s just ignore this.')
+
         clear_color = self.settings.window_background_color
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
         glClearDepth(1.0)
@@ -147,12 +157,9 @@ class App:
         print('* GL_VENDOR     : ', glGetString(GL_VENDOR))
         print('* GL_EXTENSIONS : ', glGetString(GL_EXTENSIONS))
 
-    def prepare_exit(self):
+    def on_exit(self):
         if self.client:
             self.client.stop()
-
-    def on_exit(self):
-        self.prepare_exit()
 
     def on_reshape_window(self, w, h):
         if h == 0:
@@ -364,8 +371,6 @@ class App:
         params = ''
         if len(parts) >= 2:
             params = parts[1].strip()
-
-        # print('cmd', cmd, 'params', params)
 
         handler = self.cmd_handler_map.get(cmd)
         if handler == None:
