@@ -8,13 +8,13 @@
             "red": "#BE0F38",
             "white": "#FFFFFF"
         },
-        "six_shades_of_purple": {
-            "blue": "#BA55D3",
-            "orange": "#EE82EE",
-            "yellow": "8B008B",
-            "green": "#FF00FF",
-            "red": "#DA70D6",
-            "white": "#DDA0DD"
+        "material": {
+            "blue": "#2962FF",
+            "orange": "#FF6D00",
+            "yellow": "#FFD600",
+            "green": "#00C853",
+            "red": "#D50000",
+            "white": "#FFFFFF"
         },
         "ganx": {
             "blue": "#0083FC",
@@ -31,6 +31,14 @@
             "green": "#00C720",
             "red": "#FF3344",
             "white": "#FFFFFF"
+        },
+        "six_shades_of_purple": {
+            "blue": "#BA55D3",
+            "orange": "#EE82EE",
+            "yellow": "#8B008B",
+            "green": "#FF00FF",
+            "red": "#DA70D6",
+            "white": "#DDA0DD"
         },
         "digitaltwin": {
             "blue": "#000099",

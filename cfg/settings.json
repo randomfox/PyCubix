@@ -22,7 +22,7 @@
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
-            "color_group": "moywei",
+            "color_group": "material",
             "color_mapping": {
                 "front": "green",
                 "back": "blue",
