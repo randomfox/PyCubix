@@ -82,19 +82,18 @@ Some parts of the application are customizable with a config file in `cfg/settin
                 "x_angle": 0,
                 "y_angle": 0
             },
-            "inner_color": [0.0, 0.0, 0.0],
-            "sphere_color": [0.0, 0.0, 0.0],
+            "inner_color": "#000000",
+            "sphere_color": "#000000",
             "tween": {
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
+            "color_group": "material",
             "colors": {
-                "blue": [0.066, 0.490, 0.988],
-                "orange": [0.996, 0.549, 0.184],
-                "green": [0.102, 0.878, 0.133],
-                "red": [0.855, 0.082, 0.102],
-                "yellow": [0.961, 1.000, 0.204],
-                "white": [1.000, 1.000, 1.000]
+                "black": "#000000",
+                "blue": "#00A0D1",
+                "cyan": "#00FFFF",
+                "magenta": "#FF00FF"
             },
             "color_mapping": {
                 "front": "green",
@@ -106,7 +105,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
             },
             "auto_rotation": {
                 "x_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": -30,
                     "end_angle": 30,
                     "time": 8,
@@ -114,7 +113,7 @@ Some parts of the application are customizable with a config file in `cfg/settin
                     "jump_start": 0.5
                 },
                 "y_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": 135,
                     "end_angle": -135,
                     "time": 16,
@@ -137,9 +136,21 @@ Some parts of the application are customizable with a config file in `cfg/settin
             "subscribe_topic": "pycubix",
             "publish_topic": "pycubix_out"
         },
+        "resources": {
+            "images": {
+                "sticker": "res/sticker.jpg",
+                "stickerless": "res/stickerless.jpg",
+                "checker2x2": "res/checker-2x2.jpg",
+                "checker8x8": "res/checker-8x8.jpg"
+            }
+        },
+        "texture_mapping": {
+            "enabled": true,
+            "active_texture": "sticker"
+        },
         "window": {
             "caption": "PyCubix",
-            "background_color": [0.203, 0.239, 0.274],
+            "background_color": "#343D46",
             "size": {
                 "width": 600,
                 "height": 600

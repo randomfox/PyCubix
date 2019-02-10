@@ -16,8 +16,8 @@
                 "x_angle": 0,
                 "y_angle": 0
             },
-            "inner_color": [0.0, 0.0, 0.0],
-            "sphere_color": [0.0, 0.0, 0.0],
+            "inner_color": "#000000",
+            "sphere_color": "#000000",
             "tween": {
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
@@ -33,7 +33,7 @@
             },
             "auto_rotation": {
                 "x_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": -30,
                     "end_angle": 30,
                     "time": 8,
@@ -41,7 +41,7 @@
                     "jump_start": 0.5
                 },
                 "y_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": 135,
                     "end_angle": -135,
                     "time": 16,
@@ -64,9 +64,21 @@
             "subscribe_topic": "pycubix",
             "publish_topic": "pycubix_out"
         },
+        "resources": {
+            "images": {
+                "sticker": "res/sticker.jpg",
+                "stickerless": "res/stickerless.jpg",
+                "checker2x2": "res/checker-2x2.jpg",
+                "checker8x8": "res/checker-8x8.jpg"
+            }
+        },
+        "texture_mapping": {
+            "enabled": false,
+            "active_texture": "sticker"
+        },
         "window": {
             "caption": "PyCubix",
-            "background_color": [0.203, 0.239, 0.274],
+            "background_color": "#343D46",
             "size": {
                 "width": 600,
                 "height": 600
