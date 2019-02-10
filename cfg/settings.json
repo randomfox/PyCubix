@@ -16,8 +16,8 @@
                 "x_angle": 0,
                 "y_angle": 0
             },
-            "inner_color": [0.0, 0.0, 0.0],
-            "sphere_color": [0.0, 0.0, 0.0],
+            "inner_color": "#000000",
+            "sphere_color": "#000000",
             "tween": {
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
@@ -78,7 +78,7 @@
         },
         "window": {
             "caption": "PyCubix",
-            "background_color": [0.203, 0.239, 0.274],
+            "background_color": "#343D46",
             "size": {
                 "width": 600,
                 "height": 600

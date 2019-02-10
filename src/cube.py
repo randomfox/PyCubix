@@ -14,6 +14,7 @@ from queue import Queue
 
 from enums import FaceRotation
 from geometry import Geometry
+from helpers import LittleHelpers
 from mathf import Mathf
 from quat import *
 from tween import *
@@ -24,13 +25,14 @@ class State(Enum):
 
 class Cube:
     def __init__(self, settings, face_rotation_ease_type, sticker_texture_id):
+        default_color = (0, 0, 0)
         self.padding = settings.cube_padding
         self.draw_cubies = settings.cube_draw_cubies
         self.draw_sphere = settings.cube_draw_sphere
         self.draw_lines = settings.cube_draw_lines
         self.line_width = settings.cube_line_width
-        self.inner_color = settings.cube_inner_color
-        self.sphere_color = settings.cube_sphere_color
+        self.inner_color = LittleHelpers.convert_hex_color_to_floats(settings.cube_inner_color, default_color)
+        self.sphere_color = LittleHelpers.convert_hex_color_to_floats(settings.cube_sphere_color, default_color)
         self.angular_drag = settings.cube_angular_drag
         self.scale_drag = settings.cube_scale_drag
         self.min_scale = settings.cube_min_scale

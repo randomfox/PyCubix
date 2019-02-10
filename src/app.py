@@ -102,8 +102,8 @@ class App:
         except:
             print('MEH! Something went wrong while setting platform specific code. Let\'s just ignore this.')
 
-        clear_color = self.settings.window_background_color
-        glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
+        background_color = LittleHelpers.convert_hex_color_to_floats(self.settings.window_background_color, (0.1, 0.1, 0.1))
+        glClearColor(background_color[0], background_color[1], background_color[2], 1)
         glClearDepth(1.0)
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LESS)#GL_LESS
