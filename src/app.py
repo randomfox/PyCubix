@@ -175,6 +175,14 @@ class App:
         print('* GL_EXTENSIONS : ', glGetString(GL_EXTENSIONS))
 
     def on_exit(self):
+        texture_ids = []
+        for name, id in self.textures.items():
+            if id:
+                texture_ids.append(id)
+        if len(texture_ids) > 0:
+            print('Deleting textures;', texture_ids)
+            glDeleteTextures(texture_ids)
+
         if self.client:
             self.client.stop()
 
