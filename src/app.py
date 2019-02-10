@@ -194,9 +194,6 @@ class App:
         # apply random pattern:
         elif ch == '2':
             self.apply_random_pattern()
-        # debug test case:
-        elif ch == 'x':
-            self.debug_test()
 
         # scale cube:
         scale = None
@@ -308,6 +305,11 @@ class App:
     def reset_cube_colors(self):
         self.load_colors(self.settings.cube_color_group)
 
+    def set_background_color(self, hex_color):
+        color = LittleHelpers.convert_hex_color_to_floats(hex_color)
+        if color:
+            glClearColor(color[0], color[1], color[2], 1)
+
     def apply_random_pattern(self):
         pattern = LittleHelpers.get_random_pattern()
         # print('Applying random pattern:', pattern)
@@ -353,10 +355,6 @@ class App:
 
         self.update_cube_color_mapping()
 
-    def debug_test(self):
-        pass
-
-    # :TODO: clean up this mess
     def handle_command(self, command):
         if not command:
             return
@@ -447,14 +445,7 @@ class App:
 
     def handle_set_background_color(self, params):
         if params:
-            parts = params.split(',')
-            count = len(parts)
-            if count == 3:
-                r = LittleHelpers.convert_str_to_float(parts[0])
-                g = LittleHelpers.convert_str_to_float(parts[1])
-                b = LittleHelpers.convert_str_to_float(parts[2])
-                if r != None and g != None and b != None:
-                    glClearColor(r, g, b, 1)
+            self.set_background_color(params)
 
     def handle_load_colors(self, params):
         if params:
