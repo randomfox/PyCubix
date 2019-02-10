@@ -22,14 +22,14 @@
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
-            "color_group": "digitaltwin",
+            "color_group": "digitaltwin-dimmed",
             "color_mapping": {
-                "front": "dim_green",
-                "back": "dim_blue",
-                "left": "dim_orange",
-                "right": "dim_red",
-                "up": "dim_white",
-                "down": "dim_yellow"
+                "front": "green",
+                "back": "blue",
+                "left": "orange",
+                "right": "red",
+                "up": "white",
+                "down": "yellow"
             },
             "auto_rotation": {
                 "x_axis": {

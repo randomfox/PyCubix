@@ -38,13 +38,15 @@
             "yellow": "#FFCC00",
             "green": "#006600",
             "red": "#CC0000",
-            "white": "#FFFFFF",
-            "dim_blue": "#000033",
-            "dim_orange": "#331400",
-            "dim_yellow": "#332900",
-            "dim_green": "#003300",
-            "dim_red": "#330000",
-            "dim_white": "#1A1A1A"
+            "white": "#FFFFFF"
+        },
+        "digitaltwin-dimmed": {
+            "blue": "#000033",
+            "orange": "#331400",
+            "yellow": "#332900",
+            "green": "#003300",
+            "red": "#330000",
+            "white": "#1A1A1A"
         }
     }
 }

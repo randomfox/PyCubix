@@ -30,6 +30,7 @@ class App:
         self.color_manager = color_manager
         self.client = None
         self.colors = None
+        self.color_mapping = {}
 
         self.delta_time = DeltaTime()
         self.fps = Fps(self.settings.fps_update_interval)
@@ -117,6 +118,7 @@ class App:
             'stop_cube_rotation': self.handle_stop_rotation_command, # obsolete command
 
             'reset_color_mapping': self.handle_reset_color_mapping_command,
+            'reset_colors': self.handle_reset_colors,
             'apply_random_pattern': self.handle_apply_random_pattern_command,
             'apply_random_scramble': self.handle_apply_random_scramble_command,
 
@@ -133,6 +135,7 @@ class App:
             'add_padding': self.handle_add_padding_command,
 
             'set_background_color': self.handle_set_background_color,
+            'load_colors': self.handle_load_colors
         }
 
     def run(self):
@@ -283,6 +286,9 @@ class App:
         self.cube.scramble(face_rotations)
 
     def map_cube_colors(self, color_mapping):
+        if color_mapping:
+            self.color_mapping = color_mapping
+
         default_color = Constants.FALLBACK_COLOR
         colors = self.colors
         front_color = LittleHelpers.get_mapped_color(Face.FRONT, color_mapping, colors, default_color)
@@ -295,6 +301,12 @@ class App:
 
     def reset_cube_color_mapping(self):
         self.map_cube_colors(self.settings.cube_color_mapping)
+
+    def update_cube_color_mapping(self):
+        self.map_cube_colors(self.color_mapping)
+
+    def reset_cube_colors(self):
+        self.load_colors(self.settings.cube_color_group)
 
     def apply_random_pattern(self):
         pattern = LittleHelpers.get_random_pattern()
@@ -320,6 +332,26 @@ class App:
             commands = message.strip().split(self.command_delimiter)
             for command in commands:
                 self.handle_command(command)
+
+    def load_colors(self, group_name):
+        colors = {}
+        colors.update(self.colors)
+
+        self.colors = {}
+        group = self.color_manager.get_color_group(group_name)
+        if group != None:
+            self.colors.update(group)
+        else:
+            return
+
+        self.colors.update(self.settings.cube_colors)
+        print('Color palette:', self.colors)
+
+        default_color = Constants.FALLBACK_COLOR
+        for key, value in self.colors.items():
+            self.colors[key] = LittleHelpers.convert_hex_color_to_floats(value, default_color)
+
+        self.update_cube_color_mapping()
 
     def debug_test(self):
         pass
@@ -363,6 +395,12 @@ class App:
     def handle_stop_rotation_command(self, params):
         self.cube.stop_rotation()
 
+    def handle_reset_color_mapping_command(self, params):
+        self.reset_cube_color_mapping()
+
+    def handle_reset_colors(self, params):
+        self.reset_cube_colors()
+
     def handle_add_rotation_x_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
@@ -401,9 +439,6 @@ class App:
         color_mapping = LittleHelpers.make_color_mapping_from_string(params)
         self.map_cube_colors(color_mapping)
 
-    def handle_reset_color_mapping_command(self, params):
-        self.reset_cube_color_mapping()
-
     def handle_add_padding_command(self, params):
         if params:
             value = LittleHelpers.convert_str_to_float(params)
@@ -420,3 +455,8 @@ class App:
                 b = LittleHelpers.convert_str_to_float(parts[2])
                 if r != None and g != None and b != None:
                     glClearColor(r, g, b, 1)
+
+    def handle_load_colors(self, params):
+        if params:
+            group_name = params
+            self.load_colors(group_name)
