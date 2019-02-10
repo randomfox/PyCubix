@@ -35,10 +35,12 @@ Python 3.x: `$ pip3 install numpy paho-mqtt pillow pyopengl`
 
 ## Running the program
 
-### Just do it
+### Just do it!
 
 - `$ cd PyCubix`
 - `$ python src/main.py`
+or
+- `$ python src/main.py --settings cfg/settings.json --colors cfg/colors.json`
 
 ### Run using Virtualenv and make
 
@@ -61,7 +63,9 @@ Python 3.x: `$ pip3 install numpy paho-mqtt pillow pyopengl`
 
 ## Customization
 
-Some parts of the application are customizable with a config file in `cfg/settings.json`. The default values are as follows and can also be found in `cfg/no-touch.json`. Just in case.
+### Customizable settings
+
+Some parts of the application are customizable and can be set in `cfg/settings.json`:
 
 ```
 {
@@ -158,7 +162,61 @@ Some parts of the application are customizable with a config file in `cfg/settin
         }
     }
 }
+
+### Pimp my colors
+
+The colors are also pimpable in `cfg/colors.json`:
+
 ```
+{
+    "colors": {
+        "default": {
+            "blue": "#004BAB",
+            "orange": "#FF5623",
+            "yellow": "FFD22C",
+            "green": "#009A4A",
+            "red": "#BE0F38",
+            "white": "#FFFFFF"
+        },
+        "material": {
+            "blue": "#2962FF",
+            "orange": "#FF6D00",
+            "yellow": "#FFD600",
+            "green": "#00C853",
+            "red": "#D50000",
+            "white": "#FFFFFF"
+        },
+        "ganx": {
+            "blue": "#0083FC",
+            "orange": "#FF872F",
+            "yellow": "#EEF32E",
+            "green": "#00DE21",
+            "red": "#E4001C",
+            "white": "#FFFFFF"
+        },
+        "moywei": {
+            "blue": "#00A0D1",
+            "orange": "#FF8C2A",
+            "yellow": "#EDEE36",
+            "green": "#00C720",
+            "red": "#FF3344",
+            "white": "#FFFFFF"
+        },
+        "six_shades_of_purple": {
+            "blue": "#BA55D3",
+            "orange": "#EE82EE",
+            "yellow": "#8B008B",
+            "green": "#FF00FF",
+            "red": "#DA70D6",
+            "white": "#DDA0DD"
+        }
+    }
+}
+```
+
+### Additional notes
+
+Colors from the colors-property in cfg/settings.json will extend/overwrite the colors taken from the color group in cfg/colors.json.
 
 ## Using MQTT to send commands to the cube
 
