@@ -171,6 +171,7 @@ Standalone commands:
 - `reset_rotation`: Reset the cube's rotation
 - `reset_scale`: Reset the cube's scale
 - `reset_color_mapping`: Reset the cube's color mapping
+- `reset_colors`: Reset the cube's colors
 - `stop_rotation`: Stop the cube's rotation
 - `apply_random_pattern`: Apply a random pattern from the pattern database (***)
 - `apply_random_scramble`: Apply a random scramble
@@ -184,7 +185,8 @@ Commands with parameters:
 - `map_colors = <list_of_face_to_color_mappings>`. Apply a color (blue, red, yellow, green, orange, white) to a face (front, right, up, back, left, down). Example: `map_colors = front:blue, back:green, left:red, right:orange, up:white, down:yellow`
 - `scramble = <list_of_faces_to_be_rotated>`: Scramble the cube with a given algorithm/list of moves. It practically works as the rotate_face command, but the cube the faces are rotated INSTANTLY (within the same frame), meaning that the face rotations are not being shown/animated/tweened. Example: `scramble = R U R' U'`. To maintain a prior applied color orientation, you would do the follow to scramble the cube: `reset_cube;set_color_orientation = front:blue, back:green, left:red, right:orange, up:white, down:yellow;scramble = U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2`
 - `add_padding = <float_value>`: Modify the padding between the cubies. Example: `add_padding = 0.5` (NOTE: This method is not implemented correctly and does only work as expected when the padding is applied BEFORE the first face rotation)
-- `set_background_color = <float_value_red>, <float_value_green>, <float_value_blue>`: Set the windows's background color. Example: `set_background_color = 0.3, 0.3, 0.3`
+- `load_colors = <color_group_name>`: Load colors by its group name and apply them instantly. Example: `load_colors = default`
+- `set_background_color = <hex_color>`: Set the background color of the window. Example: `set_background_color = #303030` (the '#' can be omitted though)
 
 It's also possible to send more than one command in a single message. The commands need to be separated by a semicolon though. Example: `reset_cube;apply_random_pattern`
 
