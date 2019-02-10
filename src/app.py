@@ -145,7 +145,8 @@ class App:
         print('* GL_EXTENSIONS : ', glGetString(GL_EXTENSIONS))
 
     def prepare_exit(self):
-        self.client.stop()
+        if self.client:
+            self.client.stop()
 
     def on_exit(self):
         self.prepare_exit()
