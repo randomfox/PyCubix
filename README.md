@@ -245,7 +245,7 @@ Standalone commands:
 - `reset_colors`: Reset the cube's colors
 - `stop_rotation`: Stop the cube's rotation
 - `apply_random_pattern`: Apply a random pattern from the pattern database (***)
-- `apply_random_scramble`: Apply a random scramble
+- `apply_random_scramble`: Scramble the cube with a random pattern
 - `quit` or `exit`: Quit/exit application
 
 Commands with parameters:
