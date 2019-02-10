@@ -8,8 +8,7 @@ runnoargs:
 	python src/main.py
 
 freeze:
-	pip freeze > requirements.txt
+	pip freeze | grep -v "pkg-resources" > requirements.txt
 
 install:
 	pip install -r requirements.txt
-
