@@ -11,7 +11,7 @@ class JsonConfig:
             with open(filename, encoding='utf-8') as file:
                 data = json.loads(file.read())
         except:
-            print('NOPE! Config failed to read file', filename)
+            print('MEH! Config failed to read file', filename)
             print(sys.exc_info())
         return data
 

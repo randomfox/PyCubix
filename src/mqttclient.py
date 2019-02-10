@@ -24,7 +24,7 @@ class MqttClient:
         try:
             self.client.connect(self.broker, self.port)
         except:
-            print('NOPE! Unable to connect to broker {}:{}'.format(self.broker, self.port))
+            print('MEH! Unable to connect to broker {}:{}'.format(self.broker, self.port))
             print(sys.exc_info())
         self.client.loop_start()
 
@@ -57,7 +57,8 @@ class MqttClient:
         try:
             return self.message_queue.get_nowait()
         except:
-            pass
+            print('MEH! No more messages in queue')
+            print(sys.exc_info())
         return None
 
     def publish(self, topic, message):
