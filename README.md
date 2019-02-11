@@ -186,20 +186,12 @@ The colors are also pimpable in `cfg/colors.json`:
             "red": "#D50000",
             "white": "#FFFFFF"
         },
-        "ganx": {
-            "blue": "#0083FC",
-            "orange": "#FF872F",
-            "yellow": "#EEF32E",
-            "green": "#00DE21",
-            "red": "#E4001C",
-            "white": "#FFFFFF"
-        },
-        "moywei": {
-            "blue": "#00A0D1",
-            "orange": "#FF8C2A",
-            "yellow": "#EDEE36",
-            "green": "#00C720",
-            "red": "#FF3344",
+        "pastel": {
+            "blue": "#2FB3EC",
+            "orange": "#DF439E",
+            "yellow": "#FFBE4C",
+            "green": "#83DD52",
+            "red": "#FF4931",
             "white": "#FFFFFF"
         },
         "six_shades_of_purple": {
