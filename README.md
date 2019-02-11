@@ -142,15 +142,14 @@ Some parts of the application are customizable and can be set in `cfg/settings.j
         },
         "resources": {
             "images": {
-                "sticker": "res/sticker.jpg",
-                "stickerless": "res/stickerless.jpg",
-                "checker2x2": "res/checker-2x2.jpg",
-                "checker8x8": "res/checker-8x8.jpg"
+                "rounded-sticker": "res/sticker-rounded.jpg",
+                "squared-sticker": "res/sticker-squared.jpg",
+                "no-sticker": "res/stickerless.jpg"
             }
         },
         "texture_mapping": {
             "enabled": true,
-            "active_texture": "sticker"
+            "active_texture": "rounded-sticker"
         },
         "window": {
             "caption": "PyCubix",
