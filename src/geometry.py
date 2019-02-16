@@ -1,7 +1,3 @@
-""" cube
-Originally written by Michael King (https://github.com/mtking2/PyCube)
-"""
-
 '''
     5____________6
     /           /|
@@ -419,7 +415,7 @@ class Geometry:
             [7, 6, 5, 4],  # Back 2
             [3, 2, 6, 7],  # Right 3
             [1, 5, 6, 2],  # Up 4
-            [4, 0, 3, 7]  # Down 5
+            [4, 0, 3, 7]   # Down 5
         )
 
         self.pulse_color = [0.0, 0.0, 0.0]
@@ -463,7 +459,8 @@ class Geometry:
             (0, 1)
         ]
 
-
+    # :TODO: This method need to be fixed since, as it has been implemented originally,
+    # it only does work as expected before any face has been rotated.
     def add_padding(self, value):
         for vertex in self.center_pieces[0]:
             vertex[2] += value
