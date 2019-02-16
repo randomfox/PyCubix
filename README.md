@@ -4,15 +4,22 @@ PyCubix is a fork of [PyCube](https://github.com/mtking2/PyCube).
 
 ## Purpose
 
-To be determined.
+This project's initial purpose was to build a [digital twin](https://en.wikipedia.org/wiki/Digital_twin) of a Rubik's cube which can be controlled remotely with a small set of commands.
+
+## Result
+
+In the end, the digital twin was running on a Raspberry Pi and received its commands via MQTT from a [BrickPi](https://www.dexterindustries.com/brickpi/) which was solving the Rubik's cube.
+
+The showcase can be seen in this blog post:
+[Creating a digital twin showcase](https://medium.com/@pwc.emtech.eu/creating-a-digital-twin-showcase-4ad0895fd30e)
 
 ## Dependencies
 
-Glut:
-- `$ sudo apt install freeglut3 freeglut3-dev`
+GLUT - the OpenGL Utility Toolkit:
+- `$ sudo apt-get install freeglut3 freeglut3-dev`
 
-Paho MQTT:
-- `$ sudo apt install mosquitto mosquitto-clients`
+Paho MQTT (optional):
+- `$ sudo apt-get install mosquitto mosquitto-clients`
 
 The following Python modules are needed to run this program:
 - [NumPy](http://www.numpy.org/)
