@@ -467,9 +467,10 @@ class Cube:
         tex_coords = self.geometry.tex_coords
         inner_color = self.inner_color
 
+        # render outer faces with an applied texture
         glBindTexture(GL_TEXTURE_2D, self.sticker_texture_id)
-
         glBegin(GL_QUADS)
+
         # render center pieces
         i = 0
         for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
@@ -506,9 +507,10 @@ class Cube:
                     ti += 1
         glEnd()
 
-
+        # render inner faces without texture using only the inner color
         glBindTexture(GL_TEXTURE_2D, 0)
         glBegin(GL_QUADS)
+
         # render center pieces
         i = 0
         for color, surface in zip(self.face_colors, self.geometry.cube_surfaces):
