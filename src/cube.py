@@ -54,7 +54,6 @@ class Cube:
 
         self.texture_mapping_enabled = settings.texture_mapping_enabled
         self.sticker_texture_id = sticker_texture_id
-        self.debug = 1
 
         self.geometry = Geometry()
         self.face_colors = (
@@ -463,7 +462,6 @@ class Cube:
                     v = self.geometry.corner_pieces[i][vertex]
                     glVertex3f(v[0], v[1], v[2])
         glEnd()
-        # self.debug = 0
 
     def render_cubies_with_textures(self):
         tex_coords = self.geometry.tex_coords
