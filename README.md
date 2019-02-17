@@ -55,7 +55,7 @@ or
 - `$ source venv/bin/activate`
 - `$ make run` or simply `$ make`
 
-## Usage:
+## Usage
 
 - F, R, U, B, L, D: Rotate face in clockwise direction
 - SHIFT + F, R, U, B, L, D: Rotate face in counter clockwise direction
@@ -270,7 +270,7 @@ It's also possible to send more than one command in a single message. The comman
 - Up face: U U' U2 U2'
 - Down face: D D' D2 D2'
 
-Wide movements (like Fw) as well as M, E, S, x, y, z are not supported at the moment.
+Wide moves like Rw as well as M, E, S, x, y, z are not supported at the moment.
 
 ## Tested on the following operating systems
 
