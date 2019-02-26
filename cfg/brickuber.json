@@ -79,6 +79,10 @@
         "window": {
             "caption": "PyCubix",
             "background_color": "#343D46",
+            "position": {
+                "x": 0,
+                "y": 0
+            },
             "size": {
                 "width": 600,
                 "height": 600

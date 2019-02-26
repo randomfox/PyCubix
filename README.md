@@ -161,6 +161,10 @@ Some parts of the application are customizable and can be set in `cfg/settings.j
         "window": {
             "caption": "PyCubix",
             "background_color": "#343D46",
+            "position": {
+                "x": 0,
+                "y": 0
+            },
             "size": {
                 "width": 600,
                 "height": 600
@@ -231,7 +235,7 @@ See also [How to Install and Secure the Mosquitto MQTT Messaging Broker](https:/
 
 Where -h is used to specify the hostname of the MQTT server and -t is the name of the topic.
 
-Using `iot.eclipse.org` for instance also works fine as a host.
+Using `iot.eclipse.org` as a host for testing purposes also works fine.
 
 ### Supported commands
 

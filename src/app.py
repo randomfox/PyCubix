@@ -46,7 +46,9 @@ class App:
 
         self.init_cube()
         self.init_command_handler_map()
-        self.init_mqtt_client()
+
+        if self.settings.mqtt_client_start:
+            self.init_mqtt_client()
 
         if display_glinfo:
             self.show_gl_info()
@@ -69,18 +71,17 @@ class App:
             self.colors[key] = LittleHelpers.convert_hex_color_to_floats(value, default_color)
 
     def init_mqtt_client(self):
-        if self.settings.mqtt_client_start:
-            broker = self.settings.mqtt_client_broker
-            port = self.settings.mqtt_client_port
-            topic = self.settings.mqtt_client_subscribe_topic
-            self.client = MqttClient(broker, port, topic)
-            self.client.start()
+        broker = self.settings.mqtt_client_broker
+        port = self.settings.mqtt_client_port
+        topic = self.settings.mqtt_client_subscribe_topic
+        self.client = MqttClient(broker, port, topic)
+        self.client.start()
 
     def init_opengl(self):
         glutInit()
-        glutInitWindowPosition(0, 0)
+        glutInitWindowPosition(self.settings.window_position[0], self.settings.window_position[1])
         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
-        glutInitWindowSize(self.settings.window_width, self.settings.window_height)
+        glutInitWindowSize(self.settings.window_size[0], self.settings.window_size[1])
         glutCreateWindow(self.settings.window_caption)
 
         glutReshapeFunc(self.on_reshape_window)

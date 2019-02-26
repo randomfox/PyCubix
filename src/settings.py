@@ -75,8 +75,8 @@ class Settings(JsonConfig):
 
         # window settings
         self.window_caption = 'PyCubix'
-        self.window_width = 600
-        self.window_height = 600
+        self.window_position = (0, 0)
+        self.window_size = (600, 600)
         self.window_background_color = (0.235, 0.263, 0.306)
 
     def load(self, filename):
@@ -170,8 +170,12 @@ class Settings(JsonConfig):
             if prop_window in settings:
                 window = settings[prop_window]
                 self.window_caption = self.get_value(window, ['caption'], self.window_caption)
-                self.window_width = self.get_value(window['size'], ['width'], self.window_width)
-                self.window_height = self.get_value(window['size'], ['height'], self.window_height)
+                px = self.get_value(window['position'], ['x'], self.window_position[0])
+                py = self.get_value(window['position'], ['y'], self.window_position[1])
+                self.window_position = (px, py)
+                ww = self.get_value(window['size'], ['width'], self.window_size[0])
+                wh = self.get_value(window['size'], ['height'], self.window_size[1])
+                self.window_size = (ww, wh)
                 self.window_background_color = self.get_value(window, ['background_color'], self.window_background_color)
         except:
             print('MEH! An error occurred while trying to retrieve the settings.')
