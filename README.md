@@ -10,8 +10,9 @@ This project's initial purpose was to build a [digital twin](https://en.wikipedi
 
 In the end, the digital twin was running on a Raspberry Pi and received its commands via MQTT from a [BrickPi](https://www.dexterindustries.com/brickpi/) which was solving the Rubik's cube.
 
-The showcase can be seen in this blog post:
-[Creating a digital twin showcase](https://medium.com/@pwc.emtech.eu/creating-a-digital-twin-showcase-4ad0895fd30e)
+See also:
+[Pimp My Twin](https://medium.com/@pwc.emtech.eu/pimp-my-twin-83947430281)
+[Creating a Digital Twin Showcase](https://medium.com/@pwc.emtech.eu/creating-a-digital-twin-showcase-4ad0895fd30e)
 
 ## Dependencies
 
