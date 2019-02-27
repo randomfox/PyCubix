@@ -14,6 +14,8 @@ See also:
 [Pimp My Twin](https://medium.com/@pwc.emtech.eu/pimp-my-twin-83947430281)
 [Creating a Digital Twin Showcase](https://medium.com/@pwc.emtech.eu/creating-a-digital-twin-showcase-4ad0895fd30e)
 
+<img src="img/pastel-cube-hi-all-around.gif" width="400">
+
 ## Dependencies
 
 GLUT - the OpenGL Utility Toolkit:
