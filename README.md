@@ -1,10 +1,10 @@
 # PyCubix
 
-PyCubix is a fork of [PyCube](https://github.com/mtking2/PyCube).
+This is a fork of mtking2's [PyCube](https://github.com/mtking2/PyCube).
 
-## Purpose
+## Intention
 
-This project's initial purpose was to build a [digital twin](https://en.wikipedia.org/wiki/Digital_twin) of a Rubik's cube which can be controlled remotely with a small set of commands.
+To build a [digital twin](https://en.wikipedia.org/wiki/Digital_twin) of a Rubik's cube which can be controlled remotely with a small set of commands.
 
 ## Result
 
