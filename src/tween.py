@@ -4,22 +4,23 @@ from enum import Enum
 from math import *
 
 class TweenEaseType(Enum):
-    EASE_COSINE = 0
-    EASE_IN_SINE = 1
-    EASE_OUT_SINE = 2
-    EASE_IN_OUT_SINE = 3
-    EASE_IN_QUAD = 4
-    EASE_OUT_QUAD = 5
-    EASE_IN_OUT_QUAD = 6
-    EASE_IN_CUBIC = 7
-    EASE_OUT_CUBIC = 8
-    EASE_IN_OUT_CUBIC = 9
-    EASE_IN_QUART = 10
-    EASE_OUT_QUART = 11
-    EASE_IN_OUT_QUART = 12
-    EASE_IN_QUINT = 13
-    EASE_OUT_QUINT = 14
-    EASE_IN_OUT_QUINT = 15
+    LINEAR = 0
+    EASE_COSINE = 1
+    EASE_IN_SINE = 2
+    EASE_OUT_SINE = 3
+    EASE_IN_OUT_SINE = 4
+    EASE_IN_QUAD = 5
+    EASE_OUT_QUAD = 6
+    EASE_IN_OUT_QUAD = 7
+    EASE_IN_CUBIC = 8
+    EASE_OUT_CUBIC = 9
+    EASE_IN_OUT_CUBIC = 10
+    EASE_IN_QUART = 11
+    EASE_OUT_QUART = 12
+    EASE_IN_OUT_QUART = 13
+    EASE_IN_QUINT = 14
+    EASE_OUT_QUINT = 15
+    EASE_IN_OUT_QUINT = 16
 
 class Tween:
     def __init__(self):
@@ -71,6 +72,7 @@ class Tween:
         self.duration = self.duration * (1.0 - jump_start)
 
     def get_ease_func(self, type):
+        if type == TweenEaseType.EASE_COSINE: return self.ease_cosine
         if type == TweenEaseType.EASE_IN_SINE: return self.ease_in_sine
         if type == TweenEaseType.EASE_OUT_SINE: return self.ease_out_sine
         if type == TweenEaseType.EASE_IN_OUT_SINE: return self.ease_in_out_sine
@@ -86,7 +88,7 @@ class Tween:
         if type == TweenEaseType.EASE_IN_QUINT: return self.ease_in_quint
         if type == TweenEaseType.EASE_OUT_QUINT: return self.ease_out_quint
         if type == TweenEaseType.EASE_IN_OUT_QUINT: return self.ease_in_out_quint
-        return self.ease_cosine
+        return self.linear
 
     def is_done(self):
         return self.done
@@ -104,15 +106,15 @@ class Tween:
         if self.done == True:
             return
 
-        self.elapsed += elapsed_time
-        if self.elapsed > self.duration:
-            self.elapsed = self.duration
-            self.done = True
-
         value = self.elapsed / self.duration
         value = self.ease_foo(self.begin, self.end, value)
         self.delta = value - self.current
         self.current = value
+
+        if self.elapsed >= self.duration:
+            self.done = True
+
+        self.elapsed = min(self.elapsed + elapsed_time, self.duration)
 
         if self.done and self.repeat:
             self.update_repetition()
@@ -215,13 +217,16 @@ class Tween:
         value -= 2.0
         return change / 2.0 * (value * value * value * value * value + 2.0) + begin
 
+    def linear(self, begin, end, value):
+        return (end - begin) * value + begin
+
     def ease_cosine(self, begin, end, value):
         t = (1.0 - cos(value * pi)) / 2.0
         return begin * (1.0 - t) + end * t
 
     @staticmethod
     def get_ease_type_by_name(name):
-        if name == 'ease_linear': return TweenEaseType.EASE_LINEAR
+        if name == 'ease_cosine': return TweenEaseType.EASE_COSINE
         if name == 'ease_in_sine': return TweenEaseType.EASE_IN_SINE
         if name == 'ease_out_sine': return TweenEaseType.EASE_OUT_SINE
         if name == 'ease_in_out_sine': return TweenEaseType.EASE_IN_OUT_SINE
@@ -237,4 +242,4 @@ class Tween:
         if name == 'ease_in_quint': return TweenEaseType.EASE_IN_QUINT
         if name == 'ease_out_quint': return TweenEaseType.EASE_OUT_QUINT
         if name == 'ease_in_out_quint': return TweenEaseType.EASE_IN_OUT_QUINT
-        return TweenEaseType.EASE_COSINE
+        return TweenEaseType.LINEAR
