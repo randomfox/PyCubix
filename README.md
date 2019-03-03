@@ -10,9 +10,9 @@ To build a [digital twin](https://en.wikipedia.org/wiki/Digital_twin) of a Rubik
 
 In the end, the digital twin was running on a Raspberry Pi and received its commands via MQTT from a [BrickPi](https://www.dexterindustries.com/brickpi/) which was solving the Rubik's cube.
 
-<img src="img/pycubix-on-rpi.png" width="800">
+<img src="https://github.com/grumpypixel/Readme-Resources/blob/master/PyCubix/pycubix-on-rpi.png" width="800">
 
-<img src="img/pastel-cube-hi-all-around.gif" width="400">
+<img src="https://github.com/grumpypixel/Readme-Resources/blob/master/PyCubix/pastel-cube-hi-all-around.gif" width="400">
 
 See also:
 - [Pimp My Twin](https://medium.com/@pwc.emtech.eu/pimp-my-twin-83947430281)
