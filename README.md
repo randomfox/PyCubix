@@ -1,10 +1,10 @@
 # PyCubix
 
-This is a fork of mtking2's [PyCube](https://github.com/mtking2/PyCube).
+This is a fork of grumpypixel's [PyCubeix](Https://github.com/grumpypixel/PyCubix) fork of mtking2's [PyCube](https://github.com/mtking2/PyCube).
 
 ## Intention
 
-To build a [digital twin](https://en.wikipedia.org/wiki/Digital_twin) of a Rubik's cube which can be controlled remotely with a small set of commands.
+To build a rubiks's cube solver.
 
 ## Result
 
