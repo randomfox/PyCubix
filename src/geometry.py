@@ -369,7 +369,9 @@ class Geometry:
             |           | /
             0___________3/
         '''
-
+        # left-right right is positive
+        # up-down up is positive
+        # front-back front is positive
         self.cube_verts = (
             (-3.0, -3.0, 3.0),  # 0
             (-3.0, 3.0, 3.0),  # 1
@@ -459,7 +461,7 @@ class Geometry:
             (0, 1)
         ]
 
-    # :TODO: This method need to be fixed since, as it has been implemented originally,
+    # :TODO: This method needs to be fixed since, as it has been implemented originally,
     # it only does work as expected before any face has been rotated.
     def add_padding(self, value):
         for vertex in self.center_pieces[0]:

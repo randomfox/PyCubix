@@ -2,6 +2,10 @@ import atexit
 import time
 import sys
 
+# my stuff
+import random
+
+
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -55,6 +59,9 @@ class App:
 
         atexit.register(self.on_exit)
 
+        self.states = ['CROSS', 'F2L', 'OLL', 'PLL']
+        self.solve_state = self.states[0]
+
     def init_colors(self):
         self.colors = self.settings.cube_default_colors
 
@@ -101,7 +108,7 @@ class App:
             elif sys.platform == 'win32':
                 pass
         except:
-            print('MEH! Something went wrong while setting platform specific code. Let\'s just ignore this.')
+            print("MEH! Something went wrong while setting platform specific code. Let's just ignore this.")
 
         background_color = LittleHelpers.convert_hex_color_to_floats(self.settings.window_background_color, (0.1, 0.1, 0.1))
         glClearColor(background_color[0], background_color[1], background_color[2], 1)
@@ -250,6 +257,8 @@ class App:
         elif ch == 'L': move = "L'"
         elif ch == 'r': move = "R"
         elif ch == 'R': move = "R'"
+        elif ch == 's': self.auto_solve('NEXT')
+        elif ch == 'S': self.auto_solve('ALL')
         if move != None:
             self.add_moves([move])
 
@@ -260,6 +269,18 @@ class App:
                 self.cube.stop_rotation()
             if state == GLUT_UP:
                 self.mouse_drag.end(x, y)
+
+    def auto_solve(self, part='ALL'):
+        part = part.upper()
+        if type(part) != str:
+            return 1
+
+        if part == 'NEXT':
+            self.auto_solve(self.solve_state)
+            self.solve_state = self.states[self.states.index(self.solve_state) + 1]
+        elif part == 'ALL':
+            pass
+        return
 
     def on_mouse_move(self, x, y):
         if self.mouse_drag.is_dragging:
@@ -330,9 +351,14 @@ class App:
             self.cube.append_face_rotation(face_rotation)
 
     def scramble_cube(self, moves):
-        if type(moves) != str:
+        format_type = type(moves)
+        if format_type == list:
+            pass
+        elif format_type == str:
+            moves = moves.split(' ')
+        else:
             return
-        moves = LittleHelpers.expand_notations(moves.split(' '))
+        moves = LittleHelpers.expand_notations(moves)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.cube.scramble(face_rotations)
 
@@ -372,7 +398,8 @@ class App:
         self.append_face_rotations(face_rotations)
 
     def apply_random_scramble(self):
-        pattern = LittleHelpers.get_random_pattern()
+        # pattern = LittleHelpers.get_random_pattern()
+        pattern = [random.choice(["F","F'","B","B'","R","R'","L","L'","U","U'","D","D'"]) for i in range(40)]
         # print('Applying random scramble:', pattern)
         self.reset_cube()
         self.scramble_cube(pattern)

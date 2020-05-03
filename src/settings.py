@@ -40,14 +40,14 @@ class Settings(JsonConfig):
         self.cube_initial_rotation_x = 0
         self.cube_initial_rotation_y = 0
 
-        self.cube_auto_rot_x_enabled = True
+        self.cube_auto_rot_x_enabled = False # Default was True
         self.cube_auto_rot_x_begin = -25
         self.cube_auto_rot_x_end = 25
         self.cube_auto_rot_x_time = 8
         self.cube_auto_rot_x_jump_start = 0.5
         self.cube_auto_rot_x_ease_type = 'ease_cosine'
 
-        self.cube_auto_rot_y_enabled = True
+        self.cube_auto_rot_y_enabled = False # Default was True
         self.cube_auto_rot_y_begin = 135
         self.cube_auto_rot_y_end = -135
         self.cube_auto_rot_y_time = 16
@@ -56,13 +56,13 @@ class Settings(JsonConfig):
 
         # fps settings
         self.fps_update_interval = 10
-        self.fps_show = True
+        self.fps_show = False # Default was True
 
         # mouse settings
         self.mouse_sensitivity = 5
 
         # subscriber settings
-        self.mqtt_client_start = True
+        self.mqtt_client_start = False # Default was True
         self.mqtt_client_broker = '127.0.0.1'
         self.mqtt_client_port = 1883
         self.mqtt_client_subscribe_topic = 'pycubix'

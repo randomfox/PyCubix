@@ -49,19 +49,19 @@ def q_to_mat4(q):
          [0, 0, 0, 1]], 'f')
 
 def x_rot(v, theta):
-    rx = [[1, 0,            0],
-          [0, cos(theta),   -sin(theta)],
-          [0, sin(theta),   cos(theta)]]
+    rx = [[1, 0, 0],
+          [0, cos(theta), -sin(theta)],
+          [0, sin(theta), cos(theta)]]
     return numpy.dot(rx, v).tolist()
 
 def y_rot(v, theta):
-    rx = [[cos(theta),  0, sin(theta)],
-          [0,           1, 0],
+    rx = [[cos(theta), 0, sin(theta)],
+          [0, 1, 0],
           [-sin(theta), 0, cos(theta)]]
     return numpy.dot(rx, v).tolist()
 
 def z_rot(v, theta):
-    rx = [[cos(theta),  -sin(theta),    0],
-          [sin(theta),  cos(theta),     0],
-          [0,           0,              1]]
+    rx = [[cos(theta), -sin(theta), 0],
+          [sin(theta), cos(theta), 0],
+          [0, 0, 1]]
     return numpy.dot(rx, v).tolist()

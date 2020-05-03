@@ -183,7 +183,7 @@ class LittleHelpers:
             hex = hex.lstrip('#')
             return tuple(int(hex[i:i + 2], 16)/255.0 for i in (0, 2 ,4))
         except:
-            print('MEH! Cannot convert hex color #{} to a float color. Returning default.'.format(hex))
+            print("MEH! Cannot convert hex color #{} to a float color. Returning default.".format(hex))
             print(sys.exc_info())
         return default
 

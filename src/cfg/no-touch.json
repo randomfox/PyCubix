@@ -4,7 +4,7 @@
             "draw_cubies": true,
             "draw_sphere": true,
             "draw_lines": false,
-            "padding": 0.1,
+            "padding": 0.3,
             "line_width": 4,
             "angular_drag": 0.7,
             "scale_drag": 4.2,
@@ -13,8 +13,8 @@
                 "max": 1.5
             },
             "initial_rotation": {
-                "y_angle": 45,
-                "x_angle": -45
+                "x_angle": 0,
+                "y_angle": 0
             },
             "inner_color": "#000000",
             "sphere_color": "#000000",
@@ -23,6 +23,12 @@
                 "face_rotation_ease_type": "ease_cosine"
             },
             "color_group": "material",
+            "colors": {
+                "black": "#000000",
+                "blue": "#00A0D1",
+                "cyan": "#00FFFF",
+                "magenta": "#FF00FF"
+            },
             "color_mapping": {
                 "front": "green",
                 "back": "blue",
@@ -33,7 +39,7 @@
             },
             "auto_rotation": {
                 "x_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": -30,
                     "end_angle": 30,
                     "time": 8,
@@ -41,7 +47,7 @@
                     "jump_start": 0.5
                 },
                 "y_axis": {
-                    "enabled": false,
+                    "enabled": true,
                     "begin_angle": 135,
                     "end_angle": -135,
                     "time": 16,
@@ -51,14 +57,14 @@
             }
         },
         "fps": {
-            "show": false,
+            "show": true,
             "update_interval": 30
         },
         "mouse": {
             "sensitivity": 5
         },
         "mqtt_client": {
-            "start": false,
+            "start": true,
             "broker": "127.0.0.1",
             "port": 1883,
             "subscribe_topic": "pycubix",
@@ -68,9 +74,7 @@
             "images": {
                 "rounded-sticker": "res/sticker-rounded.jpg",
                 "squared-sticker": "res/sticker-squared.jpg",
-                "no-sticker": "res/stickerless.jpg",
-                "checker2x2": "res/checker-2x2.jpg",
-                "checker8x8": "res/checker-8x8.jpg"
+                "no-sticker": "res/stickerless.jpg"
             }
         },
         "texture_mapping": {
@@ -80,7 +84,7 @@
         "window": {
             "caption": "PyCubix",
             "background_color": "#343D46",
-            "position": {
+             "position": {
                 "x": 0,
                 "y": 0
             },

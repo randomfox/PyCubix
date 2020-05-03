@@ -7,7 +7,7 @@ class DeltaTime:
 
     def update(self):
         now = time.time()
-        if self.last_time != None:
+        if self.last_time:
             self.elapsed_time = now - self.last_time
         self.last_time = now
 

@@ -4,7 +4,7 @@
             "draw_cubies": true,
             "draw_sphere": true,
             "draw_lines": false,
-            "padding": 0.1,
+            "padding": 0.3,
             "line_width": 4,
             "angular_drag": 0.7,
             "scale_drag": 4.2,
@@ -13,8 +13,8 @@
                 "max": 1.5
             },
             "initial_rotation": {
-                "y_angle": 45,
-                "x_angle": -45
+                "x_angle": 0,
+                "y_angle": 0
             },
             "inner_color": "#000000",
             "sphere_color": "#000000",
@@ -22,7 +22,7 @@
                 "face_rotation_tween_time": 0.5,
                 "face_rotation_ease_type": "ease_cosine"
             },
-            "color_group": "material",
+            "color_group": "digitaltwin-dimmed",
             "color_mapping": {
                 "front": "green",
                 "back": "blue",
@@ -51,14 +51,14 @@
             }
         },
         "fps": {
-            "show": false,
+            "show": true,
             "update_interval": 30
         },
         "mouse": {
             "sensitivity": 5
         },
         "mqtt_client": {
-            "start": false,
+            "start": true,
             "broker": "127.0.0.1",
             "port": 1883,
             "subscribe_topic": "pycubix",
@@ -66,16 +66,15 @@
         },
         "resources": {
             "images": {
-                "rounded-sticker": "res/sticker-rounded.jpg",
-                "squared-sticker": "res/sticker-squared.jpg",
-                "no-sticker": "res/stickerless.jpg",
+                "sticker": "res/sticker.jpg",
+                "stickerless": "res/stickerless.jpg",
                 "checker2x2": "res/checker-2x2.jpg",
                 "checker8x8": "res/checker-8x8.jpg"
             }
         },
         "texture_mapping": {
-            "enabled": true,
-            "active_texture": "rounded-sticker"
+            "enabled": false,
+            "active_texture": "sticker"
         },
         "window": {
             "caption": "PyCubix",

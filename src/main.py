@@ -27,4 +27,5 @@ settings.load(settings_file)
 
 display_glinfo = args.glinfo
 app = App(settings, color_manager, display_glinfo)
-app.run()
+if __name__ == "__main__":
+    app.run()
