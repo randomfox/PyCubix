@@ -69,7 +69,7 @@ or
 - RETURN resets the rotation
 - Use +/- to scale the cube
 - BACKSPACE resets the cube geometry
-- Use '1' to instantly apply a random pattern
+- Use '1' to instantly apply a random scramble
 - Use '2' to apply a random pattern (you should probably reset the cube geometry first if the cube is already scrambled)
 - Use the mouse to rotate the cube around the x- and the y-axis
 
