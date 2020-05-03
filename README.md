@@ -1,6 +1,6 @@
 # PyCubix
 
-This is a fork of grumpypixel's [PyCubeix](Https://github.com/grumpypixel/PyCubix) fork of mtking2's [PyCube](https://github.com/mtking2/PyCube).
+This is a fork of grumpypixel's [PyCubix](Https://github.com/grumpypixel/PyCubix) fork of mtking2's [PyCube](https://github.com/mtking2/PyCube).
 
 ## Intention
 
