@@ -126,6 +126,7 @@ class Constants:
     VERTICAL_STRIPES_PATTERN = "F U F R L2 B D' R D2 L D' B R2 L F U F"
     WIRE_PATTERN = "R L F B R L F B R L F B R2 B2 L2 R2 B2 L2"
 
+    STATES = ['UNSOLVED', 'CROSS', 'F2L', 'OLL', 'PLL', 'SOLVED']
 
     # Algs all algs are from jperm.net
     # OLL
@@ -190,8 +191,8 @@ class Constants:
     ]
 
     # PLL
-    Aa = "x L2 D2 L' U' L D2 L' U L'" # Adjacent Corner Swap
-    Ab = "x' L2 D2 L U L' D2 L U' L" # Adjacent Corner Swap
+    Aa = "L2 B2 L' F' L B2 L' F L'" # Adjacent Corner Swap
+    Ab = "L2 F2 L B L' F2 L B' L" # Adjacent Corner Swap
     F = "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R" # Adjacent Corner Swap
     Ga = "R2 U R' U R' U' R U' R2 U' D R' U R D'" # Adjacent Corner Swap
     Gb = "R' U' R U D' R2 U R' U R U' R U' R2 D" # Adjacent Corner Swap

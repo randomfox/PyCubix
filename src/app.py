@@ -4,7 +4,8 @@ import sys
 
 # my stuff
 import random
-
+import kociemba
+import pycuber
 
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
@@ -59,8 +60,12 @@ class App:
 
         atexit.register(self.on_exit)
 
-        self.states = ['CROSS', 'F2L', 'OLL', 'PLL']
-        self.solve_state = self.states[0]
+        # My code
+        # to keep track of how solved the cube is
+        self.states = ('CROSS', 'F2L', 'OLL', 'PLL', 'SOLVED')
+        self.state = self.states[0]
+        # for a reverse solver
+        self.all_moves = []
 
     def init_colors(self):
         self.colors = self.settings.cube_default_colors
@@ -114,7 +119,7 @@ class App:
         glClearColor(background_color[0], background_color[1], background_color[2], 1)
         glClearDepth(1.0)
         glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LESS)#GL_LESS
+        glDepthFunc(GL_LESS) #GL_LESS
         glShadeModel(GL_SMOOTH)
         glDisable(GL_LIGHTING)
 
@@ -174,6 +179,7 @@ class App:
         }
 
     def run(self):
+        #return
         glutMainLoop()
 
     def show_gl_info(self):
@@ -257,9 +263,9 @@ class App:
         elif ch == 'L': move = "L'"
         elif ch == 'r': move = "R"
         elif ch == 'R': move = "R'"
-        elif ch == 's': self.auto_solve('NEXT')
-        elif ch == 'S': self.auto_solve('ALL')
-        if move != None:
+        elif ch == 'S': self.auto_solve('NEXT')
+        elif ch == 's': self.auto_solve('ALL')
+        if move:
             self.add_moves([move])
 
     def on_mouse_input(self, button, state, x, y):
@@ -276,11 +282,33 @@ class App:
             return 1
 
         if part == 'NEXT':
-            self.auto_solve(self.solve_state)
-            self.solve_state = self.states[self.states.index(self.solve_state) + 1]
+            next_state = self.states[self.states.index(self.state) + 1]
+            self.auto_solve(next_state)
+            self.state = next_state
+            return
+
         elif part == 'ALL':
+            # Solve everything
+            #for state in self.states[self.states.index(self.state):-1]:
+                # Solve
+                # kociemba.solve('')
+            #return
+            formula = pycuber.Formula(self.all_moves)
+            formula.reverse()
+            self.add_moves(formula)
+
+        elif part == 'CROSS':
+            # Solve Cross
             pass
-        return
+        elif part == 'F2L':
+            # Solve F2L
+            pass
+        elif part == 'OLL':
+            # Solve OLL
+            pass
+        elif part == 'PLL':
+            # Solve PLL
+            pass
 
     def on_mouse_move(self, x, y):
         if self.mouse_drag.is_dragging:
@@ -333,18 +361,20 @@ class App:
     def create_textures(self, image_files):
         for name, filename in image_files.items():
             success, image_size, image_data = LittleHelpers.load_image(filename)
-            print('Loaded image:', filename, image_size, success)
+            print(f"Loaded image: {filename} {image_size} {success}")
             if success:
                 texture_id = self.create_opengl_texture(image_size, image_data)
                 self.textures[name] = texture_id
         for name, id in self.textures.items():
-            print('Created texture:', name, 'with id', id)
+            print(f"Created texture: {name} with id {id}")
 
     def add_moves(self, moves):
         # print('add_moves', moves)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         if face_rotations:
             self.append_face_rotations(face_rotations)
+        for move in moves:
+            self.all_moves.append(move)
 
     def append_face_rotations(self, face_rotations):
         for face_rotation in face_rotations:
@@ -378,12 +408,17 @@ class App:
 
     def reset_cube_color_mapping(self):
         self.map_cube_colors(self.settings.cube_color_mapping)
+        self.all_moves = []
 
     def update_cube_color_mapping(self):
         self.map_cube_colors(self.color_mapping)
 
     def reset_cube_colors(self):
         self.load_colors(self.settings.cube_color_group)
+
+    def reset_cube(self):
+        self.cube.reset()
+        self.state = 'CROSS'
 
     def set_background_color(self, hex_color):
         color = LittleHelpers.convert_hex_color_to_floats(hex_color)
@@ -394,18 +429,18 @@ class App:
         pattern = LittleHelpers.get_random_pattern()
         # print('Applying random pattern:', pattern)
         moves = LittleHelpers.expand_notations(pattern.split(' '))
+        for move in moves:
+            self.all_moves.append(move)
         face_rotations = LittleHelpers.translate_moves_to_face_rotations(moves)
         self.append_face_rotations(face_rotations)
 
     def apply_random_scramble(self):
         # pattern = LittleHelpers.get_random_pattern()
-        pattern = [random.choice(["F","F'","B","B'","R","R'","L","L'","U","U'","D","D'"]) for i in range(40)]
+        scramble = [random.choice(["F","F'","B","B'","R","R'","L","L'","U","U'","D","D'"]) for i in range(40)]
         # print('Applying random scramble:', pattern)
         self.reset_cube()
-        self.scramble_cube(pattern)
-
-    def reset_cube(self):
-        self.cube.reset()
+        self.all_moves = scramble
+        self.scramble_cube(scramble)
 
     def check_message_queue(self):
         if self.client and self.client.has_pending_messages():

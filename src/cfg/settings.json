@@ -13,8 +13,8 @@
                 "max": 1.5
             },
             "initial_rotation": {
-                "y_angle": 45,
-                "x_angle": -45
+                "y_angle": 0,
+                "x_angle": 0
             },
             "inner_color": "#000000",
             "sphere_color": "#000000",
