@@ -17,7 +17,7 @@ class Settings(JsonConfig):
         self.cube_draw_cubies = True
         self.cube_draw_sphere = True
         self.cube_draw_lines = False
-        self.cube_padding = 0.3
+        self.cube_padding = 0.1
         self.cube_line_width = 4.0
         self.cube_angular_drag = 0.7
         self.cube_scale_drag = 4.2
@@ -25,15 +25,16 @@ class Settings(JsonConfig):
         self.cube_max_scale = 1.5
         self.cube_inner_color = (0.0, 0.0, 0.0)
         self.cube_sphere_color = (0.0, 0.0, 0.0)
-        self.cube_color_group = 'default'
+        #self.cube_color_group = 'default'
+        self.cube_color_group = 'material'
         self.cube_colors = {}
         self.cube_color_mapping = {
-            'front': 'blue',
-            'back': 'green',
+            'front': 'green',
+            'back': 'blue',
             'left': 'orange',
             'right': 'red',
-            'up': 'yellow',
-            'down': 'white',
+            'up': 'white',
+            'down': 'yellow',
         }
         self.cube_face_rotation_tween_time = 0.5
         self.cube_face_rotation_ease_type = 'ease_cosine'
@@ -41,8 +42,8 @@ class Settings(JsonConfig):
         self.cube_initial_rotation_y = 0
 
         self.cube_auto_rot_x_enabled = False # Default was True
-        self.cube_auto_rot_x_begin = -25
-        self.cube_auto_rot_x_end = 25
+        self.cube_auto_rot_x_begin = -30
+        self.cube_auto_rot_x_end = 30
         self.cube_auto_rot_x_time = 8
         self.cube_auto_rot_x_jump_start = 0.5
         self.cube_auto_rot_x_ease_type = 'ease_cosine'
